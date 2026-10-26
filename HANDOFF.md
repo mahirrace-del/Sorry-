@@ -1,6 +1,6 @@
 # Antigravity Handoff — Until You Hold My Hand (Interactive Movie-Game)
 
-Last updated: 26 October 2026 (New Background Music `videoplayback.weba`, Soft Audio Ducking, Auto-Starting Opening Voice, and Mobile Audio Unlock)
+Last updated: 26 October 2026 (Responsive Multi-Screen Background Adaptation for Mobile, iPad, Samsung Tab, and PC + Whisper-Quiet Music Volume)
 
 ## Project overview
 
@@ -8,20 +8,29 @@ Last updated: 26 October 2026 (New Background Music `videoplayback.weba`, Soft A
 
 ## What is included & verified in this build
 
-1. **User's Chosen Background Music (`videoplayback.weba`) & Soft Ducking**:
-   - Replaced ambient background music with the user's newly provided `videoplayback.weba` track (preserved in `assets/audio/videoplayback.weba`, `assets/audio/ambient-instrumental.weba`, and converted to `assets/audio/ambient-instrumental.mp3` for universal mobile compatibility).
-   - Reduced background music volume to soft ducked level (`0.10`) so the spoken voice is loud, clear, and prominent without any acoustic clashing.
+1. **Full Responsive Background Adaptation (All Screen Sizes)**:
+   - **Resolved Mobile Background Cut-off**: Switched `scene-canvas` and `scene-fg-canvas` from `xMidYMid slice` to `xMidYMid meet` so the entire background artwork is 100% visible on all screens.
+   - **Unified 16:9 Cinematic Container (`.world-camera`)**: Sized to `width: min(100vw, calc(100dvh * 16 / 9)); height: min(100dvh, calc(100vw * 9 / 16)); aspect-ratio: 16 / 9; flex-shrink: 0;`, perfectly centered via flexbox in `.world-layer`.
+   - **Cross-Device Compatibility**:
+     - **PC / Laptops (16:9 & ultrawide)**: 100% widescreen film presentation.
+     - **iPads & Tablets (3:4, 4:3)**: Stage fits 100% width with zero crop; scene sky bleeds top and bottom.
+     - **Samsung Galaxy Tab (16:10, 10:16)**: Full background visible, zero crop.
+     - **Mobile Phones (iPhone & Android portrait / landscape)**: The full width of every scene (classroom, rooftop, river boat, rickshaw, balconies, lamps, and lanterns) is 100% visible without sides cut off.
+   - **Seamless Floor & Sky Bleed**: Implemented `--ground-bot` per scene with vertical gradient so the floor color smoothly extends to the bottom of portrait devices while sky covers the top.
+   - **Aligned Actor & Photo Frames**: Embedded `frames-layer` inside `.world-camera` and scaled `.actor-world-mount .actor` to `18.5%` so character and photo frames stay 1:1 aligned with the scenery across all devices.
 
-2. **Automatic Opening Voice Playback & Synchronized Timing**:
-   - Fixed the issue where the character didn't speak on initial landing until the replay button was clicked.
-   - The opening speech (`opening.mp3`: *"Hi, Nidhi… I made a little world out of some memories I still keep close..."*) now begins automatically at `3650ms`—the exact moment the character finishes standing up, looks directly into the camera, and waves.
-   - Removed the previous audio-lock barrier that blocked automatic initial playback.
+2. **Whisper-Quiet Background Music Volume**:
+   - Decreased `ambientAudio.volume` to `0.04` (a gentle, unobtrusive background instrumental bed).
+   - Allows the spoken voiceover (`1.0`) to be completely clear, prominent, and intelligible across all smartphone speakers and headphones.
 
-3. **Mobile Browser Audio Unlock (iOS Safari & Android Chrome)**:
-   - Added global touch/tap unlock listener on `window` and `document` capturing `touchstart`, `pointerdown`, and `click`.
-   - Added Web Audio API context resume for iOS Safari.
-   - If mobile OS autoplay policy initially holds unmuted audio, any single touch anywhere on the screen (the dark stage, the character, or the hand) instantly unlocks audio and starts the voice right from the beginning.
-   - The floating whisper badge displays *"Hi, Nidhi… (Tap to listen ♪)"* if mobile autoplay is awaiting a touch, and returns to *"Hi, Nidhi…"* immediately upon playback.
+3. **User's Chosen Background Music (`videoplayback.weba`)**:
+   - Integrated `videoplayback.weba` (and converted to universal 192k stereo MP3 for iOS/Android).
+
+4. **Automatic Opening Voice Playback & Synchronized Timing**:
+   - The opening speech (`opening.mp3`) starts automatically at `3650ms` right as the character finishes standing up and waves.
+
+5. **Mobile Browser Audio Unlock**:
+   - Universal gesture unlock on first touch across the entire viewport.
 
 4. **Full 16-Track Voiceover Soundtrack**:
    - Integrated all 16 user-recorded voice tracks (`opening.mp3`, `book-open.mp3`, `hold-return.mp3`, `classmates.mp3`, `science-project.mp3`, `rooftop-snap.mp3`, `best-friend-routines.mp3`, `river-sunset.mp3`, `love-teacher.mp3`, `distance.mp3`, `chocolate-snap.mp3`, `first-i-love-you.mp3`, `letters-and-years.mp3`, `apology.mp3`, `change.mp3`, `closing.mp3`) in both `assets/voice/` and `assets/audio/`.

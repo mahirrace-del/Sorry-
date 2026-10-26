@@ -155,7 +155,7 @@
   holdPromptAudio.addEventListener("error", () => {});
   const ambientAudio = new Audio();
   ambientAudio.loop = true;
-  ambientAudio.volume = 0.10;
+  ambientAudio.volume = 0.04;
   ambientAudio.addEventListener("error", () => {});
   const voiceDurationCache = new Map();
   let activeVoiceSrc = "";
@@ -325,7 +325,7 @@
         ambientAudio.src = ambSrc;
         ambientAudio.setAttribute("data-src", ambSrc);
       }
-      ambientAudio.volume = 0.10;
+      ambientAudio.volume = 0.04;
       ambientAudio.muted = !soundEnabled;
       if (!isModalOpen() && phase !== "paused-dark" && phase !== "quiet-closed") {
         ambientAudio.play().catch(() => {});

@@ -204,6 +204,11 @@ body[data-phase="ending-rest"] .cinema-hud {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.65s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(180deg, transparent 65%, var(--ground-bot, #1a1624) 100%);
 }
 
 body.world-visible .world-layer {
@@ -218,25 +223,28 @@ body.world-visible .world-layer {
   transition: background 0.8s ease;
 }
 
-/* Distinct Per-Scene Vivid Palettes */
-body[data-scene="book-portal"] { --sky-top: #1d1626; --sky-mid: #3d2838; --sky-bot: #7a4c3a; }
-body[data-scene="classmates"] { --sky-top: #7ec4e8; --sky-mid: #cbe8f6; --sky-bot: #f6ddb2; }
-body[data-scene="science-project"] { --sky-top: #2c3554; --sky-mid: #6d4f5d; --sky-bot: #e6a96f; }
-body[data-scene="rooftop-snap"] { --sky-top: #131936; --sky-mid: #352b5c; --sky-bot: #d47c6a; }
-body[data-scene="best-friend-routines"] { --sky-top: #1b2847; --sky-mid: #3c657c; --sky-bot: #f0b67f; }
-body[data-scene="river-sunset"] { --sky-top: #3c2454; --sky-mid: #c9525e; --sky-bot: #f9b562; }
-body[data-scene="love-teacher"] { --sky-top: #f2c894; --sky-mid: #fae2be; --sky-bot: #e8b796; }
-body[data-scene="distance"] { --sky-top: #22293d; --sky-mid: #434e68; --sky-bot: #7d8499; }
-body[data-scene="chocolate-snap"] { --sky-top: #52334c; --sky-mid: #a8646c; --sky-bot: #f4c692; }
-body[data-scene="first-i-love-you"] { --sky-top: #090e24; --sky-mid: #1a254d; --sky-bot: #473b66; }
-body[data-scene="letters-and-years"] { --sky-top: #3e2823; --sky-mid: #7d523c; --sky-bot: #d9a978; }
-body[data-scene="accountability"] { --sky-top: #141726; --sky-mid: #28263b; --sky-bot: #5c4650; }
-body[data-scene="change"] { --sky-top: #2c3559; --sky-mid: #9e6578; --sky-bot: #f6c694; }
-body[data-scene="closing"] { --sky-top: #8ec5db; --sky-mid: #f7d4a8; --sky-bot: #f4b69c; }
+/* Distinct Per-Scene Vivid Palettes & Seamless Ground Extension */
+body[data-scene="book-portal"] { --sky-top: #1d1626; --sky-mid: #3d2838; --sky-bot: #7a4c3a; --ground-bot: #1e1310; }
+body[data-scene="classmates"] { --sky-top: #7ec4e8; --sky-mid: #cbe8f6; --sky-bot: #f6ddb2; --ground-bot: #d8b384; }
+body[data-scene="science-project"] { --sky-top: #2c3554; --sky-mid: #6d4f5d; --sky-bot: #e6a96f; --ground-bot: #3a2620; }
+body[data-scene="rooftop-snap"] { --sky-top: #131936; --sky-mid: #352b5c; --sky-bot: #d47c6a; --ground-bot: #211d33; }
+body[data-scene="best-friend-routines"] { --sky-top: #1b2847; --sky-mid: #3c657c; --sky-bot: #f0b67f; --ground-bot: #191427; }
+body[data-scene="river-sunset"] { --sky-top: #3c2454; --sky-mid: #c9525e; --sky-bot: #f9b562; --ground-bot: #2c2447; }
+body[data-scene="love-teacher"] { --sky-top: #f2c894; --sky-mid: #fae2be; --sky-bot: #e8b796; --ground-bot: #23182b; }
+body[data-scene="distance"] { --sky-top: #22293d; --sky-mid: #434e68; --sky-bot: #7d8499; --ground-bot: #1a1e36; }
+body[data-scene="chocolate-snap"] { --sky-top: #52334c; --sky-mid: #a8646c; --sky-bot: #f4c692; --ground-bot: #1e1524; }
+body[data-scene="first-i-love-you"] { --sky-top: #090e24; --sky-mid: #1a254d; --sky-bot: #473b66; --ground-bot: #131429; }
+body[data-scene="letters-and-years"] { --sky-top: #3e2823; --sky-mid: #7d523c; --sky-bot: #d9a978; --ground-bot: #2c1e19; }
+body[data-scene="accountability"] { --sky-top: #141726; --sky-mid: #28263b; --sky-bot: #5c4650; --ground-bot: #181822; }
+body[data-scene="change"] { --sky-top: #2c3559; --sky-mid: #9e6578; --sky-bot: #f6c694; --ground-bot: #1a201c; }
+body[data-scene="closing"] { --sky-top: #8ec5db; --sky-mid: #f7d4a8; --sky-bot: #f4b69c; --ground-bot: #2a202d; }
 
 .world-camera {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  width: min(100vw, calc(100dvh * 16 / 9));
+  height: min(100dvh, calc(100vw * 9 / 16));
+  aspect-ratio: 16 / 9;
+  flex-shrink: 0;
   transform-origin: 50% 56%;
   will-change: transform;
 }
@@ -259,6 +267,11 @@ body[data-scene="closing"] { --sky-top: #8ec5db; --sky-mid: #f7d4a8; --sky-bot: 
   inset: 0;
   z-index: 6;
   pointer-events: none;
+}
+
+.actor-world-mount .actor {
+  width: 18.5% !important;
+  max-width: 295px;
 }
 
 .scene-fg-canvas {
@@ -822,17 +835,17 @@ body[data-phase="ending-rest"] .subtitle-bar {
 
 .memory-frame.polaroid-top-left {
   position: absolute;
-  top: clamp(62px, 10vh, 84px);
-  left: clamp(14px, 4vw, 52px);
-  width: clamp(128px, 20vw, 196px);
+  top: 4%;
+  left: 3%;
+  width: clamp(92px, 14.5%, 210px);
   transform: rotate(-3deg);
 }
 
 .memory-frame.polaroid-top-right {
   position: absolute;
-  top: clamp(62px, 10vh, 84px);
-  right: clamp(14px, 4vw, 52px);
-  width: clamp(128px, 20vw, 196px);
+  top: 4%;
+  right: 3%;
+  width: clamp(92px, 14.5%, 210px);
   transform: rotate(2.8deg);
 }
 
@@ -875,20 +888,21 @@ body[data-phase="ending-rest"] .subtitle-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(58px, 9vh, 86px) clamp(16px, 5vw, 80px) clamp(88px, 14vh, 120px);
+  padding: 4% 6% 6%;
 }
 
 .book-spread-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(92px, 178px));
-  gap: clamp(10px, 2vw, 22px);
-  padding: clamp(14px, 2.6vw, 28px);
+  grid-template-columns: repeat(3, minmax(80px, 178px));
+  gap: clamp(8px, 1.4vw, 18px);
+  padding: clamp(10px, 2vw, 22px);
   border-radius: 16px;
   background:
     linear-gradient(90deg, rgba(112, 76, 48, 0.08) 0%, rgba(255, 250, 240, 0.95) 4%, rgba(246, 236, 218, 0.96) 49%, rgba(120, 82, 54, 0.26) 50%, rgba(252, 245, 232, 0.96) 51%, rgba(248, 238, 220, 0.95) 96%, rgba(112, 76, 48, 0.08) 100%);
   border: 2px solid rgba(112, 74, 44, 0.38);
   box-shadow: 0 24px 60px rgba(10, 6, 4, 0.52);
   pointer-events: auto;
+  max-width: 88%;
 }
 
 .book-spread-grid .memory-frame {
@@ -1205,21 +1219,27 @@ body.cc-on .bonk-ui {
     content: "✦";
     font-size: 0.85rem;
   }
-  .memory-frame.polaroid-top-left,
+  .memory-frame.polaroid-top-left {
+    top: 3%;
+    left: 2%;
+    width: clamp(80px, 15%, 130px);
+    padding: 4px 4px 6px;
+  }
   .memory-frame.polaroid-top-right {
-    top: calc(max(8px, env(safe-area-inset-top)) + 112px);
-    width: clamp(110px, 31vw, 146px);
-    padding: 6px 6px 8px;
+    top: 3%;
+    right: 2%;
+    width: clamp(80px, 15%, 130px);
+    padding: 4px 4px 6px;
   }
   .frames-layer.is-book-spread {
-    padding: 112px 12px 136px;
+    padding: 2% 3% 4%;
   }
   .book-spread-grid {
-    grid-template-columns: repeat(2, minmax(92px, 146px));
-    gap: 8px;
-    padding: 11px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 6px;
   }
-  .actor {
+  .dark-stage .actor {
     width: min(225px, 40vh, 56vw);
   }
   body[data-scene="letters-and-years"]:not([data-phase="paused-dark"]) .actor {

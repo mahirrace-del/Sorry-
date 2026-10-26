@@ -59,7 +59,7 @@
       <div class="world-layer" id="world-layer" aria-hidden="true">
         <div class="world-sky" id="world-sky"></div>
         <div class="world-camera" id="world-camera">
-          <svg class="scene-canvas" id="scene-canvas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <svg class="scene-canvas" id="scene-canvas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <defs>
               <radialGradient id="warm-lamp-glow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#ffe7b3" stop-opacity="0.88"/>
@@ -83,16 +83,16 @@
           <div class="actor-world-mount" id="actor-world-mount"></div>
 
           <!-- Foreground SVG accents (balcony railings, rickshaw wheel foreground, dust motes) -->
-          <svg class="scene-fg-canvas" id="scene-fg-canvas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <svg class="scene-fg-canvas" id="scene-fg-canvas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <g id="scene-fg-art"></g>
           </svg>
+
+          <!-- Plug-and-play Memory Book Photo & Letter Frames -->
+          <div class="frames-layer" id="frames-layer" role="region" aria-label="Memory photo frames"></div>
         </div>
 
         <!-- Cinema Atmospheric Particles Overlay (twinkling embers, floating dust, fireflies, rose petals) -->
         <div class="cinema-particles" id="cinema-particles" aria-hidden="true"></div>
-
-        <!-- Plug-and-play Memory Book Photo & Letter Frames -->
-        <div class="frames-layer" id="frames-layer" role="region" aria-label="Memory photo frames"></div>
 
         <!-- Optional Playful Cartoon Bonk (Chapter 11 Accountability only) -->
         <div class="bonk-ui" id="bonk-ui" hidden>
