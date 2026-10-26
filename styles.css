@@ -491,8 +491,20 @@ body[data-phase="paused-dark"] .spotlight-motes {
   width: min(290px, 44vh, 52vw);
   transform: translate3d(-50%, var(--actor-drop-y, 0px), 0) scale(var(--actor-scale, 1));
   transform-origin: 50% 95%;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
   will-change: transform, left, bottom;
+}
+
+.actor:hover .actor-svg {
+  filter: drop-shadow(0 14px 28px rgba(245, 185, 110, 0.42));
+}
+
+.actor:active {
+  transform: translate3d(-50%, var(--actor-drop-y, 0px), 0) scale(calc(var(--actor-scale, 1) * 0.94));
 }
 
 .actor-svg {

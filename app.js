@@ -145,11 +145,16 @@
   // Audio Elements
   const voiceAudio = new Audio();
   voiceAudio.preload = "auto";
+  voiceAudio.addEventListener("error", () => {
+    replayVoiceBtn.hidden = true;
+  });
   const holdPromptAudio = new Audio();
   holdPromptAudio.preload = "auto";
+  holdPromptAudio.addEventListener("error", () => {});
   const ambientAudio = new Audio();
   ambientAudio.loop = true;
-  ambientAudio.volume = 0.2;
+  ambientAudio.volume = 0.22;
+  ambientAudio.addEventListener("error", () => {});
   const voiceDurationCache = new Map();
   let activeVoiceSrc = "";
   let dynamicVoiceDurationMs = 0;
@@ -1411,17 +1416,6 @@
           t.armL = 10;
           t.armR = -10;
         }
-        // Harmless Foam-Helmet Bonk Spring Wobble!
-        const sinceBonk = timeSec - bonkAnimStart;
-        if (sinceBonk >= 0 && sinceBonk < 0.95) {
-          foamHelmet.removeAttribute("hidden");
-          if (sinceBonk < 0.42) plushBopper.removeAttribute("hidden");
-          const env = Math.exp(-4.8 * sinceBonk);
-          const osc = Math.cos(sinceBonk * 22);
-          t.squashY = 1 - 0.14 * env * osc;
-          t.squashX = 1 + 0.11 * env * osc;
-          t.headRot = Math.sin(sinceBonk * 24) * 11 * env;
-        }
         break;
 
       case "change":
@@ -1441,6 +1435,25 @@
         t.forearmR = -28;
         t.headRot = -2.5;
         break;
+    }
+
+    // Universal Harmless Cartoon Slap/Punch/Bonk Wobble anywhere in the story!
+    const sinceBonk = timeSec - bonkAnimStart;
+    if (sinceBonk >= 0 && sinceBonk < 0.95) {
+      foamHelmet.removeAttribute("hidden");
+      if (sinceBonk < 0.45) plushBopper.removeAttribute("hidden");
+      else plushBopper.setAttribute("hidden", "");
+      const env = Math.exp(-4.8 * sinceBonk);
+      const osc = Math.cos(sinceBonk * 22);
+      t.squashY = (t.squashY || 1) - 0.16 * env * osc;
+      t.squashX = (t.squashX || 1) + 0.14 * env * osc;
+      t.headRot = (t.headRot || 0) + Math.sin(sinceBonk * 24) * 14 * env;
+      t.pelvisRot = (t.pelvisRot || 0) - Math.sin(sinceBonk * 20) * 8 * env;
+    } else {
+      if (scene && scene.id !== "accountability") {
+        foamHelmet.setAttribute("hidden", "");
+      }
+      plushBopper.setAttribute("hidden", "");
     }
 
     return t;
@@ -1820,20 +1833,66 @@
     }
   }
 
-  // Optional Harmless Cartoon Foam-Helmet Bonk
+  const BONK_WORDS = [
+    "BONK!",
+    "OUCH!",
+    "SMACK!",
+    "POW!",
+    "WHACK!",
+    "I DESERVE THAT!",
+    "BOING!",
+    "OW! MY EAR!",
+    "TAKE THAT!",
+    "FAIR ENOUGH!"
+  ];
+
+  function playCartoonSound() {
+    if (!soundEnabled) return;
+    try {
+      const ctx = window.__audioCtx || (window.__audioCtx = new (window.AudioContext || window.webkitAudioContext)());
+      if (ctx.state === "suspended") ctx.resume();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      const now = ctx.currentTime;
+      osc.frequency.setValueAtTime(360, now);
+      osc.frequency.exponentialRampToValueAtTime(110, now + 0.15);
+      osc.frequency.exponentialRampToValueAtTime(280, now + 0.28);
+      osc.frequency.exponentialRampToValueAtTime(75, now + 0.42);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.44);
+    } catch (_) {}
+  }
+
+  // Playful Cartoon Slap / Punch / Bonk anywhere in the movie
   function triggerBonk() {
     unlockAudio();
     bonkCount += 1;
     bonkAnimStart = performance.now() / 1000;
     foamHelmet.removeAttribute("hidden");
-    // Give her extra unhurried time on the scene so it never flips page mid-bonk
+    plushBopper.removeAttribute("hidden");
+    playCartoonSound();
+
+    const word = BONK_WORDS[(bonkCount - 1) % BONK_WORDS.length];
+    const bopperText = plushBopper.querySelector("text");
+    if (bopperText) bopperText.textContent = word;
+
+    // Give extra unhurried time on scene so chapter doesn't turn mid-slap:
     sceneElapsed = Math.max(0, sceneElapsed - 2200);
+
     const sc = scenes[sceneIndex];
-    const reaction = (sc && sc.optionalInteraction && sc.optionalInteraction.reaction) ||
-      "BONK! A silly foam-helmet wobble—the real hurt still matters, and I'm listening.";
-    bonkFeedback.textContent = bonkCount === 1
-      ? reaction
-      : "BONK again! A cartoon wobble cannot undo my words—my actions have to.";
+    if (bonkFeedback) {
+      const reaction = (sc && sc.optionalInteraction && sc.optionalInteraction.reaction) ||
+        `${word} A silly wobble—the real hurt still matters, and I'm listening.`;
+      bonkFeedback.textContent = bonkCount === 1
+        ? reaction
+        : `${word} A cartoon wobble cannot undo my words—my actions have to.`;
+    }
+    announce(`You tapped the character: ${word}`);
   }
 
   function skipBonk() {
@@ -2211,9 +2270,19 @@
     });
     pauseLeaveBtn.addEventListener("click", openQuietExit);
 
-    // Optional Bonk Controls
+    // Slap / Punch / Bonk anywhere in the story:
     bonkBtn.addEventListener("click", triggerBonk);
     skipBonkBtn.addEventListener("click", skipBonk);
+    actor.addEventListener("pointerdown", (e) => {
+      e.stopPropagation();
+      triggerBonk();
+    });
+    actor.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        triggerBonk();
+      }
+    });
 
     // Open-Ending & Quiet-Exit Controls
     exitBtn.addEventListener("click", openQuietExit);
