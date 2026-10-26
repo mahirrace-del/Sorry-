@@ -8,8 +8,8 @@
   <meta name="description" content="Until You Hold My Hand — an interactive animated memory film and apology for Nidhi.">
   <title>Until You Hold My Hand</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='9' fill='%23020307'/%3E%3Ccircle cx='18' cy='18' r='10' fill='none' stroke='%23f2c98a' stroke-width='1.8' stroke-dasharray='3 3'/%3E%3Ccircle cx='18' cy='18' r='3.2' fill='%23f2c98a'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css">
-  <script src="./app.js" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=20261026c">
+  <script src="./app.js?v=20261026c" defer></script>
 </head>
 <body data-phase="blackout">
   <a class="skip-link" id="skip-intro" href="#cinema-stage">Skip intro &amp; watch hands-free</a>
@@ -18,14 +18,14 @@
     <!-- Discreet Cinema Micro-HUD (invisible during pure-black opening & sky drop) -->
     <nav class="cinema-hud" id="cinema-hud" aria-label="Film controls">
       <div class="hud-group hud-left">
-        <button class="hud-btn hud-icon-btn" id="prev-chapter" type="button" aria-label="Previous chapter" hidden>
+        <button class="hud-btn hud-icon-btn" id="prev-chapter" type="button" aria-label="Previous chapter">
           <span aria-hidden="true">‹</span>
         </button>
         <button class="hud-btn hud-pill" id="open-chapters" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="chapters-drawer">
           <span class="hud-dot" aria-hidden="true"></span>
           <span id="chapter-indicator">Chapters</span>
         </button>
-        <button class="hud-btn hud-icon-btn" id="next-chapter" type="button" aria-label="Next chapter" hidden>
+        <button class="hud-btn hud-icon-btn" id="next-chapter" type="button" aria-label="Next chapter">
           <span aria-hidden="true">›</span>
         </button>
       </div>
@@ -86,9 +86,6 @@
           <svg class="scene-fg-canvas" id="scene-fg-canvas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <g id="scene-fg-art"></g>
           </svg>
-
-          <!-- Plug-and-play Memory Book Photo & Letter Frames -->
-          <div class="frames-layer" id="frames-layer" role="region" aria-label="Memory photo frames"></div>
         </div>
 
         <!-- Cinema Atmospheric Particles Overlay (twinkling embers, floating dust, fireflies, rose petals) -->
@@ -121,6 +118,9 @@
         <div class="page-turn-veil" id="page-turn-veil" aria-hidden="true"></div>
       </div>
 
+      <!-- Plug-and-play Memory Book Photo & Letter Frames -->
+      <div class="frames-layer" id="frames-layer" role="region" aria-label="Memory photo frames"></div>
+
       <!-- Dark Theatrical Spotlight Stage (Mr. Bean Opening Drop + Release-Hand Return) -->
       <div class="dark-stage" id="dark-stage">
         <div class="spotlight-beam" id="spotlight-beam" aria-hidden="true"></div>
@@ -135,6 +135,13 @@
 
         <!-- Actor mount inside dark spotlight room -->
         <div class="actor-dark-mount" id="actor-dark-mount"></div>
+
+        <!-- Direct Mobile/Desktop Entry Button into the Story -->
+        <div class="prologue-actions" id="prologue-actions">
+          <button class="prologue-enter-btn" id="prologue-enter-btn" type="button" aria-label="Step inside our memories">
+            <span>Step inside our memories 🌸</span>
+          </button>
+        </div>
 
         <!-- Delicate floating "Hi…" during opening wave -->
         <div class="hi-whisper" id="hi-whisper" aria-hidden="true">Hi, Nidhi…</div>

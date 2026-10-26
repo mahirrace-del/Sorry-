@@ -302,7 +302,9 @@
       if (localFiles.voice && localFiles.voice.has(stem)) return localFiles.voice.get(stem);
       if (localFiles.audio && localFiles.audio.has(fileName)) return localFiles.audio.get(fileName);
       if (localFiles.audio && localFiles.audio.has(stem)) return localFiles.audio.get(stem);
-      if (configObj.enabled === true || (configObj.enabled !== false && clean.startsWith("assets/"))) return `./${clean}`;
+      if (configObj.enabled === true || (configObj.enabled !== false && clean.startsWith("assets/"))) {
+        return encodeURI(`./${clean}`);
+      }
     }
     return "";
   }
@@ -2047,6 +2049,10 @@
   }
 
   // Hand Press & Release Handlers (Bottom-Right 3D Hand)
+  function isTouchDevice() {
+    return ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+  }
+
   function beginHandHold() {
     unlockAudio();
     if (isHolding) return;
@@ -2198,14 +2204,16 @@
     closingUi.hidden = true;
     bonkUi.hidden = true;
     darkPausePanel.hidden = true;
-    framesLayer.innerHTML = "";
+    renderFramesForScene(scenes[0]);
     if (cinemaParticles) cinemaParticles.innerHTML = "";
     stopVoice();
     body.classList.remove("world-visible", "spotlight-on");
     delete body.dataset.scene;
     delete body.dataset.hud;
-    prevBtn.hidden = true;
-    nextBtn.hidden = true;
+    prevBtn.hidden = false;
+    nextBtn.hidden = false;
+    prevBtn.disabled = true;
+    nextBtn.disabled = false;
     chapterIndicator.textContent = "Chapters";
     handCornerWrap.dataset.visible = "false";
     handProgressCircle.style.strokeDashoffset = String(RING_CIRCUMFERENCE);
@@ -2445,26 +2453,22 @@
       const pressDur = performance.now() - pointerDownTime;
       activePointerId = null;
 
-      if (pressDur < 320) {
-        // Quick tap on 3D hand!
+      if (pressDur < 480 || isTouchDevice()) {
+        // Quick tap or mobile touch on 3D hand -> keeps playing!
+        setHandsFreeMode(true);
         if (phase === "playing") {
           // If already playing, pressing the hand moves directly to next chapter!
           if (sceneIndex < scenes.length - 1) {
             enterChapter(sceneIndex + 1, "playing");
           }
+        } else if (phase === "prologue-ready" || phase === "prologue-drop" || phase === "blackout") {
+          startBookPortal();
         } else if (phase === "paused-dark") {
-          // Quick tap resumes playing and keeps playing!
           resumeFromDarkPause();
-          isHolding = true;
-          handPortal.classList.add("is-holding");
-          handPortal.setAttribute("aria-pressed", "true");
         } else if (phase === "scene-waiting") {
           setBodyPhase("playing");
           resumeAudioPlayback();
           updateSubtitleDisplay();
-          isHolding = true;
-          handPortal.classList.add("is-holding");
-          handPortal.setAttribute("aria-pressed", "true");
         } else if (phase === "book-portal") {
           portalElapsed = PORTAL_DURATION;
         }
@@ -2540,16 +2544,31 @@
       applyMotionSetting(!motionEnabled);
     });
 
+    const prologueEnterBtn = $("#prologue-enter-btn");
+    if (prologueEnterBtn) {
+      prologueEnterBtn.addEventListener("click", () => {
+        unlockAudio();
+        setHandsFreeMode(true);
+        startBookPortal();
+      });
+    }
+
     prevBtn.addEventListener("click", () => {
       unlockAudio();
+      setHandsFreeMode(true);
       if (sceneIndex > 1) {
         enterChapter(sceneIndex - 1, "playing");
+      } else {
+        restartFromBeginning();
       }
     });
 
     nextBtn.addEventListener("click", () => {
       unlockAudio();
-      if (sceneIndex < scenes.length - 1) {
+      setHandsFreeMode(true);
+      if (phase === "prologue-drop" || phase === "prologue-ready" || phase === "blackout" || phase === "book-portal") {
+        enterChapter(1, "playing");
+      } else if (sceneIndex < scenes.length - 1) {
         enterChapter(sceneIndex + 1, "playing");
       }
     });
@@ -2650,7 +2669,7 @@
   // Bootstrap Story & Start Pure-Black Cinema Opening
   async function boot() {
     try {
-      const resp = await fetch("./content/story.json");
+      const resp = await fetch(`./content/story.json?t=${Date.now()}`);
       if (!resp.ok) throw new Error("HTTP error");
       storyData = await resp.json();
     } catch (_) {
@@ -2673,6 +2692,9 @@
     bindEvents();
     if (ccToggleBtn) ccToggleBtn.setAttribute("aria-pressed", String(ccEnabled));
     renderChaptersList();
+    renderFramesForScene(scenes[0]);
+    prevBtn.disabled = true;
+    nextBtn.disabled = false;
 
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     applyMotionSetting(!reducedMotionQuery.matches);

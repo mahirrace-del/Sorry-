@@ -45,7 +45,26 @@
         "Begin"
       ],
       "media": [],
-      "frames": [],
+      "frames": [
+        {
+          "id": "frame-opening-photo1",
+          "src": "assets/photos/01-school-and-classmates/2750d64d-1278-4065-b430-422607e16187.jpg",
+          "enabled": true,
+          "caption": "Our story begins",
+          "alt": "Photo memory",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "classroom"
+        },
+        {
+          "id": "frame-opening-photo2",
+          "src": "assets/photos/11-random-memories/00d3e2ba-7c4a-4d9a-a823-4e1408b56229.jpg",
+          "enabled": true,
+          "caption": "Moments I keep close",
+          "alt": "Photo memory",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "photo"
+        }
+      ],
       "alt": "A dark theater stage where a warm spotlight clicks on, the narrator drops in from above, slowly stands up looking at Nidhi, waves hi, and reaches his hand toward the bottom-right corner."
     },
     {
@@ -171,7 +190,7 @@
         },
         {
           "id": "frame-rooftop-photo1",
-          "src": "assets/photos/03-rooftops-and-music/330894188_871561624078197_1811672589917075882_n (1).jpg",
+          "src": "assets/photos/03-rooftops-and-music/330894188_871561624078197_1811672589917075882_n_1.jpg",
           "enabled": true,
           "caption": "Rooftop evening",
           "alt": "Rooftop memory photo",
@@ -225,7 +244,7 @@
         },
         {
           "id": "frame-bestfriend-photo1",
-          "src": "assets/photos/04-coaching-and-street-walks/330425234_697947788750542_8477931610046072655_n (1).jpg",
+          "src": "assets/photos/04-coaching-and-street-walks/330425234_697947788750542_8477931610046072655_n_1.jpg",
           "enabled": true,
           "caption": "Coaching era walks",
           "alt": "Coaching walk photo",

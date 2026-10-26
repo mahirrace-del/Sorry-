@@ -1,6 +1,6 @@
 # Antigravity Handoff — Until You Hold My Hand (Interactive Movie-Game)
 
-Last updated: 26 October 2026 (All 41 Real Photos & Looping Memory Videos Integrated, Multi-Frame Scene Memory Slots, Autoplaying Mobile Video Frames, 30% White-Sound Ambient Music, and Mobile Stage Adaptation)
+Last updated: 26 October 2026 (Mobile Photo Visibility Fix, Scene 0 Floating Spotlight Memories, Mobile Continuous Playback, Cache Busting, and Safe URI Encoding)
 
 ## Project overview
 
@@ -8,7 +8,16 @@ Last updated: 26 October 2026 (All 41 Real Photos & Looping Memory Videos Integr
 
 ## What is included & verified in this build
 
-1. **All 41 Real Photos & Autoplaying Looping Memory Videos Integrated**:
+1. **Instant Mobile Photo Visibility (Scene 0 + All Chapters)**:
+   - **Scene 0 Floating Memories**: The opening scene now immediately renders 2 floating memory frames in the warm spotlight alongside the character, so real photos appear from the very first second before touching anything.
+   - **Prominent Mobile Action Button**: Added `[ Step inside our memories 🌸 ]` button in Scene 0 so mobile users can step directly into the chapters without having to guess or struggle with continuous hold.
+   - **Mobile Tap Continuous Playback**: On mobile touch devices, tapping the hand icon or the entry button activates playing mode continuously. Lifting a thumb no longer accidentally triggers an instant pause/blackout.
+   - **Persistent Stage Navigation (`‹` and `›`)**: The previous and next chapter buttons in the micro-HUD are always accessible, enabling direct chapter browsing.
+   - **Frame Layer Above Dark Stage**: Moved `.frames-layer` to `z-index: 28` directly under `.cinema-stage`, preventing it from being masked by the dark spotlight stage.
+   - **Mobile Cache Busting**: Added dynamic timestamp query (`story.json?t=...`) and versioned assets (`styles.css?v=20261026c`, `app.js?v=20261026c`) to prevent mobile Safari/Chrome from loading stale JSON with missing image paths.
+   - **Safe File Renaming**: Renamed files with spaces and parentheses (`(1)`) to clean alphanumeric paths (`_n_1.jpg`) with `encodeURI()` protection in `resolveAssetPath`.
+
+2. **All 41 Real Photos & Autoplaying Looping Memory Videos Integrated**:
    - **11 Living Video Memory Frames**: All 11 user video clips (`.mp4`) are integrated into the story scenes. On web and mobile browsers, they autoplay seamlessly on loop with `muted`, `playsinline`, and `webkit-playsinline` attributes without triggering native fullscreen takeovers.
    - **Video Memory Badge (`▶`)**: Each moving memory frame displays a subtle translucent video badge in the top-right corner.
    - **High-Res Video & Photo Lightbox**: Tapping any photo or video opens the memory in a high-resolution darkroom lightbox view with play/pause controls, captions, and tap-outside / escape dismissal.
