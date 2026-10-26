@@ -38,6 +38,11 @@ body {
   background: var(--bg-black);
   color: var(--ink-light);
   -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 button {
@@ -204,11 +209,7 @@ body[data-phase="ending-rest"] .cinema-hud {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.65s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  background: linear-gradient(180deg, transparent 65%, var(--ground-bot, #1a1624) 100%);
 }
 
 body.world-visible .world-layer {
@@ -223,28 +224,27 @@ body.world-visible .world-layer {
   transition: background 0.8s ease;
 }
 
-/* Distinct Per-Scene Vivid Palettes & Seamless Ground Extension */
-body[data-scene="book-portal"] { --sky-top: #1d1626; --sky-mid: #3d2838; --sky-bot: #7a4c3a; --ground-bot: #1e1310; }
-body[data-scene="classmates"] { --sky-top: #7ec4e8; --sky-mid: #cbe8f6; --sky-bot: #f6ddb2; --ground-bot: #d8b384; }
-body[data-scene="science-project"] { --sky-top: #2c3554; --sky-mid: #6d4f5d; --sky-bot: #e6a96f; --ground-bot: #3a2620; }
-body[data-scene="rooftop-snap"] { --sky-top: #131936; --sky-mid: #352b5c; --sky-bot: #d47c6a; --ground-bot: #211d33; }
-body[data-scene="best-friend-routines"] { --sky-top: #1b2847; --sky-mid: #3c657c; --sky-bot: #f0b67f; --ground-bot: #191427; }
-body[data-scene="river-sunset"] { --sky-top: #3c2454; --sky-mid: #c9525e; --sky-bot: #f9b562; --ground-bot: #2c2447; }
-body[data-scene="love-teacher"] { --sky-top: #f2c894; --sky-mid: #fae2be; --sky-bot: #e8b796; --ground-bot: #23182b; }
-body[data-scene="distance"] { --sky-top: #22293d; --sky-mid: #434e68; --sky-bot: #7d8499; --ground-bot: #1a1e36; }
-body[data-scene="chocolate-snap"] { --sky-top: #52334c; --sky-mid: #a8646c; --sky-bot: #f4c692; --ground-bot: #1e1524; }
-body[data-scene="first-i-love-you"] { --sky-top: #090e24; --sky-mid: #1a254d; --sky-bot: #473b66; --ground-bot: #131429; }
-body[data-scene="letters-and-years"] { --sky-top: #3e2823; --sky-mid: #7d523c; --sky-bot: #d9a978; --ground-bot: #2c1e19; }
-body[data-scene="accountability"] { --sky-top: #141726; --sky-mid: #28263b; --sky-bot: #5c4650; --ground-bot: #181822; }
-body[data-scene="change"] { --sky-top: #2c3559; --sky-mid: #9e6578; --sky-bot: #f6c694; --ground-bot: #1a201c; }
-body[data-scene="closing"] { --sky-top: #8ec5db; --sky-mid: #f7d4a8; --sky-bot: #f4b69c; --ground-bot: #2a202d; }
+/* Distinct Per-Scene Vivid Palettes */
+body[data-scene="book-portal"] { --sky-top: #1d1626; --sky-mid: #3d2838; --sky-bot: #7a4c3a; }
+body[data-scene="classmates"] { --sky-top: #7ec4e8; --sky-mid: #cbe8f6; --sky-bot: #f6ddb2; }
+body[data-scene="science-project"] { --sky-top: #2c3554; --sky-mid: #6d4f5d; --sky-bot: #e6a96f; }
+body[data-scene="rooftop-snap"] { --sky-top: #131936; --sky-mid: #352b5c; --sky-bot: #d47c6a; }
+body[data-scene="best-friend-routines"] { --sky-top: #1b2847; --sky-mid: #3c657c; --sky-bot: #f0b67f; }
+body[data-scene="river-sunset"] { --sky-top: #3c2454; --sky-mid: #c9525e; --sky-bot: #f9b562; }
+body[data-scene="love-teacher"] { --sky-top: #f2c894; --sky-mid: #fae2be; --sky-bot: #e8b796; }
+body[data-scene="distance"] { --sky-top: #22293d; --sky-mid: #434e68; --sky-bot: #7d8499; }
+body[data-scene="chocolate-snap"] { --sky-top: #52334c; --sky-mid: #a8646c; --sky-bot: #f4c692; }
+body[data-scene="first-i-love-you"] { --sky-top: #090e24; --sky-mid: #1a254d; --sky-bot: #473b66; }
+body[data-scene="letters-and-years"] { --sky-top: #3e2823; --sky-mid: #7d523c; --sky-bot: #d9a978; }
+body[data-scene="accountability"] { --sky-top: #141726; --sky-mid: #28263b; --sky-bot: #5c4650; }
+body[data-scene="change"] { --sky-top: #2c3559; --sky-mid: #9e6578; --sky-bot: #f6c694; }
+body[data-scene="closing"] { --sky-top: #8ec5db; --sky-mid: #f7d4a8; --sky-bot: #f4b69c; }
 
 .world-camera {
-  position: relative;
-  width: min(100vw, calc(100dvh * 16 / 9));
-  height: min(100dvh, calc(100vw * 9 / 16));
-  aspect-ratio: 16 / 9;
-  flex-shrink: 0;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   transform-origin: 50% 56%;
   will-change: transform;
 }
@@ -270,8 +270,7 @@ body[data-scene="closing"] { --sky-top: #8ec5db; --sky-mid: #f7d4a8; --sky-bot: 
 }
 
 .actor-world-mount .actor {
-  width: 18.5% !important;
-  max-width: 295px;
+  width: min(290px, 44vh, 52vw);
 }
 
 .scene-fg-canvas {
@@ -1224,22 +1223,53 @@ body.cc-on .bonk-ui {
 /* Responsive Mobile & Short Landscape Adaptations */
 @media (max-width: 680px) {
   .cinema-hud {
-    left: max(8px, env(safe-area-inset-left));
-    right: max(8px, env(safe-area-inset-right));
-    flex-wrap: wrap;
-    row-gap: 6px;
-    column-gap: 6px;
+    left: max(6px, env(safe-area-inset-left));
+    right: max(6px, env(safe-area-inset-right));
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cinema-hud::-webkit-scrollbar {
+    display: none;
   }
   .hud-group {
-    flex-wrap: wrap;
-    gap: 4px;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 3px;
+    flex-shrink: 0;
   }
   .hud-btn {
-    padding: 0 8px;
-    font-size: 0.7rem;
+    min-height: 36px;
+    min-width: 36px;
+    padding: 0 7px;
+    font-size: 0.72rem;
+    gap: 3px;
+    flex-shrink: 0;
   }
   .hud-icon-btn {
+    min-height: 36px;
+    min-width: 36px;
     padding: 0;
+    font-size: 0.92rem;
+  }
+  #prev-chapter,
+  #next-chapter {
+    min-width: 28px;
+    min-height: 36px;
+    padding: 0;
+    font-size: 0.85rem;
+  }
+  #open-chapters {
+    min-height: 36px;
+    padding: 0 8px;
+  }
+  #chapter-indicator {
+    font-size: 0.72rem;
+    white-space: nowrap;
   }
   .hud-label-sm,
   #motion-label {
@@ -1250,15 +1280,15 @@ body.cc-on .bonk-ui {
     font-size: 0.85rem;
   }
   .memory-frame.polaroid-top-left {
-    top: 3%;
-    left: 2%;
-    width: clamp(80px, 15%, 130px);
+    top: calc(max(8px, env(safe-area-inset-top)) + 48px);
+    left: max(8px, env(safe-area-inset-left));
+    width: clamp(88px, 24vw, 126px);
     padding: 4px 4px 6px;
   }
   .memory-frame.polaroid-top-right {
-    top: 3%;
-    right: 2%;
-    width: clamp(80px, 15%, 130px);
+    top: calc(max(8px, env(safe-area-inset-top)) + 48px);
+    right: max(8px, env(safe-area-inset-right));
+    width: clamp(88px, 24vw, 126px);
     padding: 4px 4px 6px;
   }
   .frames-layer.is-book-spread {
@@ -1269,8 +1299,10 @@ body.cc-on .bonk-ui {
     gap: 4px;
     padding: 6px;
   }
+  .actor,
+  .actor-world-mount .actor,
   .dark-stage .actor {
-    width: min(225px, 40vh, 56vw);
+    width: min(230px, 42vh, 56vw);
   }
   body[data-scene="letters-and-years"]:not([data-phase="paused-dark"]) .actor {
     opacity: 0;
@@ -1302,9 +1334,8 @@ body.cc-on .bonk-ui {
   body.cc-on .bonk-ui {
     bottom: max(148px, calc(env(safe-area-inset-bottom) + 140px));
   }
-  body[data-scene="closing"] .subtitle-bar,
   body[data-phase="ending-rest"] .subtitle-bar {
-    bottom: max(184px, calc(env(safe-area-inset-bottom) + 174px));
+    bottom: max(164px, calc(env(safe-area-inset-bottom) + 154px));
   }
   .hand-portal {
     width: 116px;

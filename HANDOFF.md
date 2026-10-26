@@ -1,6 +1,6 @@
 # Antigravity Handoff — Until You Hold My Hand (Interactive Movie-Game)
 
-Last updated: 26 October 2026 (Ear-Holding Squat School-Punishment Apology ("কান ধরে উঠবস") + Multi-Screen Background Adaptation & Whisper Audio)
+Last updated: 26 October 2026 (True Mobile Stage Adaptation, 30% White-Sound Ambient Music, iOS Hardware Audio Attenuation, and Single-Row Mobile UI)
 
 ## Project overview
 
@@ -8,28 +8,31 @@ Last updated: 26 October 2026 (Ear-Holding Squat School-Punishment Apology ("ক
 
 ## What is included & verified in this build
 
-1. **Sincere Ear-Holding Squat / Knee-Down Apology ("কান ধরে উঠবস" in Chapter 11)**:
+1. **True Mobile-First Stage Adaptation (All Scenes Match Prologue Display)**:
+   - **Replaced Rigid 16:9 Letterbox Container**: Removed the artificial 16:9 camera constraint (`width: min(100vw, ...); aspect-ratio: 16/9;`) that shrunk all world scenes into a miniature 219px tall strip on mobile portrait screens.
+   - **Full-Screen Immersion**: `.world-camera` now occupies `position: absolute; inset: 0; width: 100%; height: 100%;` just like the prologue first scene (`.dark-stage`).
+   - **Natural `xMidYMid slice` Coverage**: SVG background and foreground canvases cover 100% of the screen seamlessly on iPhone, Android, iPad, and PC widescreen without horizontal split seams or letterbox letterboxing.
+   - **Full-Sized Articulated Actor in All Chapters**: Removed `.actor-world-mount .actor { width: 18.5% !important; }` which had shrunk the character down to 72px. The character now maintains the exact same handsome, expressive proportion (`width: min(230px, 42vh, 56vw);`) in every chapter as seen in Scene 1.
+   - **Synchronized Centered Scenery & Vehicles**:
+     - **Chapter 5 (River Sunset)**: Centered the sunset sun at `cx=800` and aligned the boat and actor to glide from `660` to `780` directly under the sun, followed by the wooden jetty and rolling rickshaw (`700` to `820`). The actor sits right in the boat bench (`toStageBottom(620)`) and rickshaw seat.
+     - **Chapter 2 (Memory Book Portal)**: Centered the pedestal table and illuminated memory book at `translate(800, 560)` so the actor and book are in the focal center on mobile.
+     - **Chapter 3 (Science Project)**: Centered the craft table at `translate(800, 575)` with Nidhi's tiny paper sofa and miniature houses prominently in view.
+     - **Chapter 12 (Commitments)**: Positioned the four glowing commitment lanterns in a balanced 2x2 grid (`680` and `920`) right above the character.
+
+2. **30% Gentle "White-Sound" Background Music & iOS Hardware Fix**:
+   - **Hardware Attenuation via FFmpeg**: Addressed iOS Safari's WebKit limitation where `HTMLMediaElement.volume` is read-only and ignores JS volume assignments. Re-encoded `ambient-instrumental.mp3`, `videoplayback.weba`, and `ambient-instrumental.weba` with `volume=0.25` (-12 dB reduction) so the background music natively plays as a whisper-level white-noise bed even on iPhones.
+   - **Dynamic Voice Ducking**: Set base ambient music volume to `0.30` (30% soft acoustic bed). Whenever the narrator's voiceover plays, `ambientAudio` automatically ducks down to `0.12`, allowing the spoken voice to be loud, upfront, and crystal clear. When the voice pauses or ends, the background music gently returns to `0.30`.
+   - **Prominent Spoken Voiceover**: Voice recordings are set to full volume (`1.0`), maintaining a +6 dB to +12 dB prominence over the background music at all times.
+
+3. **Mobile UI Polish & Callout Menu Prevention**:
+   - **Single-Row Top Navigation Bar**: Updated `.cinema-hud` on mobile screens (`max-width: 680px`) with `flex-wrap: nowrap`, compact 36px buttons, and 3px gaps. The chapter navigator (`< • V / XIII >`) and all action buttons (`replay`, `sound`, `CC`, `auto`, `motion`, `exit`) now fit on a single horizontal row on iPhone screens without breaking into two rows.
+   - **Prevented Browser Selection Menus**: Added `-webkit-user-select: none; user-select: none; -webkit-touch-callout: none;` to prevent the browser from popping up "Copy | Search with Google" callout menus during touches or taps.
+   - **Closing Subtitle Alignment**: Removed premature bottom offset on `.subtitle-bar` in Chapter 13 so subtitles rest comfortably at the bottom during the narration and do not cut across the character's body.
+
+4. **Sincere Ear-Holding Squat / Knee-Down Apology ("কান ধরে উঠবস" in Chapter 11)**:
    - **Animation Choreography**: In Chapter 11 (*What I am sorry for now*), as the narrator acknowledges his hurtful words, he raises both hands up to firmly hold his ears (`t.armL = -142`, `t.forearmL = 78`, `t.armR = 142`, `t.forearmR = -78`), bows his head, and bends down into 3 deep, earnest kneeling squats on the floor.
    - **Interactive Forgiveness Button (`[ 🤍 It's okay, stand up ]`)**: Nidhi can tap this button at any point during his squats. He immediately lets go of his ears, places his hand over his heart with a grateful nod, stands tall, and the story smoothly transitions forward after a warm acknowledgement (*"🤍 Thank you… I promise I will never speak that way again."*).
    - **Zero-Pressure Fallback**: If she doesn't press anything or is watching hands-free, he naturally completes the 3 squats, stands up humbly, and the story automatically turns the page to Chapter 12 (Commitments).
-
-2. **Full Responsive Background Adaptation (All Screen Sizes)**:
-   - **Resolved Mobile Background Cut-off**: Switched `scene-canvas` and `scene-fg-canvas` from `xMidYMid slice` to `xMidYMid meet` so the entire background artwork is 100% visible on all screens.
-   - **Unified 16:9 Cinematic Container (`.world-camera`)**: Sized to `width: min(100vw, calc(100dvh * 16 / 9)); height: min(100dvh, calc(100vw * 9 / 16)); aspect-ratio: 16 / 9; flex-shrink: 0;`, perfectly centered via flexbox in `.world-layer`.
-   - **Cross-Device Compatibility**:
-     - **PC / Laptops (16:9 & ultrawide)**: 100% widescreen film presentation.
-     - **iPads & Tablets (3:4, 4:3)**: Stage fits 100% width with zero crop; scene sky bleeds top and bottom.
-     - **Samsung Galaxy Tab (16:10, 10:16)**: Full background visible, zero crop.
-     - **Mobile Phones (iPhone & Android portrait / landscape)**: The full width of every scene (classroom, rooftop, river boat, rickshaw, balconies, lamps, and lanterns) is 100% visible without sides cut off.
-   - **Seamless Floor & Sky Bleed**: Implemented `--ground-bot` per scene with vertical gradient so the floor color smoothly extends to the bottom of portrait devices while sky covers the top.
-   - **Aligned Actor & Photo Frames**: Embedded `frames-layer` inside `.world-camera` and scaled `.actor-world-mount .actor` to `18.5%` so character and photo frames stay 1:1 aligned with the scenery across all devices.
-
-3. **Whisper-Quiet Background Music Volume**:
-   - Decreased `ambientAudio.volume` to `0.04` (a gentle, unobtrusive background instrumental bed).
-   - Allows the spoken voiceover (`1.0`) to be completely clear, prominent, and intelligible across all smartphone speakers and headphones.
-
-3. **User's Chosen Background Music (`videoplayback.weba`)**:
-   - Integrated `videoplayback.weba` (and converted to universal 192k stereo MP3 for iOS/Android).
 
 4. **Automatic Opening Voice Playback & Synchronized Timing**:
    - The opening speech (`opening.mp3`) starts automatically at `3650ms` right as the character finishes standing up and waves.

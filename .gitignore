@@ -4,6 +4,7 @@ node_modules/
 # Temporary / audit files
 .audit-tmp/
 *.log
+*-raw.*
 
 # OS / Editor metadata
 .DS_Store

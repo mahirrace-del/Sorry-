@@ -149,16 +149,35 @@
   // Audio Elements
   const voiceAudio = new Audio();
   voiceAudio.preload = "auto";
+  voiceAudio.volume = 1.0;
   voiceAudio.addEventListener("error", () => {
     replayVoiceBtn.hidden = true;
   });
   const holdPromptAudio = new Audio();
   holdPromptAudio.preload = "auto";
+  holdPromptAudio.volume = 1.0;
   holdPromptAudio.addEventListener("error", () => {});
   const ambientAudio = new Audio();
   ambientAudio.loop = true;
-  ambientAudio.volume = 0.04;
+  const AMBIENT_BASE_VOLUME = 0.30; // 30% gentle ambient white-sound bed
+  const AMBIENT_DUCK_VOLUME = 0.12; // Ducked during spoken narration
+  ambientAudio.volume = AMBIENT_BASE_VOLUME;
   ambientAudio.addEventListener("error", () => {});
+
+  function applyAmbientVolume() {
+    if (!soundEnabled) {
+      ambientAudio.muted = true;
+      return;
+    }
+    ambientAudio.muted = false;
+    const isSpeaking = !voiceAudio.paused && !voiceAudio.ended && voiceAudio.currentTime > 0;
+    try {
+      ambientAudio.volume = isSpeaking ? AMBIENT_DUCK_VOLUME : AMBIENT_BASE_VOLUME;
+    } catch (_) {}
+  }
+  voiceAudio.addEventListener("play", applyAmbientVolume);
+  voiceAudio.addEventListener("pause", applyAmbientVolume);
+  voiceAudio.addEventListener("ended", applyAmbientVolume);
   const voiceDurationCache = new Map();
   let activeVoiceSrc = "";
   let dynamicVoiceDurationMs = 0;
@@ -327,8 +346,7 @@
         ambientAudio.src = ambSrc;
         ambientAudio.setAttribute("data-src", ambSrc);
       }
-      ambientAudio.volume = 0.04;
-      ambientAudio.muted = !soundEnabled;
+      applyAmbientVolume();
       if (!isModalOpen() && phase !== "paused-dark" && phase !== "quiet-closed") {
         ambientAudio.play().catch(() => {});
       }
@@ -609,14 +627,14 @@
         sceneBgArt.innerHTML = `
           <rect x="0" y="640" width="1600" height="260" fill="#1e1310"/>
           <path d="M0 640 H1600" stroke="#4d3224" stroke-width="4"/>
-          <circle cx="960" cy="430" r="360" fill="url(#warm-lamp-glow)" id="portal-lamp-aura"/>
-          <rect x="220" y="140" width="220" height="360" rx="8" fill="#171019" stroke="#3c2824" stroke-width="4"/>
-          <line x1="220" y1="250" x2="440" y2="250" stroke="#3c2824" stroke-width="5"/>
-          <line x1="220" y1="360" x2="440" y2="360" stroke="#3c2824" stroke-width="5"/>
+          <circle cx="800" cy="430" r="360" fill="url(#warm-lamp-glow)" id="portal-lamp-aura"/>
+          <rect x="180" y="140" width="220" height="360" rx="8" fill="#171019" stroke="#3c2824" stroke-width="4"/>
+          <line x1="180" y1="250" x2="400" y2="250" stroke="#3c2824" stroke-width="5"/>
+          <line x1="180" y1="360" x2="400" y2="360" stroke="#3c2824" stroke-width="5"/>
         `;
         sceneMidArt.innerHTML = `
           <!-- Pedestal Table & Illuminated Memory Book -->
-          <g id="book-pedestal" transform="translate(960, 560)">
+          <g id="book-pedestal" transform="translate(800, 560)">
             <rect x="-150" y="0" width="300" height="22" rx="6" fill="#5e3924" stroke="#28160d" stroke-width="3"/>
             <rect x="-110" y="22" width="32" height="150" fill="#462919"/>
             <rect x="78" y="22" width="32" height="150" fill="#462919"/>
@@ -632,9 +650,9 @@
             </g>
           </g>
           <g id="book-sparks">
-            <circle cx="940" cy="500" r="4" fill="#ffe8ad"/>
-            <circle cx="985" cy="480" r="5" fill="#ffd27d"/>
-            <circle cx="960" cy="460" r="3.5" fill="#fff5d6"/>
+            <circle cx="780" cy="500" r="4" fill="#ffe8ad"/>
+            <circle cx="825" cy="480" r="5" fill="#ffd27d"/>
+            <circle cx="800" cy="460" r="3.5" fill="#fff5d6"/>
           </g>
         `;
         break;
@@ -694,11 +712,11 @@
       case "science-project":
         sceneBgArt.innerHTML = `
           <rect x="0" y="650" width="1600" height="250" fill="#3a2620"/>
-          <circle cx="880" cy="480" r="420" fill="url(#warm-lamp-glow)"/>
+          <circle cx="800" cy="480" r="420" fill="url(#warm-lamp-glow)"/>
         `;
         sceneMidArt.innerHTML = `
-          <!-- Craft Worktable -->
-          <g transform="translate(900, 575)">
+          <!-- Craft Worktable (Centered for Mobile & Desktop) -->
+          <g transform="translate(800, 575)">
             <rect x="-360" y="0" width="720" height="24" rx="6" fill="#825336" stroke="#361f12" stroke-width="3"/>
             <rect x="-310" y="24" width="28" height="145" fill="#593621"/>
             <rect x="282" y="24" width="28" height="145" fill="#593621"/>
@@ -739,7 +757,7 @@
           </g>
 
           <!-- Floating First Direct Message Photo Card -->
-          <g id="first-msg-card" transform="translate(1115, 320)" opacity="0">
+          <g id="first-msg-card" transform="translate(1010, 320)" opacity="0">
             <rect x="-92" y="-64" width="184" height="118" rx="16" fill="#fff9ee" stroke="#e6b877" stroke-width="3"/>
             <rect x="-74" y="-48" width="148" height="72" rx="8" fill="#f5e3cc"/>
             <path d="M-46 6 H-4 V-12 C-4 -18 -12 -22 -25 -22 C-38 -22 -46 -18 -46 -12 Z" fill="#e57d78"/>
@@ -864,19 +882,19 @@
               <rect x="720" y="545" width="160" height="7" rx="3.5" fill="#ffd28a"/>
               <rect x="745" y="575" width="110" height="6" rx="3" fill="#ffbe78"/>
             </g>
-            <!-- Wooden Jetty on Right for Beat 2 -->
-            <g id="river-jetty" transform="translate(1060, 565)" opacity="0">
-              <rect x="-140" y="0" width="420" height="22" rx="4" fill="#593726"/>
+            <!-- Wooden Jetty for Beat 2 (Framed for Mobile & Desktop) -->
+            <g id="river-jetty" transform="translate(920, 575)" opacity="0">
+              <rect x="-140" y="0" width="360" height="22" rx="4" fill="#593726"/>
               <rect x="-100" y="22" width="22" height="140" fill="#3d2418"/>
               <rect x="60" y="22" width="22" height="140" fill="#3d2418"/>
-              <rect x="210" y="22" width="22" height="140" fill="#3d2418"/>
+              <rect x="180" y="22" width="22" height="140" fill="#3d2418"/>
               <!-- Abstract Boatman Silhouette & Fare Overcharge Bubble -->
-              <g transform="translate(145, -120)">
+              <g transform="translate(100, -110)">
                 <circle cx="0" cy="0" r="22" fill="#231624"/>
-                <path d="M-28 120 L-22 28 H22 L28 120 Z" fill="#231624"/>
-                <g id="overcharge-bubble" transform="translate(-85, -48)">
-                  <rect x="-64" y="-26" width="128" height="46" rx="22" fill="#fff6e0" stroke="#592e2e" stroke-width="3"/>
-                  <text x="0" y="5" text-anchor="middle" fill="#a83838" font-size="22" font-weight="800">৳ ৳ ৳ !</text>
+                <path d="M-28 110 L-22 24 H22 L28 110 Z" fill="#231624"/>
+                <g id="overcharge-bubble" transform="translate(-75, -42)">
+                  <rect x="-58" y="-24" width="116" height="42" rx="20" fill="#fff6e0" stroke="#592e2e" stroke-width="3"/>
+                  <text x="0" y="5" text-anchor="middle" fill="#a83838" font-size="20" font-weight="800">৳ ৳ ৳ !</text>
                 </g>
               </g>
             </g>
@@ -886,21 +904,21 @@
           <g id="rickshaw-dusk-layer" opacity="0">
             <rect x="0" y="0" width="1600" height="650" fill="#231c3d"/>
             <rect x="0" y="650" width="1600" height="250" fill="#181526"/>
-            <circle cx="360" cy="340" r="110" fill="url(#warm-lamp-glow)" opacity="0.65"/>
-            <circle cx="1140" cy="340" r="110" fill="url(#warm-lamp-glow)" opacity="0.65"/>
-            <rect x="355" y="340" width="10" height="310" fill="#3b334f"/>
-            <rect x="1135" y="340" width="10" height="310" fill="#3b334f"/>
+            <circle cx="480" cy="340" r="110" fill="url(#warm-lamp-glow)" opacity="0.65"/>
+            <circle cx="1120" cy="340" r="110" fill="url(#warm-lamp-glow)" opacity="0.65"/>
+            <rect x="475" y="340" width="10" height="310" fill="#3b334f"/>
+            <rect x="1115" y="340" width="10" height="310" fill="#3b334f"/>
           </g>
         `;
         sceneMidArt.innerHTML = `
           <!-- Wooden River Boat Canopy & Seat (Behind Actor) -->
-          <g id="river-boat-back" transform="translate(480, 610)">
+          <g id="river-boat-back" transform="translate(700, 610)">
             <path d="M-92 -12 C-70 -92 70 -92 92 -12 Z" fill="#8f5638" stroke="#2e180e" stroke-width="3"/>
             <path d="M-76 -12 C-56 -74 56 -74 76 -12" fill="none" stroke="#b87650" stroke-width="2.5" stroke-dasharray="6 5"/>
             <rect x="-135" y="-16" width="270" height="12" rx="4" fill="#593322"/>
           </g>
           <!-- Rickshaw Crimson Hood & Seat (Behind Actor) -->
-          <g id="rickshaw-back" transform="translate(700, 635)" opacity="0">
+          <g id="rickshaw-back" transform="translate(760, 635)" opacity="0">
             <path d="M-132 -38 C-138 -166 -6 -178 30 -88 L34 -38 Z" fill="#c44953" stroke="#3b171c" stroke-width="3.5"/>
             <path d="M-118 -78 Q-52 -140 16 -78" fill="none" stroke="#f5cb78" stroke-width="4"/>
             <rect x="-126" y="-42" width="176" height="34" rx="6" fill="#2d3b59" stroke="#141a29" stroke-width="3"/>
@@ -908,13 +926,13 @@
         `;
         sceneFgArt.innerHTML = `
           <!-- Wooden River Boat Outer Hull (In Front of Actor's Lower Legs) -->
-          <g id="river-boat-front" transform="translate(480, 610)">
+          <g id="river-boat-front" transform="translate(700, 610)">
             <path d="M-196 -18 Q0 42 196 -18 L148 38 H-148 Z" fill="#3d2219" stroke="#1c0e0a" stroke-width="3"/>
             <path d="M-162 6 Q0 44 162 6" fill="none" stroke="#784733" stroke-width="2.5"/>
             <path d="M-156 38 Q0 50 156 38" fill="none" stroke="#ffd894" stroke-width="3" opacity="0.65"/>
           </g>
           <!-- Rolling Rickshaw Side Rail, Footboard & Spoked Wheels (In Front of Actor's Lower Legs) -->
-          <g id="rickshaw-front" transform="translate(700, 635)" opacity="0">
+          <g id="rickshaw-front" transform="translate(760, 635)" opacity="0">
             <path d="M-126 -10 H58 L82 28 H-110 Z" fill="#1d2538" stroke="#0f1420" stroke-width="2.8"/>
             <path d="M-124 -42 H-24 L-12 -10 H-124 Z" fill="#24314a" stroke="#111726" stroke-width="2.5"/>
             <line x1="50" y1="-22" x2="155" y2="-22" stroke="#6c7a96" stroke-width="5"/>
@@ -1039,27 +1057,27 @@
           <circle cx="800" cy="590" r="320" fill="url(#warm-lamp-glow)"/>
         `;
         sceneMidArt.innerHTML = `
-          <!-- Four Quiet Commitment Lanterns -->
+          <!-- Four Quiet Commitment Lanterns (Framed for Mobile & Desktop) -->
           <g id="commitment-lanterns">
-            <g class="c-lantern" id="cl-1" transform="translate(340, 215)" opacity="0">
-              <rect x="-125" y="-26" width="250" height="52" rx="26" fill="rgba(255, 248, 234, 0.92)" stroke="#d9a468" stroke-width="2.5"/>
-              <text x="0" y="6" text-anchor="middle" fill="#36221c" font-size="17" font-weight="700">Pause before speaking</text>
+            <g class="c-lantern" id="cl-1" transform="translate(680, 145)" opacity="0">
+              <rect x="-115" y="-24" width="230" height="48" rx="24" fill="rgba(255, 248, 234, 0.92)" stroke="#d9a468" stroke-width="2.5"/>
+              <text x="0" y="6" text-anchor="middle" fill="#36221c" font-size="16" font-weight="700">Pause before speaking</text>
             </g>
-            <g class="c-lantern" id="cl-2" transform="translate(660, 155)" opacity="0">
-              <rect x="-135" y="-26" width="270" height="52" rx="26" fill="rgba(255, 248, 234, 0.92)" stroke="#d9a468" stroke-width="2.5"/>
-              <text x="0" y="6" text-anchor="middle" fill="#36221c" font-size="17" font-weight="700">Never threaten us</text>
+            <g class="c-lantern" id="cl-2" transform="translate(920, 145)" opacity="0">
+              <rect x="-115" y="-24" width="230" height="48" rx="24" fill="rgba(255, 248, 234, 0.92)" stroke="#d9a468" stroke-width="2.5"/>
+              <text x="0" y="6" text-anchor="middle" fill="#36221c" font-size="16" font-weight="700">Never threaten us</text>
             </g>
-            <g class="c-lantern" id="cl-3" transform="translate(980, 155)" opacity="0">
-              <rect x="-130" y="-26" width="260" height="52" rx="26" fill="rgba(255, 248, 234, 0.92)" stroke="#d9a468" stroke-width="2.5"/>
-              <text x="0" y="6" text-anchor="middle" fill="#36221c" font-size="17" font-weight="700">Listen when I hurt you</text>
+            <g class="c-lantern" id="cl-3" transform="translate(680, 225)" opacity="0">
+              <rect x="-120" y="-24" width="240" height="48" rx="24" fill="rgba(255, 248, 234, 0.92)" stroke="#d9a468" stroke-width="2.5"/>
+              <text x="0" y="6" text-anchor="middle" fill="#36221c" font-size="16" font-weight="700">Listen when I hurt you</text>
             </g>
-            <g class="c-lantern" id="cl-4" transform="translate(1280, 215)" opacity="0">
-              <rect x="-135" y="-26" width="270" height="52" rx="26" fill="rgba(255, 248, 234, 0.92)" stroke="#d9a468" stroke-width="2.5"/>
-              <text x="0" y="6" text-anchor="middle" fill="#36221c" font-size="17" font-weight="700">Respect your space &amp; time</text>
+            <g class="c-lantern" id="cl-4" transform="translate(920, 225)" opacity="0">
+              <rect x="-125" y="-24" width="250" height="48" rx="24" fill="rgba(255, 248, 234, 0.92)" stroke="#d9a468" stroke-width="2.5"/>
+              <text x="0" y="6" text-anchor="middle" fill="#36221c" font-size="16" font-weight="700">Respect your space &amp; time</text>
             </g>
           </g>
           <!-- Growing Flower Pot -->
-          <g transform="translate(1080, 650)">
+          <g transform="translate(800, 650)">
             <polygon points="-32,0 32,0 24,48 -24,48" fill="#b86449" stroke="#4d261a" stroke-width="2.5"/>
             <path id="growing-stem" d="M0 0 Q4 -36 0 -74" fill="none" stroke="#458756" stroke-width="5" stroke-linecap="round"/>
             <circle id="growing-bud" cx="0" cy="-78" r="11" fill="#f2959b" transform="scale(0.2)"/>
@@ -1392,20 +1410,20 @@
 
         if (p < 0.46) {
           // Seated cross-legged inside gliding sunset river boat
-          const boatSvgX = lerp(540, 710, p / 0.46);
+          const boatSvgX = lerp(660, 780, p / 0.46);
           t.x = toStageX(boatSvgX);
-          t.bottom = toStageBottom(694);
-          t.scale = 0.72;
-          t.pelvisY = 40;
+          t.bottom = toStageBottom(620);
+          t.scale = 0.78;
+          t.pelvisY = 36;
           t.legL = -82;
           t.shinL = 148;
           t.legR = 82;
           t.shinR = -148;
         } else if (p < 0.72) {
           // Calm humorous shrug paying unexpected boat fare on jetty
-          t.x = toStageX(965);
-          t.bottom = 14;
-          t.scale = 0.84;
+          t.x = toStageX(850);
+          t.bottom = toStageBottom(595);
+          t.scale = 0.86;
           t.armL = 36;
           t.forearmL = 54;
           t.armR = -36;
@@ -1414,11 +1432,11 @@
         } else {
           // Seated quietly on rolling twilight rickshaw seat with feet tucked on footboard
           const u = (p - 0.72) / 0.28;
-          const rickSvgX = lerp(760, 860, u);
-          t.x = toStageX(rickSvgX - 42);
-          t.bottom = toStageBottom(692);
-          t.scale = 0.7;
-          t.pelvisY = 42;
+          const rickSvgX = lerp(700, 820, u);
+          t.x = toStageX(rickSvgX - 36);
+          t.bottom = toStageBottom(625);
+          t.scale = 0.78;
+          t.pelvisY = 38;
           t.legL = -84;
           t.shinL = 104;
           t.legR = 80;
@@ -1753,7 +1771,7 @@
           shimmers.setAttribute("transform", `translate(${shX.toFixed(1)}, 0)`);
         }
 
-        const bx = lerp(540, 710, clamp(p / 0.46, 0, 1));
+        const bx = lerp(660, 780, clamp(p / 0.46, 0, 1));
         const boatVisible = p < 0.68 ? "1" : "0";
         const boatTilt = Math.sin(timeSec * 2.2) * 2.4;
         if (boatBack) {
@@ -1769,7 +1787,7 @@
         }
         const rickOp = clamp((p - 0.7) / 0.08, 0, 1);
         if (rickLayer) rickLayer.setAttribute("opacity", rickOp.toFixed(2));
-        const rx = lerp(760, 860, clamp((p - 0.72) / 0.28, 0, 1));
+        const rx = lerp(700, 820, clamp((p - 0.72) / 0.28, 0, 1));
         if (rickBack) {
           rickBack.setAttribute("opacity", rickOp.toFixed(2));
           rickBack.setAttribute("transform", `translate(${rx.toFixed(1)}, 635)`);
