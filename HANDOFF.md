@@ -95,6 +95,19 @@ Record your own natural voice (never an AI voice) as `.mp3`, `.m4a`, `.wav`, or 
 - `content/story.json`
 - `index.html`
 - `styles.css`
-- `app.js`
+- `app.js` (fixed `scene` undeclared reference error, unified `getSceneDurationMs` guard, tap-to-advance hand interaction, and universal playful character slap/punch anywhere)
 - `ASSET-CHECKLIST.md`
 - `HANDOFF.md`
+
+## Recent Bugfixes & Enhancements (26 October 2026)
+
+1. **Chapter 1 Progression Stall Fix (`app.js`)**:
+   - Replaced undeclared `scene` variable in `computeDesiredActorPose` with `sc` / `isAccountability` safety check. In the previous commit, accessing `scene.id` threw `ReferenceError: scene is not defined` on the very first frame of Chapter 1, halting the `requestAnimationFrame(tick)` animation loop and freezing the page.
+   - Introduced `getSceneDurationMs(sc)` to safely compute finite scene durations, preventing `NaN` durations even if audio files are missing or incomplete.
+2. **Hand Portal Hold vs Quick-Tap Responsiveness (`app.js`)**:
+   - **Hold (> 320ms)**: Plays the movie smoothly with animated character rig and fills the glowing progress circle. Letting go gently returns to dark spotlight pause (*"Why did you let go of my hand? Hold it when you're ready"*).
+   - **Quick Tap (< 320ms)**: If already in `"playing"`, tapping the hand instantly moves forward to the next chapter. If paused in the dark or waiting, a quick tap resumes playback immediately without re-pausing.
+   - Next/Prev buttons (`#next-chapter`, `#prev-chapter`) and Arrow keys (`→`, `←`) also advance directly into playing mode.
+3. **Universal Playful Character Slap/Punch Anytime (`app.js`)**:
+   - Nidhi can tap/click the character puppet at any point in the story to playfully wobble him with a soft cartoon foam helmet, plush bopper word (`"BONK!"`, `"OUCH!"`, `"SMACK!"`, `"POW!"`, `"WHACK!"`, `"I DESERVE THAT!"`), and Web Audio sound effect.
+

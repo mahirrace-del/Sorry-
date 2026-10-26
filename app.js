@@ -159,6 +159,12 @@
   let activeVoiceSrc = "";
   let dynamicVoiceDurationMs = 0;
 
+  function getSceneDurationMs(sc) {
+    const sceneDur = Number.isFinite(sc && sc.durationMs) && sc.durationMs > 0 ? sc.durationMs : 12000;
+    const voiceDur = Number.isFinite(dynamicVoiceDurationMs) && dynamicVoiceDurationMs > 0 ? dynamicVoiceDurationMs : 0;
+    return Math.max(sceneDur, voiceDur);
+  }
+
   // Current Interpolated Character Pose State
   const rigState = {
     x: 50,
@@ -998,7 +1004,7 @@
     const airFactor = clamp(-rigState.dropY / 90, 0, 1);
     const shScale = (1 - airFactor * 0.65) * rigState.squashX;
     const scCur = scenes[sceneIndex];
-    const pCur = scCur ? clamp(sceneElapsed / Math.max(scCur.durationMs || 12000, dynamicVoiceDurationMs), 0, 1) : 0;
+    const pCur = scCur ? clamp(sceneElapsed / getSceneDurationMs(scCur), 0, 1) : 0;
     const inVehicle = phase !== "paused-dark" && scCur && scCur.id === "river-sunset" && (pCur < 0.46 || pCur >= 0.72);
     rigShadow.setAttribute("transform", `scale(${shScale.toFixed(2)}, 1)`);
     rigShadow.setAttribute("opacity", inVehicle ? "0" : `${(1 - airFactor * 0.78).toFixed(2)}`);
@@ -1148,21 +1154,15 @@
         t.bottom = lerp(11, 7, u);
         applyWalkCycle(8.5, 16);
       }
-      return t;
-    }
-
-    // 2. PROLOGUE READY (Standing close, looking at Nidhi, reaching toward bottom-right 3D hand)
-    if (phase === "prologue-ready") {
+    } else if (phase === "prologue-ready") {
+      // 2. PROLOGUE READY (Standing close, looking at Nidhi, reaching toward bottom-right 3D hand)
       t.scale = 1.15;
       t.bottom = 7;
       t.headRot = -2.5 + breath * 1.1;
       t.armR = -38;
       t.forearmR = -24;
-      return t;
-    }
-
-    // 3. PAUSED IN DARK ("Why did you let go of my hand? Hold it when you're ready")
-    if (phase === "paused-dark") {
+    } else if (phase === "paused-dark") {
+      // 3. PAUSED IN DARK ("Why did you let go of my hand? Hold it when you're ready")
       const u = motionEnabled ? easeOutCubic(clamp(darkApproachElapsed / 1100, 0, 1)) : 1;
       const isNarrow = (window.innerWidth || 1280) <= 460;
       t.scale = isNarrow ? lerp(0.84, 0.96, u) : lerp(0.92, 1.14, u);
@@ -1174,11 +1174,8 @@
         t.armR = -36;
         t.forearmR = -22;
       }
-      return t;
-    }
-
-    // 4. BOOK PORTAL (Walking to the Memory Book table & opening the book)
-    if (phase === "book-portal") {
+    } else if (phase === "book-portal") {
+      // 4. BOOK PORTAL (Walking to the Memory Book table & opening the book)
       const p = clamp(portalElapsed / PORTAL_DURATION, 0, 1);
       if (p < 0.48) {
         const u = p / 0.48;
@@ -1194,17 +1191,15 @@
         t.armR = -58;
         t.forearmR = -28;
       }
-      return t;
-    }
+    } else {
+      // 5. CHAPTER-BY-CHAPTER MOVIE ACTING
+      const sc = scenes[sceneIndex];
+      if (sc) {
+        const dur = getSceneDurationMs(sc);
+        const p = clamp(sceneElapsed / dur, 0, 1);
 
-    // 5. CHAPTER-BY-CHAPTER MOVIE ACTING
-    const sc = scenes[sceneIndex];
-    if (!sc) return t;
-    const dur = Math.max(sc.durationMs || 12000, dynamicVoiceDurationMs);
-    const p = clamp(sceneElapsed / dur, 0, 1);
-
-    switch (sc.id) {
-      case "classmates":
+        switch (sc.id) {
+          case "classmates":
         if (p < 0.45) {
           t.x = 34;
           t.bottom = 11;
@@ -1435,29 +1430,33 @@
         t.forearmR = -28;
         t.headRot = -2.5;
         break;
-    }
-
-    // Universal Harmless Cartoon Slap/Punch/Bonk Wobble anywhere in the story!
-    const sinceBonk = timeSec - bonkAnimStart;
-    if (sinceBonk >= 0 && sinceBonk < 0.95) {
-      foamHelmet.removeAttribute("hidden");
-      if (sinceBonk < 0.45) plushBopper.removeAttribute("hidden");
-      else plushBopper.setAttribute("hidden", "");
-      const env = Math.exp(-4.8 * sinceBonk);
-      const osc = Math.cos(sinceBonk * 22);
-      t.squashY = (t.squashY || 1) - 0.16 * env * osc;
-      t.squashX = (t.squashX || 1) + 0.14 * env * osc;
-      t.headRot = (t.headRot || 0) + Math.sin(sinceBonk * 24) * 14 * env;
-      t.pelvisRot = (t.pelvisRot || 0) - Math.sin(sinceBonk * 20) * 8 * env;
-    } else {
-      if (scene && scene.id !== "accountability") {
-        foamHelmet.setAttribute("hidden", "");
       }
-      plushBopper.setAttribute("hidden", "");
     }
-
-    return t;
   }
+
+  // Universal Harmless Cartoon Slap/Punch/Bonk Wobble anywhere in the story!
+  const sinceBonk = timeSec - bonkAnimStart;
+  if (sinceBonk >= 0 && sinceBonk < 0.95) {
+    foamHelmet.removeAttribute("hidden");
+    if (sinceBonk < 0.45) plushBopper.removeAttribute("hidden");
+    else plushBopper.setAttribute("hidden", "");
+    const env = Math.exp(-4.8 * sinceBonk);
+    const osc = Math.cos(sinceBonk * 22);
+    t.squashY = (t.squashY || 1) - 0.16 * env * osc;
+    t.squashX = (t.squashX || 1) + 0.14 * env * osc;
+    t.headRot = (t.headRot || 0) + Math.sin(sinceBonk * 24) * 14 * env;
+    t.pelvisRot = (t.pelvisRot || 0) - Math.sin(sinceBonk * 20) * 8 * env;
+  } else {
+    const isAccountability = (phase === "playing" || phase === "scene-waiting") &&
+      scenes[sceneIndex] && scenes[sceneIndex].id === "accountability";
+    if (!isAccountability) {
+      foamHelmet.setAttribute("hidden", "");
+    }
+    plushBopper.setAttribute("hidden", "");
+  }
+
+  return t;
+}
 
   // Per-Frame SVG World Scenery Choreographer
   function updateSceneWorldAnimations(timeSec) {
@@ -1496,7 +1495,7 @@
     worldCamera.style.transform = "translate3d(0, 0, 0) scale(1)";
     const sc = scenes[sceneIndex];
     if (!sc) return;
-    const dur = Math.max(sc.durationMs || 12000, dynamicVoiceDurationMs);
+    const dur = getSceneDurationMs(sc);
     const p = clamp(sceneElapsed / dur, 0, 1);
 
     switch (sc.id) {
@@ -2053,7 +2052,7 @@
     } else if (phase === "playing") {
       if (isHolding || handsFree) {
         const sc = scenes[sceneIndex];
-        const dur = Math.max((sc && sc.durationMs) || 12000, dynamicVoiceDurationMs);
+        const dur = getSceneDurationMs(sc);
         sceneElapsed += dtMs;
         const pct = clamp(sceneElapsed / dur, 0, 1);
         handProgressCircle.style.strokeDashoffset = String(RING_CIRCUMFERENCE * (1 - pct));
@@ -2114,13 +2113,16 @@
 
   // Bind All Interactive Controls & Edge-Case Guards
   function bindEvents() {
-    // 3D Hand Portal Pointer Hold (with pointer capture & contextmenu suppression for mobile!)
+    let pointerDownTime = 0;
+
+    // 3D Hand Portal Pointer Hold & Tap (with pointer capture & contextmenu suppression for mobile!)
     handPortal.addEventListener("contextmenu", (ev) => ev.preventDefault());
 
     handPortal.addEventListener("pointerdown", (ev) => {
       if (ev.button !== undefined && ev.button !== 0) return;
       if (activePointerId !== null && activePointerId !== ev.pointerId) return;
       ev.preventDefault();
+      pointerDownTime = performance.now();
       activePointerId = ev.pointerId !== undefined ? ev.pointerId : -1;
       try {
         if (ev.pointerId !== undefined && handPortal.setPointerCapture) {
@@ -2133,7 +2135,36 @@
     const releasePointer = (ev) => {
       if (activePointerId === null) return;
       if (activePointerId !== -1 && ev.pointerId !== undefined && ev.pointerId !== activePointerId) return;
-      endHandHold();
+      const pressDur = performance.now() - pointerDownTime;
+      activePointerId = null;
+
+      if (pressDur < 320) {
+        // Quick tap on 3D hand!
+        if (phase === "playing") {
+          // If already playing, pressing the hand moves directly to next chapter!
+          if (sceneIndex < scenes.length - 1) {
+            enterChapter(sceneIndex + 1, "playing");
+          }
+        } else if (phase === "paused-dark") {
+          // Quick tap resumes playing and keeps playing!
+          resumeFromDarkPause();
+          isHolding = true;
+          handPortal.classList.add("is-holding");
+          handPortal.setAttribute("aria-pressed", "true");
+        } else if (phase === "scene-waiting") {
+          setBodyPhase("playing");
+          resumeAudioPlayback();
+          updateSubtitleDisplay();
+          isHolding = true;
+          handPortal.classList.add("is-holding");
+          handPortal.setAttribute("aria-pressed", "true");
+        } else if (phase === "book-portal") {
+          portalElapsed = PORTAL_DURATION;
+        }
+      } else {
+        // Continuous hold released -> gentle dark spotlight pause
+        endHandHold();
+      }
     };
     window.addEventListener("pointerup", releasePointer);
     window.addEventListener("pointercancel", releasePointer);
@@ -2165,9 +2196,7 @@
     skipIntroLink.addEventListener("click", (ev) => {
       ev.preventDefault();
       setHandsFreeMode(true);
-      if (!body.classList.contains("world-visible")) {
-        enterChapter(1, "playing");
-      }
+      enterChapter(1, "playing");
     });
 
     // HUD Controls
@@ -2207,14 +2236,14 @@
     prevBtn.addEventListener("click", () => {
       unlockAudio();
       if (sceneIndex > 1) {
-        enterChapter(sceneIndex - 1, isHolding || handsFree ? "playing" : "scene-waiting");
+        enterChapter(sceneIndex - 1, "playing");
       }
     });
 
     nextBtn.addEventListener("click", () => {
       unlockAudio();
       if (sceneIndex < scenes.length - 1) {
-        enterChapter(sceneIndex + 1, isHolding || handsFree ? "playing" : "scene-waiting");
+        enterChapter(sceneIndex + 1, "playing");
       }
     });
 
@@ -2252,11 +2281,11 @@
         }
       } else if (ev.key === "ArrowRight" && body.classList.contains("world-visible") && chaptersDrawer.hidden) {
         if (sceneIndex < scenes.length - 1) {
-          enterChapter(sceneIndex + 1, isHolding || handsFree ? "playing" : "scene-waiting");
+          enterChapter(sceneIndex + 1, "playing");
         }
       } else if (ev.key === "ArrowLeft" && body.classList.contains("world-visible") && chaptersDrawer.hidden) {
         if (sceneIndex > 1) {
-          enterChapter(sceneIndex - 1, isHolding || handsFree ? "playing" : "scene-waiting");
+          enterChapter(sceneIndex - 1, "playing");
         }
       }
     });
