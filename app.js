@@ -40,6 +40,7 @@
   const pauseLeaveBtn = $("#pause-leave");
 
   const bonkUi = $("#bonk-ui");
+  const standUpBtn = $("#stand-up-btn");
   const bonkBtn = $("#bonk-button");
   const bonkActionLabel = $("#bonk-action-label");
   const skipBonkBtn = $("#skip-bonk");
@@ -124,6 +125,7 @@
   let bonkSkipped = false;
   let bonkCount = 0;
   let bonkAnimStart = -10;
+  let squatApologyForgiven = false;
   let dustTriggered = false;
   let renderedSceneKey = "";
   let lastLightboxTrigger = null;
@@ -1496,22 +1498,71 @@
         }
         break;
 
-      case "accountability":
+      case "accountability": {
         t.x = 50;
         t.bottom = 10;
         t.scale = 0.98;
-        if (p < 0.45) {
-          // Hand over chest in direct accountability
+
+        if (squatApologyForgiven) {
+          // She pressed "It's okay, stand up" -> Standing tall with hand on heart, relieved & thankful
+          t.headRot = 2;
           t.armR = -34;
-          t.forearmR = 64;
-          t.headRot = 3;
-        } else {
-          // Attentive calm listening stance
-          t.headRot = -2;
+          t.forearmR = 62; // hand over heart
           t.armL = 10;
-          t.armR = -10;
+          t.forearmL = -8;
+          t.pelvisY = 0;
+          t.spineRot = 0;
+        } else if (p < 0.16) {
+          // 0% - 16%: Reaching hands up to hold ears in deep remorse
+          const u = easeOutCubic(clamp(p / 0.16, 0, 1));
+          t.armL = lerp(8, -142, u);
+          t.forearmL = lerp(-6, 78, u);
+          t.armR = lerp(-8, 142, u);
+          t.forearmR = lerp(6, -78, u);
+          t.headRot = lerp(0, 8, u);
+          t.spineRot = lerp(0, 5, u);
+          t.pelvisY = 0;
+        } else if (p < 0.88) {
+          // 16% - 88%: Holding ears and taking 3 sincere squats ("কান ধরে উঠবস" school punishment apology)
+          t.armL = -142;
+          t.forearmL = 78;
+          t.armR = 142;
+          t.forearmR = -78;
+
+          const windowP = (p - 0.16) / 0.72; // 0 to 1
+          const cycles = 3;
+          const phaseAngle = windowP * cycles * Math.PI * 2;
+          const rawSquat = (1 - Math.cos(phaseAngle)) / 2;
+          const squatAmount = Math.pow(rawSquat, 1.25);
+
+          t.pelvisY = lerp(0, 84, squatAmount);
+          t.legL = lerp(0, -52, squatAmount);
+          t.shinL = lerp(0, 106, squatAmount);
+          t.footL = lerp(0, -26, squatAmount);
+          t.legR = lerp(0, 52, squatAmount);
+          t.shinR = lerp(0, -106, squatAmount);
+          t.footR = lerp(0, 26, squatAmount);
+          t.spineRot = lerp(5, 12, squatAmount);
+          t.headRot = lerp(8, 14, squatAmount);
+          t.squashY = lerp(1, 0.96, squatAmount);
+          t.squashX = lerp(1, 1.04, squatAmount);
+        } else {
+          // 88% - 100%: Completed 3 squats, standing up respectfully, lowering hands
+          const u = easeOutCubic(clamp((p - 0.88) / 0.12, 0, 1));
+          t.armL = lerp(-142, 8, u);
+          t.forearmL = lerp(78, -6, u);
+          t.armR = lerp(142, -32, u);
+          t.forearmR = lerp(-78, 62, u);
+          t.headRot = lerp(14, 2, u);
+          t.spineRot = lerp(10, 0, u);
+          t.pelvisY = lerp(35, 0, u);
+          t.legL = lerp(-16, 0, u);
+          t.shinL = lerp(32, 0, u);
+          t.legR = lerp(16, 0, u);
+          t.shinR = lerp(-32, 0, u);
         }
         break;
+      }
 
       case "change":
         t.x = lerp(42, 52, p);
@@ -1836,6 +1887,8 @@
     nextBtn.disabled = sceneIndex >= scenes.length - 1;
 
     // Optional Bonk UI (Accountability only)
+    squatApologyForgiven = false;
+    if (standUpBtn) standUpBtn.disabled = false;
     const hasBonk = Boolean(sc.optionalInteraction);
     bonkUi.hidden = !hasBonk;
     if (hasBonk) {
@@ -2485,6 +2538,23 @@
       closeChaptersBtn.focus();
     });
     pauseLeaveBtn.addEventListener("click", openQuietExit);
+
+    // Sincere Ear-Holding Apology "It's okay, stand up" Button (Chapter 11)
+    if (standUpBtn) {
+      standUpBtn.addEventListener("click", () => {
+        squatApologyForgiven = true;
+        announce("You told him it's okay and to stand up.");
+        if (bonkFeedback) {
+          bonkFeedback.textContent = "🤍 Thank you… I promise I will never speak that way again.";
+        }
+        standUpBtn.disabled = true;
+        setTimeout(() => {
+          if (scenes[sceneIndex] && scenes[sceneIndex].id === "accountability") {
+            enterChapter(sceneIndex + 1, "playing");
+          }
+        }, 1800);
+      });
+    }
 
     // Slap / Punch / Bonk anywhere in the story:
     bonkBtn.addEventListener("click", triggerBonk);

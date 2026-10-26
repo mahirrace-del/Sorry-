@@ -1,6 +1,6 @@
 # Antigravity Handoff — Until You Hold My Hand (Interactive Movie-Game)
 
-Last updated: 26 October 2026 (Responsive Multi-Screen Background Adaptation for Mobile, iPad, Samsung Tab, and PC + Whisper-Quiet Music Volume)
+Last updated: 26 October 2026 (Ear-Holding Squat School-Punishment Apology ("কান ধরে উঠবস") + Multi-Screen Background Adaptation & Whisper Audio)
 
 ## Project overview
 
@@ -8,7 +8,12 @@ Last updated: 26 October 2026 (Responsive Multi-Screen Background Adaptation for
 
 ## What is included & verified in this build
 
-1. **Full Responsive Background Adaptation (All Screen Sizes)**:
+1. **Sincere Ear-Holding Squat / Knee-Down Apology ("কান ধরে উঠবস" in Chapter 11)**:
+   - **Animation Choreography**: In Chapter 11 (*What I am sorry for now*), as the narrator acknowledges his hurtful words, he raises both hands up to firmly hold his ears (`t.armL = -142`, `t.forearmL = 78`, `t.armR = 142`, `t.forearmR = -78`), bows his head, and bends down into 3 deep, earnest kneeling squats on the floor.
+   - **Interactive Forgiveness Button (`[ 🤍 It's okay, stand up ]`)**: Nidhi can tap this button at any point during his squats. He immediately lets go of his ears, places his hand over his heart with a grateful nod, stands tall, and the story smoothly transitions forward after a warm acknowledgement (*"🤍 Thank you… I promise I will never speak that way again."*).
+   - **Zero-Pressure Fallback**: If she doesn't press anything or is watching hands-free, he naturally completes the 3 squats, stands up humbly, and the story automatically turns the page to Chapter 12 (Commitments).
+
+2. **Full Responsive Background Adaptation (All Screen Sizes)**:
    - **Resolved Mobile Background Cut-off**: Switched `scene-canvas` and `scene-fg-canvas` from `xMidYMid slice` to `xMidYMid meet` so the entire background artwork is 100% visible on all screens.
    - **Unified 16:9 Cinematic Container (`.world-camera`)**: Sized to `width: min(100vw, calc(100dvh * 16 / 9)); height: min(100dvh, calc(100vw * 9 / 16)); aspect-ratio: 16 / 9; flex-shrink: 0;`, perfectly centered via flexbox in `.world-layer`.
    - **Cross-Device Compatibility**:
@@ -19,7 +24,7 @@ Last updated: 26 October 2026 (Responsive Multi-Screen Background Adaptation for
    - **Seamless Floor & Sky Bleed**: Implemented `--ground-bot` per scene with vertical gradient so the floor color smoothly extends to the bottom of portrait devices while sky covers the top.
    - **Aligned Actor & Photo Frames**: Embedded `frames-layer` inside `.world-camera` and scaled `.actor-world-mount .actor` to `18.5%` so character and photo frames stay 1:1 aligned with the scenery across all devices.
 
-2. **Whisper-Quiet Background Music Volume**:
+3. **Whisper-Quiet Background Music Volume**:
    - Decreased `ambientAudio.volume` to `0.04` (a gentle, unobtrusive background instrumental bed).
    - Allows the spoken voiceover (`1.0`) to be completely clear, prominent, and intelligible across all smartphone speakers and headphones.
 
