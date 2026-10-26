@@ -426,7 +426,10 @@ body[data-phase="paused-dark"] .spotlight-motes {
   font-size: clamp(0.95rem, 2vw, 1.15rem);
   letter-spacing: 0.02em;
   opacity: 0;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 

@@ -5,6 +5,7 @@
   "autoDetectLocalAssets": true,
   "ambientMusic": {
     "src": "assets/audio/ambient-instrumental.mp3",
+    "altSrc": "assets/audio/videoplayback.weba",
     "enabled": true
   },
   "specialVoices": {

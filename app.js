@@ -106,6 +106,7 @@
   let resumeTargetPhase = "playing"; // "book-portal" or "playing"
   let sceneIndex = 1; // 1..scenes.length-1 are memory/apology/closing chapters
   let prologueElapsed = 0;
+  let prologueVoiceTriggered = false;
   let portalElapsed = 0;
   const PORTAL_DURATION = 5000;
   let sceneElapsed = 0;
@@ -154,7 +155,7 @@
   holdPromptAudio.addEventListener("error", () => {});
   const ambientAudio = new Audio();
   ambientAudio.loop = true;
-  ambientAudio.volume = 0.22;
+  ambientAudio.volume = 0.10;
   ambientAudio.addEventListener("error", () => {});
   const voiceDurationCache = new Map();
   let activeVoiceSrc = "";
@@ -286,6 +287,20 @@
   }
 
   // Audio Management
+  let pendingVoicePlay = false;
+
+  function wakeAudioContext() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        if (!window._movieAudioCtx) window._movieAudioCtx = new AudioCtx();
+        if (window._movieAudioCtx.state === "suspended") {
+          window._movieAudioCtx.resume().catch(() => {});
+        }
+      }
+    } catch (_) {}
+  }
+
   function stopHoldPromptAudio() {
     if (!holdPromptAudio.paused) {
       holdPromptAudio.pause();
@@ -296,13 +311,25 @@
   }
 
   function unlockAudio() {
-    if (audioUnlocked) return;
+    wakeAudioContext();
+    if (audioUnlocked) {
+      if (ambientAudio.src && ambientAudio.paused && soundEnabled && !isModalOpen() && phase !== "paused-dark" && phase !== "quiet-closed") {
+        ambientAudio.play().catch(() => {});
+      }
+      return;
+    }
     audioUnlocked = true;
     const ambSrc = resolveAssetPath(storyData && storyData.ambientMusic, localFiles.audio);
     if (ambSrc && soundEnabled) {
-      ambientAudio.src = ambSrc;
+      if (ambientAudio.getAttribute("data-src") !== ambSrc) {
+        ambientAudio.src = ambSrc;
+        ambientAudio.setAttribute("data-src", ambSrc);
+      }
+      ambientAudio.volume = 0.10;
       ambientAudio.muted = !soundEnabled;
-      ambientAudio.play().catch(() => {});
+      if (!isModalOpen() && phase !== "paused-dark" && phase !== "quiet-closed") {
+        ambientAudio.play().catch(() => {});
+      }
     }
   }
 
@@ -312,6 +339,7 @@
     activeVoiceSrc = "";
     dynamicVoiceDurationMs = 0;
     replayVoiceBtn.hidden = true;
+    pendingVoicePlay = false;
   }
 
   function playVoiceForConfig(voiceCfg) {
@@ -322,6 +350,7 @@
       voiceAudio.pause();
       activeVoiceSrc = "";
       replayVoiceBtn.hidden = true;
+      pendingVoicePlay = false;
       return;
     }
     replayVoiceBtn.hidden = false;
@@ -346,10 +375,27 @@
       phase === "book-portal" ||
       phase === "prologue-ready" ||
       phase === "prologue-drop";
-    if (audioUnlocked && soundEnabled && canAutoStart && !isModalOpen()) {
-      voiceAudio.play().catch(() => {});
+    if (soundEnabled && canAutoStart && !isModalOpen()) {
+      const playPromise = voiceAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          audioUnlocked = true;
+          pendingVoicePlay = false;
+          if (hiWhisper) hiWhisper.textContent = "Hi, Nidhi…";
+          if (ambientAudio.src && ambientAudio.paused && soundEnabled && phase !== "paused-dark" && phase !== "quiet-closed") {
+            ambientAudio.play().catch(() => {});
+          }
+        }).catch(() => {
+          // Mobile/browser autoplay policy requires user activation touch/tap
+          pendingVoicePlay = true;
+          if (hiWhisper && (phase === "prologue-drop" || phase === "prologue-ready")) {
+            hiWhisper.textContent = "Hi, Nidhi… (Tap to listen ♪)";
+          }
+        });
+      }
     } else if (!voiceAudio.paused) {
       voiceAudio.pause();
+      pendingVoicePlay = false;
     }
   }
 
@@ -370,11 +416,12 @@
 
   function resumeAudioPlayback() {
     stopHoldPromptAudio();
-    if (!audioUnlocked || !soundEnabled || isModalOpen()) return;
+    if (!soundEnabled || isModalOpen()) return;
+    unlockAudio();
     if (activeVoiceSrc && voiceAudio.paused && voiceAudio.currentTime < (voiceAudio.duration || Infinity)) {
       voiceAudio.play().catch(() => {});
     }
-    if (ambientAudio.src && ambientAudio.paused) {
+    if (ambientAudio.src && ambientAudio.paused && phase !== "paused-dark" && phase !== "quiet-closed") {
       ambientAudio.play().catch(() => {});
     }
   }
@@ -2045,6 +2092,9 @@
     mountActorTo(actorDarkMount);
 
     prologueElapsed = 0;
+    prologueVoiceTriggered = false;
+    pendingVoicePlay = false;
+    if (hiWhisper) hiWhisper.textContent = "Hi, Nidhi…";
     dustTriggered = false;
     rigState.dropY = -120;
     rigState.scale = 0.86;
@@ -2056,11 +2106,13 @@
       body.classList.add("spotlight-on");
       body.dataset.hud = "ready";
       prologueElapsed = 6200;
+      prologueVoiceTriggered = true;
       rigState.dropY = 0;
       rigState.scale = 1.15;
       rigState.bottom = 7;
       setBodyPhase("prologue-ready");
       handCornerWrap.dataset.visible = "true";
+      playVoiceForConfig(scenes[0] && scenes[0].voice);
       updateSubtitleDisplay();
     } else {
       setBodyPhase("blackout");
@@ -2101,9 +2153,11 @@
       body.classList.add("spotlight-on");
       body.dataset.hud = "ready";
       prologueElapsed = 6200;
+      prologueVoiceTriggered = true;
       rigState.dropY = 0;
       setBodyPhase("prologue-ready");
       handCornerWrap.dataset.visible = "true";
+      playVoiceForConfig(scenes[0] && scenes[0].voice);
       updateSubtitleDisplay();
     }
   }
@@ -2130,17 +2184,21 @@
         void landingDust.offsetWidth;
         landingDust.classList.add("is-active");
       }
-      if (prologueElapsed >= 3650 && prologueElapsed < 4950) {
+      if (prologueElapsed >= 3650 && prologueElapsed < 5600) {
         hiWhisper.classList.add("is-visible");
       } else {
         hiWhisper.classList.remove("is-visible");
       }
-      if (prologueElapsed >= 5650 && handCornerWrap.dataset.visible !== "true") {
+      if (prologueElapsed >= 3650 && !prologueVoiceTriggered) {
+        prologueVoiceTriggered = true;
+        playVoiceForConfig(scenes[0] && scenes[0].voice);
+        updateSubtitleDisplay();
+      }
+      if (prologueElapsed >= 4700 && handCornerWrap.dataset.visible !== "true") {
         handCornerWrap.dataset.visible = "true";
         body.dataset.hud = "ready";
-        playVoiceForConfig(scenes[0] && scenes[0].voice);
       }
-      if (prologueElapsed >= 6050) {
+      if (prologueElapsed >= 5800 && phase !== "prologue-ready") {
         setBodyPhase("prologue-ready");
         updateSubtitleDisplay();
       }
@@ -2222,6 +2280,27 @@
   // Bind All Interactive Controls & Edge-Case Guards
   function bindEvents() {
     let pointerDownTime = 0;
+
+    // Mobile & Desktop Audio Unlocker (Unlocks HTML5 audio & Web Audio context on very first screen touch)
+    function handleGlobalTouchUnlock() {
+      unlockAudio();
+      if (pendingVoicePlay && activeVoiceSrc && soundEnabled && !isModalOpen()) {
+        pendingVoicePlay = false;
+        if (hiWhisper) hiWhisper.textContent = "Hi, Nidhi…";
+        try {
+          voiceAudio.currentTime = 0;
+        } catch (_) {}
+        voiceAudio.play().catch(() => {});
+      }
+    }
+
+    ["pointerdown", "touchstart", "touchend", "mousedown", "click", "keydown"].forEach((evt) => {
+      window.addEventListener(evt, handleGlobalTouchUnlock, { capture: true, passive: true });
+    });
+    if (hiWhisper) {
+      hiWhisper.addEventListener("click", handleGlobalTouchUnlock);
+      hiWhisper.addEventListener("touchstart", handleGlobalTouchUnlock, { passive: true });
+    }
 
     // 3D Hand Portal Pointer Hold & Tap (with pointer capture & contextmenu suppression for mobile!)
     handPortal.addEventListener("contextmenu", (ev) => ev.preventDefault());
