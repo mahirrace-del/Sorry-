@@ -25,6 +25,7 @@
   const sceneBgArt = $("#scene-bg-art");
   const sceneMidArt = $("#scene-mid-art");
   const sceneFgArt = $("#scene-fg-art");
+  const cinemaParticles = $("#cinema-particles");
   const actorWorldMount = $("#actor-world-mount");
   const actorDarkMount = $("#actor-dark-mount");
   const framesLayer = $("#frames-layer");
@@ -114,7 +115,7 @@
   let activePointerId = null;
   let keyboardHoldActive = false;
   let handsFree = false;
-  let ccEnabled = false;
+  let ccEnabled = true;
   let motionEnabled = true;
   let soundEnabled = true;
   let audioUnlocked = false;
@@ -273,8 +274,12 @@
       const fileName = clean.split("/").pop().toLowerCase();
       const dotIdx = fileName.lastIndexOf(".");
       const stem = dotIdx > 0 ? fileName.slice(0, dotIdx) : fileName;
-      if (folderMap.has(fileName)) return folderMap.get(fileName);
-      if (folderMap.has(stem)) return folderMap.get(stem);
+      if (folderMap && folderMap.has(fileName)) return folderMap.get(fileName);
+      if (folderMap && folderMap.has(stem)) return folderMap.get(stem);
+      if (localFiles.voice && localFiles.voice.has(fileName)) return localFiles.voice.get(fileName);
+      if (localFiles.voice && localFiles.voice.has(stem)) return localFiles.voice.get(stem);
+      if (localFiles.audio && localFiles.audio.has(fileName)) return localFiles.audio.get(fileName);
+      if (localFiles.audio && localFiles.audio.has(stem)) return localFiles.audio.get(stem);
       if (configObj.enabled === true) return `./${clean}`;
     }
     return "";
@@ -418,6 +423,54 @@
       default:
         return `<svg viewBox="0 0 240 180" aria-hidden="true"><rect width="240" height="180" fill="#f4e6d2"/><rect x="34" y="30" width="172" height="120" rx="8" fill="none" stroke="#8c684c" stroke-width="2" stroke-dasharray="5 5"/><circle cx="92" cy="74" r="13" fill="#eab676"/><path d="M46 138 L96 96 L134 124 L164 102 L194 138 Z" fill="#c9956b" opacity="0.65"/></svg>`;
     }
+  }
+
+  function spawnCinemaParticles(sceneId) {
+    if (!cinemaParticles) return;
+    cinemaParticles.innerHTML = "";
+    if (!motionEnabled) return;
+
+    let particleClass = "particle-dust";
+    let count = 12;
+
+    if (sceneId === "rooftop-snap" || sceneId === "first-i-love-you" || sceneId === "book-portal") {
+      particleClass = "particle-firefly";
+      count = 18;
+    } else if (sceneId === "closing") {
+      particleClass = "particle-petal";
+      count = 22;
+    } else if (sceneId === "distance") {
+      particleClass = "particle-raindrop";
+      count = 24;
+    } else if (sceneId === "classmates" || sceneId === "love-teacher") {
+      particleClass = "particle-dust";
+      count = 16;
+    } else if (sceneId === "river-sunset") {
+      particleClass = "particle-firefly";
+      count = 15;
+    } else {
+      particleClass = "particle-dust";
+      count = 10;
+    }
+
+    const frag = (typeof document.createDocumentFragment === "function")
+      ? document.createDocumentFragment()
+      : cinemaParticles;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement("div");
+      p.className = `cinema-particle ${particleClass}`;
+      p.style.left = `${(Math.random() * 96 + 2).toFixed(1)}%`;
+      p.style.top = `${(Math.random() * 88 + 4).toFixed(1)}%`;
+      p.style.animationDelay = `${(Math.random() * 6).toFixed(2)}s`;
+      p.style.animationDuration = `${(5 + Math.random() * 4).toFixed(2)}s`;
+      if (particleClass === "particle-firefly") {
+        const sz = (3.5 + Math.random() * 3).toFixed(1);
+        p.style.width = `${sz}px`;
+        p.style.height = `${sz}px`;
+      }
+      frag.appendChild(p);
+    }
+    if (frag !== cinemaParticles) cinemaParticles.appendChild(frag);
   }
 
   function renderFramesForScene(scene) {
@@ -1162,7 +1215,7 @@
       t.armR = -38;
       t.forearmR = -24;
     } else if (phase === "paused-dark") {
-      // 3. PAUSED IN DARK ("Why did you let go of my hand? Hold it when you're ready")
+      // 3. PAUSED IN DARK (neutral pause; resume, watch hands-free, or leave)
       const u = motionEnabled ? easeOutCubic(clamp(darkApproachElapsed / 1100, 0, 1)) : 1;
       const isNarrow = (window.innerWidth || 1280) <= 460;
       t.scale = isNarrow ? lerp(0.84, 0.96, u) : lerp(0.92, 1.14, u);
@@ -1503,38 +1556,60 @@
         const onlineVig = $("#online-school-vignette");
         const laptop = $("#online-laptop-group");
         const plane = $("#paper-plane");
+        const zzz = $("#sleepy-zzz");
         const fadeOut = 1 - clamp((p - 0.38) / 0.12, 0, 1);
         if (onlineVig) onlineVig.setAttribute("opacity", fadeOut.toFixed(2));
         if (laptop) laptop.setAttribute("opacity", fadeOut.toFixed(2));
-        if (plane && p > 0.45) {
-          const u = (p - 0.45) / 0.55;
-          const px = lerp(420, 1180, u);
+        if (zzz && p < 0.42) {
+          const zo = 0.5 + Math.sin(timeSec * 3) * 0.4;
+          zzz.setAttribute("opacity", zo.toFixed(2));
+          zzz.setAttribute("transform", `translate(0, ${(Math.sin(timeSec * 2) * 6).toFixed(1)})`);
+        }
+        if (plane && p > 0.42) {
+          const u = (p - 0.42) / 0.58;
+          const px = lerp(420, 1220, u);
           const py = 320 - Math.sin(u * Math.PI) * 95;
-          plane.setAttribute("transform", `translate(${px.toFixed(1)}, ${py.toFixed(1)}) rotate(${(u * 18 - 8).toFixed(1)})`);
+          plane.setAttribute("transform", `translate(${px.toFixed(1)}, ${py.toFixed(1)}) rotate(${(u * 22 - 10).toFixed(1)})`);
         }
         break;
       }
       case "science-project": {
-        const lit = p > 0.42;
+        const lit = p > 0.4;
         document.querySelectorAll(".circuit-win").forEach((el) => {
           el.setAttribute("fill", lit ? "#ffe494" : "#3b3530");
         });
         document.querySelectorAll(".circuit-led").forEach((el, idx) => {
           el.setAttribute("fill", lit ? (idx === 0 ? "#ff6b6b" : "#5be3c8") : "#555");
         });
+        const wire = $("#circuit-wire-line");
+        if (wire) {
+          const dashOffset = (timeSec * 45) % 30;
+          wire.setAttribute("stroke-dashoffset", String(-dashOffset.toFixed(1)));
+          wire.setAttribute("stroke", lit ? "#f39c12" : "#d9534f");
+        }
         const card = $("#first-msg-card");
         if (card) {
-          const cu = easeOutCubic(clamp((p - 0.58) / 0.2, 0, 1));
+          const cu = easeOutCubic(clamp((p - 0.52) / 0.22, 0, 1));
           card.setAttribute("opacity", cu.toFixed(2));
           card.setAttribute("transform", `translate(1115, ${lerp(280, 330, cu).toFixed(1)})`);
         }
         break;
       }
       case "rooftop-snap": {
+        const n1 = $("#note-1");
+        const n2 = $("#note-2");
+        const n3 = $("#note-3");
+        if (n1) n1.setAttribute("transform", `translate(0, ${(Math.sin(timeSec * 3) * 12).toFixed(1)})`);
+        if (n2) n2.setAttribute("transform", `translate(0, ${(Math.sin(timeSec * 3 + 1.2) * 14).toFixed(1)})`);
+        if (n3) n3.setAttribute("transform", `translate(0, ${(Math.sin(timeSec * 3 + 2.4) * 10).toFixed(1)})`);
+        const cl = $("#balcony-curtain-l");
+        const cr = $("#balcony-curtain-r");
+        if (cl) cl.setAttribute("transform", `skewX(${(Math.sin(timeSec * 1.8) * 4).toFixed(1)})`);
+        if (cr) cr.setAttribute("transform", `skewX(${(-Math.sin(timeSec * 1.8) * 4).toFixed(1)})`);
         const snapCard = $("#snap-travel-card");
         if (snapCard) {
-          if (p > 0.52 && p < 0.76) {
-            const u = (p - 0.52) / 0.24;
+          if (p > 0.5 && p < 0.76) {
+            const u = (p - 0.5) / 0.26;
             snapCard.setAttribute("opacity", "0.95");
             snapCard.setAttribute("transform", `translate(${lerp(1140, 560, u).toFixed(1)}, ${lerp(430, 390, Math.sin(u * Math.PI)).toFixed(1)})`);
           } else if (p >= 0.76) {
@@ -1552,12 +1627,15 @@
         const candle = $("#powercut-candle");
         const arc = $("#silent-song-arc");
         const coachLayer = $("#coaching-day-layer");
-        const powerOut = p > 0.14 && p < 0.5;
+        const powerOut = p > 0.12 && p < 0.48;
         if (gridWins) gridWins.setAttribute("opacity", powerOut ? "0.06" : "0.9");
-        if (candle) candle.setAttribute("opacity", powerOut ? "0.85" : "0");
-        if (arc) arc.setAttribute("opacity", powerOut ? "0.75" : "0");
+        if (candle) {
+          const candleFlicker = 0.8 + Math.sin(timeSec * 8) * 0.15;
+          candle.setAttribute("opacity", powerOut ? candleFlicker.toFixed(2) : "0");
+        }
+        if (arc) arc.setAttribute("opacity", powerOut ? "0.85" : "0");
         if (coachLayer) {
-          const dayOp = clamp((p - 0.48) / 0.1, 0, 1);
+          const dayOp = clamp((p - 0.46) / 0.12, 0, 1);
           coachLayer.setAttribute("opacity", dayOp.toFixed(2));
         }
         break;
@@ -1571,15 +1649,21 @@
         const rickFront = $("#rickshaw-front");
         const wBack = $("#rickshaw-wheel-back");
         const wFront = $("#rickshaw-wheel-front");
+        const shimmers = $("#water-shimmers");
+        if (shimmers) {
+          const shX = Math.sin(timeSec * 1.6) * 18;
+          shimmers.setAttribute("transform", `translate(${shX.toFixed(1)}, 0)`);
+        }
 
         const bx = lerp(540, 710, clamp(p / 0.46, 0, 1));
         const boatVisible = p < 0.68 ? "1" : "0";
+        const boatTilt = Math.sin(timeSec * 2.2) * 2.4;
         if (boatBack) {
-          boatBack.setAttribute("transform", `translate(${bx.toFixed(1)}, 610)`);
+          boatBack.setAttribute("transform", `translate(${bx.toFixed(1)}, 610) rotate(${boatTilt.toFixed(1)})`);
           boatBack.setAttribute("opacity", boatVisible);
         }
         if (boatFront) {
-          boatFront.setAttribute("transform", `translate(${bx.toFixed(1)}, 610)`);
+          boatFront.setAttribute("transform", `translate(${bx.toFixed(1)}, 610) rotate(${boatTilt.toFixed(1)})`);
           boatFront.setAttribute("opacity", boatVisible);
         }
         if (jetty) {
@@ -1597,9 +1681,16 @@
           rickFront.setAttribute("transform", `translate(${rx.toFixed(1)}, 635)`);
         }
         if (motionEnabled && rickOp > 0) {
-          const deg = (timeSec * 160) % 360;
+          const deg = (timeSec * 180) % 360;
           if (wBack) wBack.setAttribute("transform", `translate(-75, 12) rotate(${deg.toFixed(1)})`);
           if (wFront) wFront.setAttribute("transform", `translate(165, 16) rotate(${deg.toFixed(1)})`);
+        }
+        break;
+      }
+      case "love-teacher": {
+        const mNotes = $("#morning-notes");
+        if (mNotes) {
+          mNotes.setAttribute("transform", `translate(0, ${(Math.sin(timeSec * 2) * 8).toFixed(1)})`);
         }
         break;
       }
@@ -1616,17 +1707,26 @@
       case "chocolate-snap": {
         const winGlow = $("#reconnect-window-glow");
         const thread = $("#reconnect-light-thread");
-        const warmU = clamp((p - 0.55) / 0.3, 0, 1);
-        if (winGlow) winGlow.setAttribute("opacity", lerp(0.18, 0.92, warmU).toFixed(2));
-        if (thread) thread.setAttribute("opacity", warmU.toFixed(2));
+        const warmU = clamp((p - 0.5) / 0.35, 0, 1);
+        if (winGlow) winGlow.setAttribute("opacity", lerp(0.18, 0.95, warmU).toFixed(2));
+        if (thread) {
+          const dash = (timeSec * 22) % 36;
+          thread.setAttribute("stroke-dashoffset", String(-dash.toFixed(1)));
+          thread.setAttribute("opacity", warmU.toFixed(2));
+        }
         break;
       }
       case "first-i-love-you": {
+        const novStars = $("#nov-stars");
+        if (novStars) {
+          const stGlow = 0.85 + Math.sin(timeSec * 3) * 0.15;
+          novStars.setAttribute("opacity", stGlow.toFixed(2));
+        }
         const ripples = $("#call-ripples");
         if (ripples) {
-          const ru = clamp((p - 0.42) / 0.28, 0, 1);
+          const ru = clamp((p - 0.38) / 0.3, 0, 1);
           ripples.setAttribute("opacity", ru.toFixed(2));
-          const scPulse = 0.92 + (motionEnabled ? Math.sin(timeSec * 2) * 0.06 : 0);
+          const scPulse = 0.92 + (motionEnabled ? Math.sin(timeSec * 2.4) * 0.08 : 0);
           ripples.setAttribute("transform", `translate(840, 320) scale(${scPulse.toFixed(3)})`);
         }
         break;
@@ -1635,14 +1735,18 @@
         ["#cl-1", "#cl-2", "#cl-3", "#cl-4"].forEach((id, idx) => {
           const el = $(id);
           if (el) {
-            const u = clamp((p - (0.08 + idx * 0.18)) / 0.14, 0, 1);
+            const u = clamp((p - (0.06 + idx * 0.2)) / 0.16, 0, 1);
             el.setAttribute("opacity", u.toFixed(2));
+            const bob = Math.sin(timeSec * 2 + idx) * 4;
+            const curY = idx === 0 || idx === 3 ? 215 : 155;
+            const curX = idx === 0 ? 340 : idx === 1 ? 660 : idx === 2 ? 980 : 1280;
+            el.setAttribute("transform", `translate(${curX}, ${(curY + bob).toFixed(1)})`);
           }
         });
         const bud = $("#growing-bud");
         if (bud) {
-          const bu = easeOutCubic(clamp((p - 0.2) / 0.7, 0, 1));
-          bud.setAttribute("transform", `scale(${lerp(0.25, 1.35, bu).toFixed(2)})`);
+          const bu = easeOutCubic(clamp((p - 0.18) / 0.72, 0, 1));
+          bud.setAttribute("transform", `scale(${lerp(0.25, 1.4, bu).toFixed(2)})`);
         }
         break;
       }
@@ -1674,6 +1778,7 @@
     mountActorTo(actorWorldMount);
     buildStageArt(sc.id);
     renderFramesForScene(sc);
+    spawnCinemaParticles(sc.id);
 
     // Chapter HUD indicator
     const total = scenes.length - 1;
@@ -1718,6 +1823,7 @@
     hiWhisper.classList.remove("is-visible");
     mountActorTo(actorWorldMount);
     buildStageArt("book-portal");
+    spawnCinemaParticles("book-portal");
     framesLayer.innerHTML = "";
     bonkUi.hidden = true;
     closingUi.hidden = true;
@@ -1748,7 +1854,7 @@
     mountActorTo(actorDarkMount);
 
     const holdCfg = storyData && storyData.specialVoices && storyData.specialVoices.holdReturn;
-    darkPauseLine.textContent = (holdCfg && holdCfg.subtitle) || "Why did you let go of my hand? Hold it when you're ready.";
+    darkPauseLine.textContent = (holdCfg && holdCfg.subtitle) || "We've paused here. Take your time. Resume, watch hands-free, or leave whenever you want—no explanation needed.";
     darkPausePanel.hidden = false;
     handCornerWrap.dataset.visible = "true";
     handWhisper.textContent = "Hold my hand";
@@ -1915,6 +2021,7 @@
     frameLightbox.hidden = true;
     setBodyPhase("quiet-closed");
     quietScreen.hidden = false;
+    if (cinemaParticles) cinemaParticles.innerHTML = "";
     restartFromQuietBtn.focus();
     announce("Story closed quietly. Take all the time you need.");
   }
@@ -1925,6 +2032,7 @@
     bonkUi.hidden = true;
     darkPausePanel.hidden = true;
     framesLayer.innerHTML = "";
+    if (cinemaParticles) cinemaParticles.innerHTML = "";
     stopVoice();
     body.classList.remove("world-visible", "spotlight-on");
     delete body.dataset.scene;
@@ -2347,6 +2455,7 @@
 
     mountActorTo(actorDarkMount);
     bindEvents();
+    if (ccToggleBtn) ccToggleBtn.setAttribute("aria-pressed", String(ccEnabled));
     renderChaptersList();
 
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");

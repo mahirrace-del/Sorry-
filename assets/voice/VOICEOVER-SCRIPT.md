@@ -1,201 +1,92 @@
-# Voice-over script — *Until You Hold My Hand*
+# Scene-by-scene voice script — *Until You Hold My Hand*
 
-**Read direction:** Use your own voice or a voice model trained only on your own voice. Speak naturally, warmly, and clearly; aim for about 125–140 words per minute. Let the tenderness come from the memories. Keep the apology steady and accountable, not theatrical. The bracketed scene notes are not spoken. Do not add sobbing, pleading, or extra lines.
+This is a set of short voice lines for the live game's opening, Memory Book transition, pause, and 13 chapters. Each clip should accompany its scene, not retell the entire relationship. Keep the delivery natural, warm, and romantic. Bracketed directions are not spoken. The opening is an invitation; the direct apology comes later. Nidhi can pause, skip, watch hands-free, or leave at any time.
 
-Record each section as its own MP3 in this folder using the exact filenames in this document. The pause/leave line in the opening and the gentle hold-return line are intentional: Nidhi can stop at any time without explaining.
-
----
-
-## opening.mp3
-*[After the character drops, wakes, stands, and looks toward Nidhi.]*
+## `opening.mp3` — The hand invitation
+*[The character lands, gets up, looks at Nidhi, then offers his hand. A little sheepish warmth; no apology yet.]*
 
 Hi, Nidhi…
 
-I came to say I'm sorry. I also wanted to remember the little moments that made our story ours.
+I made a little world out of some memories I still keep close. If you'd like, take my hand and let's step inside together. No rush—you can pause, let go, or leave whenever you want.
 
-You don't have to forgive me, answer me, or stay until the end. You can pause or leave whenever you want. This is only a story I made for you—with care, and with the truth as I remember it.
+## `book-open.mp3` — Into the Memory Book
+*[The colorful world appears; the book opens.]*
 
----
+Here we go… a few little moments from our story, just as I remember them. Let's start where we were only classmates.
 
-## book-open.mp3
-*[As the character walks to the table and the Memory Book opens.]*
+## `hold-return.mp3` — Pause
+*[If she releases the hand, say this without hurt or urgency.]*
 
-I don't have a perfect story to show you. I have a book of small moments: a paper sofa, songs across rooftops, ordinary messages, a river at sunset, and the words we were both slow to say.
+We've paused here. Take your time. You can take my hand again, switch to hands-free, or leave—whatever feels right. No need to explain.
 
-Some dates are still a mystery. That's all right. We don't need a perfect timeline for these memories to matter.
+## `classmates.mp3` — I. Before we noticed each other
+*[Online school, then the Class Seven and Eight classroom.]*
 
-Let's open the first page.
+Back then, we were just classmates—nothing more. During online classes, I was usually half-asleep and barely paying attention. When school was back in person, I stayed with my friends at the back. We hardly noticed each other.
 
----
+## `science-project.mp3` — II. The science project
+*[Circuit houses and the tiny painted paper sofa and bed.]*
 
-## hold-return.mp3
-*[If Nidhi lets go during the story. Speak softly, without urgency.]*
+Then Sir put us in the same science-project group. We made little houses for the series and parallel circuits. I worked on the electrical part, and you made the tiny paper sofa and bed. When you sent me that picture on Messenger, it was our first real interaction. Such a cute little beginning.
 
-The story has paused. That's okay, Nidhi—take all the time you need.
+## `rooftop-snap.mp3` — III. Across the rooftops
+*[The rooftop guitar, her balcony, and the first snap.]*
 
-If you'd like to continue, you can hold my hand again when you're ready. If you'd rather stop here, you can leave. You don't have to explain.
+I was singing with my cousins on our rooftop, and you saw us from your balcony. You asked our friend if that was my house, then sent me a snap. I sent one back. A song, two snaps—and suddenly we had a reason to talk.
 
----
+## `best-friend-routines.mp3` — IV. Our little routines
+*[Power cuts, matching steps, coaching, messages, and snacks.]*
 
-## classmates.mp3
-*[Chapter I — Online school and the Class Seven and Eight back benches.]*
+Then came the good-morning messages, the rooftop and balcony glances during power cuts, and those matching steps across the distance. Coaching together, teasing each other, sometimes sneaking off for food… Little by little, we became best friends.
 
-We were classmates before we became close. During the online-school years, new students joined our class, but I was barely paying attention. I would wake up, join class half-asleep, and drift back into my own world.
+## `river-sunset.mp3` — V. The river outing
+*[The carefully planned boat ride, sunset, overcharge, and quiet rickshaw ride.]*
 
-When school felt like school again, around the time we were moving through Class Seven and Class Eight, I was usually with my friends at the back—joking, being a little mischievous, and acting like I had no idea what was happening around me.
+I planned that river outing almost minute by minute—boat ride, sunset, back in time. The boat renter surprised us with a huge overcharge, so we paid and left. On the rickshaw ride back, we mostly just looked at each other. Not quite the plan I had imagined… but a memory I still love.
 
-I didn't know then that someone who would become so important to me was already in that same classroom.
+## `love-teacher.mp3` — VI. The love teacher
+*[The best-friend conversation before the November call.]*
 
----
+I used to tell you I thought nobody would choose me. You'd say, “Be patient.” And there I was, acting like your love teacher, even though I'd never been in love. Whenever you said someone would love me someday, I quietly hoped you meant you.
 
-## science-project.mp3
-*[Chapter II — The series and parallel circuit houses, and the tiny painted paper sofa.]*
+## `distance.mp3` — VII. Two quiet days
+*[Keep the scene still and gentle.]*
 
-Then our teacher put us in the same science-project group. We had to make little houses to show how series and parallel circuits worked.
+I thought people were misunderstanding how close we were, so I made distance instead of talking honestly with you. Then came two quiet days. I should have explained myself with more care. I'm sorry for how I handled that.
 
-I was excited about the electrical part. I liked building things and making the circuits work. You brought a different kind of magic to the project. You made tiny paper furniture—a sofa and a bed—painted it so carefully, and sent me a picture on Messenger.
+## `chocolate-snap.mp3` — VIII. The chocolate wrapper
+*[The framed wrapper and reconnecting as best friends.]*
 
-That was the first time you messaged me directly. I remember seeing that little paper sofa and realizing that the person who made it was someone I wanted to know better.
+I had kept and framed the wrapper from the chocolate you gave me. I sent you a snap of it, and you asked if we could go back to how we were. We started talking again and found our way back to being best friends.
 
-Back then, it was only a school project. I couldn't have guessed how often I would return to that first message in my mind.
+## `first-i-love-you.mp3` — IX. The November call
+*[A regular night call sometime after November 10, 2023; no exact date shown.]*
 
----
+Sometime in November 2023, after my birthday, we were on a regular night call. Then the words finally came: “I love you.” We never pinned down the exact date. Maybe that's okay—our story had been growing for a long time before those words.
 
-## rooftop-snap.mp3
-*[Chapter III — Guitar on the rooftop and a snap from the balcony.]*
+## `letters-and-years.mp3` — X. The little chapters
+*[Photos, letters, and memory frames appear.]*
 
-Around that time, you moved into a home close to mine. I could see your balcony from my rooftop.
+Messages, photos, letters, calls, jokes… so many little chapters. I couldn't fit them all in this book. These are just a few of the memories I wanted to keep close.
 
-One day I was up there with my cousins, playing guitar and singing. You asked someone we both knew if that was my home, then sent me a snap of the song. I sent one back, showing a little of where I was.
+## `apology.mp3` — XI. What I am sorry for
+*[Plain and accountable; no excuse or dramatic pause after the quote.]*
 
-It was such a small exchange, but I remember how it felt: two shy people saying, “I saw you,” without having to say much more.
+Recently, I said we should break up, and I said, “I don't love you anymore.” Those were my words, and I know they could hurt deeply. I'm sorry. Whatever I was feeling doesn't excuse saying them.
 
-Our messages grew from hi and hello into good mornings, good nights, and long talks about ordinary things. A little rooftop song had opened a door.
+## `change.mp3` — XII. What I want to change
+*[One short pause between commitments.]*
 
----
+I want to pause before I speak when I'm upset, talk about my feelings without threatening our relationship, listen when I've hurt you, and respect the time or space you need. This game can't prove that. My actions have to.
 
-## best-friend-routines.mp3
-*[Chapter IV — Power cuts, matching steps, coaching, and our daily routines.]*
+## `closing.mp3` — XIII. An open ending
+*[Offer the flower gently; do not wait for a response.]*
 
-When the electricity went out, our phones went quiet too. Sometimes you came to your balcony, and I went up to the rooftop. We would find each other's eyes across the distance and match our steps—one of us walking on a balcony, the other on a roof.
+This flower is just a small gift—no answer needed. Thank you for the paper sofa, the rooftop songs, the river sunset, and all the little moments that became ours. I'm sorry, Nidhi. You can close the book here, and I'll respect whatever you need.
 
-We shared songs without needing a proper conversation. When the lights came back, the messages continued: good morning, good night, and all the little updates in between.
+## Recording notes
 
-We went to coaching together and came home together. I tried silly things to make you notice me; you laughed, and I looked forward to that laugh. We teased each other, sat near each other, and sometimes skipped a class to get something to eat.
-
-We called it friendship. We were becoming best friends so gradually that neither of us seemed to notice how much our days had started to belong to each other.
-
----
-
-## river-sunset.mp3
-*[Chapter V — The carefully planned river outing, sunset, overcharge, and rickshaw ride.]*
-
-During a break between coaching classes, you suggested we go somewhere. I planned the outing almost minute by minute: the nearby river, a boat, and just enough time to watch the sunset before we had to get back.
-
-It wasn't called a date. We were still friends, and neither of us had worked out what our feelings meant.
-
-We went out on the river and watched the sky change color. When we got off the boat, the renter demanded much more money than we expected. I worried the situation might turn into a scene, so we paid what he asked and left.
-
-On the rickshaw ride back, there was so much we could have said. Mostly, we looked at each other and let the silence do the talking. It was awkward, funny, a little unreal—and completely ours. Somehow, even the overcharge became part of the memory.
-
----
-
-## love-teacher.mp3
-*[Chapter VI — Best friends, and my very unqualified love lessons.]*
-
-For months, a good-morning message from you was often the first thing I looked for. We shared our little updates, jokes, and thoughts all day.
-
-I used to tell you I didn't think anyone would choose me. You would tell me to be patient, that someday I would have a girlfriend. I would act like a love teacher and explain what love meant, even though I had never been in love.
-
-Whenever you told me someone would love me one day, there was a quiet thought I kept to myself: I wished that someone could be you.
-
-But we were still best friends, and the friendship itself was real and precious. The feelings were taking their time to become clear.
-
----
-
-## distance.mp3
-*[Chapter VII — Two quiet days when I chose distance instead of honesty.]*
-
-There came a point when I convinced myself that people around us were misunderstanding how close we were. Instead of speaking openly with you, I decided we should make distance.
-
-I stopped talking properly at coaching. When you asked what was wrong, I didn't explain myself well. Later, I told you we should end that closeness. I made it sound like I had already made peace with the decision. I hadn't.
-
-We said we could at least say hi, but then two quiet days passed without the way we normally talked. I missed you, but missing you doesn't make the choice I made fair. I should have been honest and careful with your feelings instead of leaving you to guess.
-
-I don't want to make those days sound romantic. They were painful, and I am sorry for the way I handled them.
-
----
-
-## chocolate-snap.mp3
-*[Chapter VIII — The framed chocolate wrapper and finding our way back to friendship.]*
-
-I had kept the wrapper from a chocolate you gave me. I put it in a frame and sent you a snap of it.
-
-You saw it and asked if we could get back to how we were. I asked if you really wanted that. Then we started messaging again, unblocked each other on Messenger, and shared all the things we had been holding in.
-
-We came back to our friendship with a clearer understanding of how much it meant to both of us. We were still best friends, but something in that bond felt even deeper now.
-
-That little wrapper was only paper. Somehow, it helped us find our way back to each other.
-
----
-
-## first-i-love-you.mp3
-*[Chapter IX — A regular night call in November 2023. Keep the exact date mysterious.]*
-
-Neither of us can point to one official anniversary and say, “That was the exact day it began.” Somewhere in November 2023, after my birthday on November tenth, we were on a regular night call.
-
-We both seemed to know what the other wanted to say. Our hearts had been carrying the words for a while, but neither of us quite had the courage.
-
-Then, somewhere in that conversation, the words finally came: “I love you.”
-
-I still like that the date stayed a little mysterious. Our story didn't begin with a perfectly planned moment. It grew slowly—from a paper sofa, to rooftops, to a friendship we found our way back to, and then to those three words.
-
----
-
-## letters-and-years.mp3
-*[Chapter X — The open Memory Book and the years of little memories.]*
-
-This book isn't only about the big milestones. It's for the messages, photos, letters, calls, jokes, and tiny things we remembered for each other.
-
-Four years and more can never fit into a few pages. These frames are only a way to make room for memories that feel true and good to remember. I don't want to make our past look perfect, or fill these pages with anything that doesn't feel right to you.
-
-A relationship is also made of small ordinary days—the things we might forget unless we stop and look back. I'm grateful for the moments we shared, Nidhi. They mattered to me.
-
----
-
-## apology.mp3
-*[Chapter XI — Direct apology for the breakup words.]*
-
-There is something I need to say plainly.
-
-Recently, I said we should break up, and I said, “I don't love you anymore.” Those were my words. Whatever was happening inside me does not excuse the hurt or uncertainty they caused.
-
-I'm sorry I spoke to you that way and made our relationship feel disposable in a painful moment. You deserved a more honest and careful conversation from me.
-
-I won't ask this story to make the hurt disappear. I wanted to name what I did, take responsibility for it, and tell you that I am sorry. You don't have to forgive me now—or at all—because I made this.
-
----
-
-## change.mp3
-*[Chapter XII — Four changes I need to show through my actions.]*
-
-I want to change in ways you can actually see.
-
-When I'm upset, I will pause before I speak, instead of letting the first hurtful thought come out. I will explain what I'm feeling without threatening our relationship or using breakup words to end a difficult conversation.
-
-When you tell me I've hurt you, I will listen instead of arguing with your feelings. And if you ask for space or time, I will respect it without making you responsible for reassuring me.
-
-These aren't things you have to take on trust because I said them once. A promise in a game is only a sentence. The real proof has to come from my choices after the game is closed.
-
----
-
-## closing.mp3
-*[Chapter XIII — The flower, gratitude, and a peaceful open ending.]*
-
-I brought you a flower as a small way to say I'm sorry. You can accept it, leave it, or simply let this moment pass. It doesn't ask you for an answer.
-
-Thank you for being part of so many chapters of my life—for the paper sofa, the songs, the coaching walks, the river sunset, the messages, and all the little things only we would recognize.
-
-I'm sorry, Nidhi. You owe me no forgiveness, decision, or reply because I made this. Take whatever time and space you need. I will respect whatever you choose next.
-
-Whatever happens from here, I wanted you to know that our story mattered to me—and that I am responsible for what I do with the next chapter.
+- Save each clip as a separate audio file using its heading filename. The game also accepts `november-call-memory.mp3` for the `first-i-love-you.mp3` scene.
+- Keep each line conversational; let the animation and artwork carry the rest of the scene.
+- Don't add pleading, requests for forgiveness, or pressure to keep watching.
+- Voice clips are optional. The game should still work with sound off.

@@ -1,27 +1,39 @@
 # Antigravity Handoff — Until You Hold My Hand (Interactive Movie-Game)
 
-Last updated: 26 October 2026 (Complete Fullscreen Interactive Movie-Game Build)
+Last updated: 26 October 2026 (Full Voiceover Soundtrack, Ambient Music, Cinema Particles & Interactive Polish)
 
 ## Project overview
 
-*Until You Hold My Hand* has been rebuilt from a webpage-style prototype into a **fullscreen interactive animated movie-game** for Nidhi (`N-I-D-H-I`). There is zero website header, zero webpage title card, zero wall-of-text paragraphs, and zero backend/analytics/tracking.
+*Until You Hold My Hand* is a **fullscreen interactive animated movie-game** for Nidhi (`N-I-D-H-I`). There is zero website header, zero webpage title card, zero wall-of-text paragraphs, and zero backend/analytics/tracking.
 
-## What changed in this build
+## What is included & verified in this build
 
-1. **Pure-Black Mr. Bean Opening Drop (`index.html`, `styles.css`, `app.js`)**:
-   - Opens on a **100% pure black screen** (`#020307`) with zero visible text or buttons.
-   - An overhead theatrical spotlight clicks on, and the character drops straight down from above the ceiling into the warm pool of light, lands crouched with a soft dust ring, slowly stands up, looks directly at Nidhi, waves *"Hi…"*, walks forward toward the camera, and extends his **3D foreshortened hand into the bottom-right corner**.
-2. **Real Portrait Likeness + Sharp Dark-Navy Open Jacket Puppet Rig (`assets/avatar/owner-head-cutout.png`, `index.html`, `app.js`)**:
-   - Extracted a clean, zero-halo transparent cutout of the owner's face, swept black hair, ears, light moustache, and chin beard directly from `assets/avatar/owner-avatar-chatgpt-base.png` into `assets/avatar/owner-head-cutout.png` (leaving all original reference/generated files in `assets/avatar/` untouched).
-   - Paired the high-res face cutout (with aligned natural eyelid blinking and subtle speaking lip motion) onto a 60fps skeletal SVG puppet body dressed in a **sharp dark navy/charcoal open collared jacket over a crisp white crew-neck tee, dark slim tailored trousers, and clean sneakers with cream soles**.
-   - The character walks, sits, nods sleepily in online class, wires the circuit houses, strums an acoustic guitar on the rooftop, matches steps in a power cut, rides the sunset river boat, shrugs calmly at the boatman's overcharge, rides in the twilight rickshaw, gestures at the "love teacher" board, holds up the framed chocolate wrapper, talks on the November 2023 night call, stands humbly (with an optional playful cushioned foam-helmet `"BONK!"`), and gently offers a blooming flower at the open ending.
-3. **Bottom-Right 3D Hand Portal & Gentle Dark-Spotlight Pause Return**:
-   - Holding the **bottom-right 3D outstretched hand** (`#hand-portal`) walks into the warm **Memory Book Room**, opens the glowing Memory Book, zooms the camera into its pages, and plays through all 13 vivid, colorful chapters automatically.
-   - Releasing the hand mid-movie freezes the exact millisecond of scene animation and voice playback, dims back to the dark theatrical spotlight, walks the character gently toward the camera (*"Why did you let go of my hand? Hold it when you're ready."*), and reaches his hand back to the bottom-right corner—warm and gentle, never angry or guilting.
-   - Discreet zero-guilt controls (`Auto / Hands-free`, `Chapters`, `CC` 1-line subtitles, `♪` mute, `Motion`, and `✕ Leave quietly`) ensure Nidhi is never trapped and can watch hands-free, skip chapters, or exit peacefully at any time.
-4. **Zero-Text Visual Narrative + Plug-and-Play Voice & Photo Frame System (`content/story.json`, `app.js`)**:
-   - Zero story paragraphs appear on screen; an optional `[CC]` toggle displays crisp 1-line cinema subtitles.
-   - Every scene has a plug-and-play voice slot (`assets/voice/*.mp3`) and Memory Book photo/letter frames (`assets/photos/*`), including a full 6-frame open Memory Book two-page spread in Chapter X (`letters-and-years`).
+1. **Full 16-Track Voiceover Soundtrack + Ambient Instrumental**:
+   - Integrated all 16 user-recorded voice tracks (`opening.mp3`, `book-open.mp3`, `hold-return.mp3`, `classmates.mp3`, `science-project.mp3`, `rooftop-snap.mp3`, `best-friend-routines.mp3`, `river-sunset.mp3`, `love-teacher.mp3`, `distance.mp3`, `chocolate-snap.mp3`, `first-i-love-you.mp3`, `letters-and-years.mp3`, `apology.mp3`, `change.mp3`, `closing.mp3`) in both `assets/voice/` and `assets/audio/`.
+   - Integrated ambient background music (`assets/audio/ambient-instrumental.mp3`) balanced at soft volume (`0.22`), so the voice remains clear and prominent.
+   - Synchronized all subtitles and transcripts in `content/story.json` to match the exact spoken words from `VOICEOVER-SCRIPT.md`. Subtitles are active by default (`[CC]` on).
+   - Dynamic scene duration: each scene automatically expands to accommodate the exact length of each voice recording plus comfortable cinematic breathing room.
+
+2. **Cinema Visual Effects & Atmosphere**:
+   - Added `#cinema-particles` engine with scene-specific particles:
+     - Golden classroom and craft dust motes (`.particle-dust`) for Chapters I, II, VI.
+     - Twinkling starlight fireflies (`.particle-firefly`) for Rooftop song, River sunset, and November night call.
+     - Melancholy rain mist (`.particle-raindrop`) for Chapter VII (Distance).
+     - Gentle falling rose/lotus petals (`.particle-petal`) for the calm open ending.
+   - Dynamic scene animations: floating sleepy Zs on the laptop, electric sparks pulsing along circuit wires, floating music notes, candle flickers during power cut, shimmering river water ripples, bobbing boat pitch tilt, rotating rickshaw wheels, swaying notes, animated glowing thread, starlight twinkling, heartbeat call ripples, bobbing commitment lanterns, and blossoming flower.
+
+3. **Playful Character Slap / Punch Interaction & Hand Controls**:
+   - Nidhi can playfully tap/slap/punch the character at any point during any chapter. The character responds with a cartoon wobble, sound effect, and empathetic feedback ("The real hurt still matters, and I'm listening").
+   - Holding the bottom-right 3D hand continues the cinematic story.
+   - Tapping the hand advances directly to the next chapter.
+   - Releasing the hand pauses into a dark spotlight pause with zero pressure to continue.
+
+4. **Pure-Black Mr. Bean Opening Drop**:
+   - Opens on a 100% pure black screen (`#020307`) with zero text.
+   - An overhead spotlight clicks on, character drops in, lands, stands up, waves "Hi…", walks forward, and offers his hand.
+
+5. **Real Portrait Likeness + Open Jacket Puppet Rig**:
+   - High-res portrait face cutout (`assets/avatar/owner-head-cutout.png`) paired with a skeletal SVG puppet rig in dark navy jacket, white crew-neck tee, dark slim trousers, and sneakers.
 
 ---
 
@@ -67,7 +79,7 @@ Record your own natural voice (never an AI voice) as `.mp3`, `.m4a`, `.wav`, or 
 |---|---|
 | `opening.mp3` | After you drop in, stand up, and reach your hand toward her |
 | `book-open.mp3` | Walking to the desk and zooming into the open Memory Book |
-| `hold-return.mp3` | When she lets go of your hand mid-movie (*"Why did you let go of my hand?..."*) |
+| `hold-return.mp3` | When she lets go mid-movie; a neutral pause that offers resume, hands-free mode, or leaving |
 | `classmates.mp3` | Chapter I — Online school & Class 7/8 back benches |
 | `science-project.mp3` | Chapter II — Series/parallel circuit houses & painted paper sofa |
 | `rooftop-snap.mp3` | Chapter III — Rooftop guitar & balcony snap |
@@ -105,7 +117,7 @@ Record your own natural voice (never an AI voice) as `.mp3`, `.m4a`, `.wav`, or 
    - Replaced undeclared `scene` variable in `computeDesiredActorPose` with `sc` / `isAccountability` safety check. In the previous commit, accessing `scene.id` threw `ReferenceError: scene is not defined` on the very first frame of Chapter 1, halting the `requestAnimationFrame(tick)` animation loop and freezing the page.
    - Introduced `getSceneDurationMs(sc)` to safely compute finite scene durations, preventing `NaN` durations even if audio files are missing or incomplete.
 2. **Hand Portal Hold vs Quick-Tap Responsiveness (`app.js`)**:
-   - **Hold (> 320ms)**: Plays the movie smoothly with animated character rig and fills the glowing progress circle. Letting go gently returns to dark spotlight pause (*"Why did you let go of my hand? Hold it when you're ready"*).
+   - **Hold (> 320ms)**: Plays the movie smoothly with animated character rig and fills the glowing progress circle. Letting go pauses in the dark spotlight and offers neutral resume, hands-free, and leave options.
    - **Quick Tap (< 320ms)**: If already in `"playing"`, tapping the hand instantly moves forward to the next chapter. If paused in the dark or waiting, a quick tap resumes playback immediately without re-pausing.
    - Next/Prev buttons (`#next-chapter`, `#prev-chapter`) and Arrow keys (`→`, `←`) also advance directly into playing mode.
 3. **Universal Playful Character Slap/Punch Anytime (`app.js`)**:

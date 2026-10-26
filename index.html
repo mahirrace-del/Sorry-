@@ -38,7 +38,7 @@
         <button class="hud-btn hud-pill" id="audio-toggle" type="button" aria-pressed="true" aria-label="Sound on or mute">
           <span id="audio-icon" aria-hidden="true">♪</span>
         </button>
-        <button class="hud-btn hud-pill" id="cc-toggle" type="button" aria-pressed="false" aria-label="Toggle one-line subtitles">
+        <button class="hud-btn hud-pill" id="cc-toggle" type="button" aria-pressed="true" aria-label="Toggle one-line subtitles">
           <span>CC</span>
         </button>
         <button class="hud-btn hud-pill" id="auto-toggle" type="button" aria-pressed="false" aria-label="Watch hands-free without holding">
@@ -88,6 +88,9 @@
           </svg>
         </div>
 
+        <!-- Cinema Atmospheric Particles Overlay (twinkling embers, floating dust, fireflies, rose petals) -->
+        <div class="cinema-particles" id="cinema-particles" aria-hidden="true"></div>
+
         <!-- Plug-and-play Memory Book Photo & Letter Frames -->
         <div class="frames-layer" id="frames-layer" role="region" aria-label="Memory photo frames"></div>
 
@@ -134,7 +137,7 @@
 
         <!-- Gentle warm prompt when Nidhi lets go of the hand mid-movie -->
         <div class="dark-pause-panel" id="dark-pause-panel" hidden>
-          <p class="dark-pause-line" id="dark-pause-line">Why did you let go of my hand? Hold it when you're ready.</p>
+          <p class="dark-pause-line" id="dark-pause-line">We've paused here. Take your time. Resume, watch hands-free, or leave whenever you want—no explanation needed.</p>
           <div class="dark-pause-escapes">
             <button class="subtle-escape-btn" id="pause-watch-auto" type="button">Watch hands-free</button>
             <button class="subtle-escape-btn" id="pause-open-chapters" type="button">Chapters</button>
@@ -559,7 +562,7 @@
     "autoDetectLocalAssets": false,
     "specialVoices": {
       "bookOpen": { "src": "assets/voice/book-open.mp3", "enabled": false, "subtitle": "Come walk with me—let's open our story from the very beginning." },
-      "holdReturn": { "src": "assets/voice/hold-return.mp3", "enabled": false, "subtitle": "Why did you let go of my hand? Hold it when you're ready." }
+      "holdReturn": { "src": "assets/voice/hold-return.mp3", "enabled": false, "subtitle": "We've paused here. Take your time. Resume, watch hands-free, or leave whenever you want—no explanation needed." }
     },
     "scenes": [
       { "id": "opening", "type": "intro", "title": "A quiet beginning", "durationMs": 6200, "subtitle": "Hi, Nidhi… hold my hand whenever you're ready, and we'll walk through our story.", "alt": "Dark spotlight opening" },

@@ -9,7 +9,7 @@
       { "sceneId": "letters-and-years", "file": "assets/photos/memory-01.jpg", "status": "optional", "caption": "Add a short memory caption", "alt": "Describe the image." }
     ],
     "voice": [
-      { "sceneId": "opening", "file": "assets/voice/opening.mp3", "status": "optional", "transcript": "Hey, Nidhi. I made this to say I'm sorry and to remember our story." },
+      { "sceneId": "opening", "file": "assets/voice/opening.mp3", "status": "optional", "transcript": "Hi, Nidhi. I made a little memory book with moments I still carry close. If you'd like, take my hand and we can open it together. You can pause, skip, or leave whenever you want." },
       { "sceneId": "first-i-love-you", "file": "assets/voice/november-call-memory.mp3", "status": "optional", "transcript": "Sometime in November 2023, after my birthday, we were on a regular night call. Then the words finally came: I love you." },
       { "sceneId": "accountability", "file": "assets/voice/apology.mp3", "status": "optional", "transcript": "Recently, I said we should break up, and I said, I don't love you anymore. Those were my words. I am sorry I spoke to you that way." },
       { "sceneId": "closing", "file": "assets/voice/closing.mp3", "status": "optional", "transcript": "I'm sorry, Nidhi. You don't owe me an answer. Whatever you need next, I will respect it." }

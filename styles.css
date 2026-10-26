@@ -700,6 +700,84 @@ body[data-phase="ending-rest"] .subtitle-bar {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+/* Ambient Cinema Atmospheric Particles Layer */
+.cinema-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cinema-particle {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Floating Starlight / Fireflies */
+.particle-firefly {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffe394;
+  box-shadow: 0 0 10px #ffd772, 0 0 20px rgba(255, 200, 80, 0.7);
+  animation: firefly-float 6.5s ease-in-out infinite alternate;
+}
+
+/* Falling Autumn / Classroom Sun Dust */
+.particle-dust {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 240, 210, 0.75);
+  box-shadow: 0 0 8px rgba(255, 220, 160, 0.55);
+  animation: dust-drift 8.5s linear infinite;
+}
+
+/* Gentle Falling Lotus / Rose Petals for Closing */
+.particle-petal {
+  width: 14px;
+  height: 9px;
+  border-radius: 14px 2px 14px 2px;
+  background: linear-gradient(135deg, #f7a9af, #e27885);
+  box-shadow: 0 2px 8px rgba(220, 100, 120, 0.35);
+  animation: petal-fall 8s ease-in-out infinite;
+}
+
+/* Subtle Rain Mist Droplets for Distance */
+.particle-raindrop {
+  width: 1.5px;
+  height: 18px;
+  background: linear-gradient(to bottom, rgba(180, 205, 245, 0.1), rgba(200, 220, 255, 0.55));
+  animation: raindrop-fall 1.2s linear infinite;
+}
+
+@keyframes firefly-float {
+  0% { transform: translate3d(0, 0, 0) scale(0.7); opacity: 0.25; }
+  50% { transform: translate3d(24px, -36px, 0) scale(1.2); opacity: 0.95; }
+  100% { transform: translate3d(-18px, -70px, 0) scale(0.85); opacity: 0.35; }
+}
+
+@keyframes dust-drift {
+  0% { transform: translate3d(0, 0, 0); opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { transform: translate3d(50px, -110px, 0); opacity: 0.1; }
+}
+
+@keyframes petal-fall {
+  0% { transform: translate3d(0, -20px, 0) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.9; }
+  85% { opacity: 0.9; }
+  100% { transform: translate3d(85px, 105vh, 0) rotate(360deg); opacity: 0; }
+}
+
+@keyframes raindrop-fall {
+  0% { transform: translate3d(0, -30px, 0); opacity: 0; }
+  20% { opacity: 0.7; }
+  100% { transform: translate3d(-10px, 105vh, 0); opacity: 0; }
+}
+
 /* Memory Book Photo & Letter Frames */
 .frames-layer {
   position: absolute;
