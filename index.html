@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#020307">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="description" content="Until You Hold My Hand — an interactive animated memory film and apology for Nidhi.">
+  <title>Until You Hold My Hand</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='9' fill='%23020307'/%3E%3Ccircle cx='18' cy='18' r='10' fill='none' stroke='%23f2c98a' stroke-width='1.8' stroke-dasharray='3 3'/%3E%3Ccircle cx='18' cy='18' r='3.2' fill='%23f2c98a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body data-phase="blackout">
+  <a class="skip-link" id="skip-intro" href="#cinema-stage">Skip intro &amp; watch hands-free</a>
+
+  <main class="cinema" id="cinema" aria-label="Until You Hold My Hand interactive memory film">
+    <!-- Discreet Cinema Micro-HUD (invisible during pure-black opening & sky drop) -->
+    <nav class="cinema-hud" id="cinema-hud" aria-label="Film controls">
+      <div class="hud-group hud-left">
+        <button class="hud-btn hud-icon-btn" id="prev-chapter" type="button" aria-label="Previous chapter" hidden>
+          <span aria-hidden="true">‹</span>
+        </button>
+        <button class="hud-btn hud-pill" id="open-chapters" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="chapters-drawer">
+          <span class="hud-dot" aria-hidden="true"></span>
+          <span id="chapter-indicator">Chapters</span>
+        </button>
+        <button class="hud-btn hud-icon-btn" id="next-chapter" type="button" aria-label="Next chapter" hidden>
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>
+
+      <div class="hud-group hud-right">
+        <button class="hud-btn hud-pill" id="replay-voice" type="button" aria-label="Replay scene voice" hidden>
+          <span aria-hidden="true">↻</span>
+          <span class="hud-label-sm">Voice</span>
+        </button>
+        <button class="hud-btn hud-pill" id="audio-toggle" type="button" aria-pressed="true" aria-label="Sound on or mute">
+          <span id="audio-icon" aria-hidden="true">♪</span>
+        </button>
+        <button class="hud-btn hud-pill" id="cc-toggle" type="button" aria-pressed="false" aria-label="Toggle one-line subtitles">
+          <span>CC</span>
+        </button>
+        <button class="hud-btn hud-pill" id="auto-toggle" type="button" aria-pressed="false" aria-label="Watch hands-free without holding">
+          <span id="auto-label">Auto</span>
+        </button>
+        <button class="hud-btn hud-pill" id="motion-toggle" type="button" aria-pressed="true" aria-label="Toggle reduced motion">
+          <span id="motion-label">Motion</span>
+        </button>
+        <button class="hud-btn hud-icon-btn" id="exit-movie" type="button" aria-label="Leave quietly">
+          <span aria-hidden="true">✕</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Fullscreen Movie Stage -->
+    <section class="cinema-stage" id="cinema-stage" tabindex="-1" aria-label="Animated story stage">
+      <!-- Vivid Colorful World & Memory Book Layer -->
+      <div class="world-layer" id="world-layer" aria-hidden="true">
+        <div class="world-sky" id="world-sky"></div>
+        <div class="world-camera" id="world-camera">
+          <svg class="scene-canvas" id="scene-canvas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <radialGradient id="warm-lamp-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffe7b3" stop-opacity="0.88"/>
+                <stop offset="45%" stop-color="#f5b96b" stop-opacity="0.34"/>
+                <stop offset="100%" stop-color="#f5b96b" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="river-water-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#f48b63"/>
+                <stop offset="45%" stop-color="#c95b6b"/>
+                <stop offset="100%" stop-color="#2c2447"/>
+              </linearGradient>
+              <filter id="soft-blur" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="5"/>
+              </filter>
+            </defs>
+            <g id="scene-bg-art"></g>
+            <g id="scene-mid-art"></g>
+          </svg>
+
+          <!-- Actor mount inside colorful world -->
+          <div class="actor-world-mount" id="actor-world-mount"></div>
+
+          <!-- Foreground SVG accents (balcony railings, rickshaw wheel foreground, dust motes) -->
+          <svg class="scene-fg-canvas" id="scene-fg-canvas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g id="scene-fg-art"></g>
+          </svg>
+        </div>
+
+        <!-- Plug-and-play Memory Book Photo & Letter Frames -->
+        <div class="frames-layer" id="frames-layer" role="region" aria-label="Memory photo frames"></div>
+
+        <!-- Optional Playful Cartoon Bonk (Chapter 11 Accountability only) -->
+        <div class="bonk-ui" id="bonk-ui" hidden>
+          <button class="bonk-trigger" id="bonk-button" type="button">
+            <span class="bonk-emoji" aria-hidden="true">🪖</span>
+            <span id="bonk-action-label">Bonk!</span>
+          </button>
+          <button class="bonk-skip" id="skip-bonk" type="button">Skip</button>
+          <span class="bonk-reaction-note" id="bonk-feedback" role="status" aria-live="polite"></span>
+        </div>
+
+        <!-- Calm Open-Ending Actions (Chapter 13 Closing only — zero forgiveness prompt) -->
+        <div class="closing-ui" id="closing-ui" hidden>
+          <p class="closing-whisper">No forgiveness or reply expected. Take all the time you need.</p>
+          <div class="closing-buttons">
+            <button class="cinema-action-btn cinema-action-primary" id="close-quietly" type="button">Close quietly</button>
+            <button class="cinema-action-btn cinema-action-secondary" id="watch-again" type="button">Watch from beginning</button>
+          </div>
+        </div>
+
+        <!-- Book Zoom / Page-Turn Warm Dissolve Veil -->
+        <div class="page-turn-veil" id="page-turn-veil" aria-hidden="true"></div>
+      </div>
+
+      <!-- Dark Theatrical Spotlight Stage (Mr. Bean Opening Drop + Release-Hand Return) -->
+      <div class="dark-stage" id="dark-stage">
+        <div class="spotlight-beam" id="spotlight-beam" aria-hidden="true"></div>
+        <div class="spotlight-pool" id="spotlight-pool" aria-hidden="true"></div>
+        <div class="spotlight-motes" aria-hidden="true">
+          <span class="mote m1"></span>
+          <span class="mote m2"></span>
+          <span class="mote m3"></span>
+          <span class="mote m4"></span>
+        </div>
+        <div class="landing-dust" id="landing-dust" aria-hidden="true"></div>
+
+        <!-- Actor mount inside dark spotlight room -->
+        <div class="actor-dark-mount" id="actor-dark-mount"></div>
+
+        <!-- Delicate floating "Hi…" during opening wave -->
+        <div class="hi-whisper" id="hi-whisper" aria-hidden="true">Hi, Nidhi…</div>
+
+        <!-- Gentle warm prompt when Nidhi lets go of the hand mid-movie -->
+        <div class="dark-pause-panel" id="dark-pause-panel" hidden>
+          <p class="dark-pause-line" id="dark-pause-line">Why did you let go of my hand? Hold it when you're ready.</p>
+          <div class="dark-pause-escapes">
+            <button class="subtle-escape-btn" id="pause-watch-auto" type="button">Watch hands-free</button>
+            <button class="subtle-escape-btn" id="pause-open-chapters" type="button">Chapters</button>
+            <button class="subtle-escape-btn" id="pause-leave" type="button">Leave quietly</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Optional 1-Line Movie Subtitle Bar (controlled by [CC]) -->
+      <div class="subtitle-bar" id="subtitle-bar" hidden aria-live="polite">
+        <span class="subtitle-line" id="subtitle-line"></span>
+      </div>
+    </section>
+
+    <!-- Bottom-Right 3D Outstretched Hand Portal -->
+    <div class="hand-corner-wrap" id="hand-corner-wrap" data-visible="false">
+      <button
+        class="hand-portal"
+        id="hand-portal"
+        type="button"
+        aria-pressed="false"
+        aria-label="Hold my hand to play the story, release any time to pause"
+      >
+        <span class="hand-aura-ring" aria-hidden="true"></span>
+        <svg class="hand-progress-ring" viewBox="0 0 180 180" aria-hidden="true">
+          <circle class="ring-track" cx="90" cy="90" r="80"/>
+          <circle class="ring-fill" id="hand-progress-circle" cx="90" cy="90" r="80"/>
+        </svg>
+
+        <!-- 3D Foreshortened Outstretched Hand SVG reaching from bottom-right toward viewer -->
+        <svg class="hand-3d-svg" viewBox="0 0 220 220" aria-hidden="true">
+          <defs>
+            <radialGradient id="palm-3d-grad" cx="42%" cy="40%" r="58%">
+              <stop offset="0%" stop-color="#ffd5aa"/>
+              <stop offset="42%" stop-color="#ef9e6b"/>
+              <stop offset="78%" stop-color="#c8794c"/>
+              <stop offset="100%" stop-color="#8c4c2c"/>
+            </radialGradient>
+            <linearGradient id="finger-3d-grad" x1="20%" y1="0%" x2="80%" y2="100%">
+              <stop offset="0%" stop-color="#ffdfb8"/>
+              <stop offset="50%" stop-color="#ea9865"/>
+              <stop offset="100%" stop-color="#af643c"/>
+            </linearGradient>
+            <linearGradient id="cuff-navy-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#27344f"/>
+              <stop offset="55%" stop-color="#151d2d"/>
+              <stop offset="100%" stop-color="#0b1019"/>
+            </linearGradient>
+            <radialGradient id="clasp-warmth" cx="45%" cy="45%" r="50%">
+              <stop offset="0%" stop-color="#ffe7b0" stop-opacity="0.85"/>
+              <stop offset="55%" stop-color="#f2a968" stop-opacity="0.32"/>
+              <stop offset="100%" stop-color="#f2a968" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <circle class="hand-clasp-glow" cx="96" cy="96" r="82" fill="url(#clasp-warmth)"/>
+
+          <!-- Foreshortened Dark Navy Jacket Cuff & Crisp White Tee Cuff from Bottom-Right -->
+          <path d="M142 224 L224 146 L224 224 Z" fill="url(#cuff-navy-grad)"/>
+          <path d="M132 216 C146 184 176 156 214 142 L224 166 L166 224 Z" fill="url(#cuff-navy-grad)" stroke="#0c1018" stroke-width="3"/>
+          <path d="M136 206 C152 178 176 158 206 146" fill="none" stroke="#394b6e" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Crisp white inner sleeve cuff -->
+          <path d="M126 196 C142 170 164 150 194 139 L202 151 C174 163 153 181 139 206 Z" fill="#f6f2ea" stroke="#231c21" stroke-width="2.2"/>
+
+          <!-- Foreshortened Wrist -->
+          <path d="M114 174 C128 152 150 136 176 128 L192 146 C168 158 148 176 134 198 Z" fill="#cf8154" stroke="#2b1b16" stroke-width="2.8"/>
+
+          <!-- 3D Open Palm & Fingers Reaching Close to Screen -->
+          <g class="hand-3d-pose">
+            <!-- Pinky finger (left-lower foreshortened) -->
+            <path class="finger f-pinky" d="M66 132 C46 126 32 116 28 104 C25 94 34 86 46 91 C60 96 74 108 84 118 Z" fill="url(#finger-3d-grad)" stroke="#2b1b16" stroke-width="2.8" stroke-linejoin="round"/>
+            <!-- Ring finger -->
+            <path class="finger f-ring" d="M74 114 C50 100 34 84 34 70 C34 58 46 53 58 61 C72 70 85 88 94 102 Z" fill="url(#finger-3d-grad)" stroke="#2b1b16" stroke-width="2.8" stroke-linejoin="round"/>
+            <!-- Middle finger (closest to camera — largest foreshortened tip!) -->
+            <path class="finger f-middle" d="M88 102 C68 80 56 58 60 42 C63 29 78 27 88 38 C100 52 108 76 112 96 Z" fill="url(#finger-3d-grad)" stroke="#2b1b16" stroke-width="3" stroke-linejoin="round"/>
+            <!-- Index finger -->
+            <path class="finger f-index" d="M108 98 C98 74 96 52 104 38 C111 27 126 30 130 43 C134 59 132 82 128 102 Z" fill="url(#finger-3d-grad)" stroke="#2b1b16" stroke-width="3" stroke-linejoin="round"/>
+
+            <!-- Broad 3D Open Palm facing viewer -->
+            <path class="palm-main" d="M64 128 C58 108 74 88 102 86 C128 84 152 98 158 122 C164 146 148 172 122 178 C94 184 70 154 64 128 Z" fill="url(#palm-3d-grad)" stroke="#2b1b16" stroke-width="3.2" stroke-linejoin="round"/>
+
+            <!-- Thumb reaching warmly toward viewer on right-top -->
+            <path class="finger f-thumb" d="M138 134 C150 116 166 100 180 98 C192 96 199 107 190 119 C180 133 162 148 144 156 Z" fill="url(#finger-3d-grad)" stroke="#2b1b16" stroke-width="3" stroke-linejoin="round"/>
+
+            <!-- Subtle painterly palm creases & warm fingertip pads -->
+            <path d="M84 128 Q108 118 132 132" fill="none" stroke="#965232" stroke-width="2.2" stroke-linecap="round" opacity="0.62"/>
+            <path d="M92 146 Q114 138 132 154" fill="none" stroke="#965232" stroke-width="2" stroke-linecap="round" opacity="0.52"/>
+            <ellipse cx="73" cy="43" rx="6" ry="4.5" fill="#ffe8c8" opacity="0.42"/>
+            <ellipse cx="115" cy="43" rx="5.5" ry="4.2" fill="#ffe8c8" opacity="0.42"/>
+            <ellipse cx="48" cy="68" rx="5" ry="3.8" fill="#ffe8c8" opacity="0.38"/>
+            <ellipse cx="182" cy="108" rx="5.5" ry="4" fill="#ffe8c8" opacity="0.4"/>
+          </g>
+        </svg>
+        <span class="hand-whisper" id="hand-whisper">Hold my hand</span>
+      </button>
+    </div>
+
+    <!-- Chapters Film Strip Drawer -->
+    <div class="chapters-drawer" id="chapters-drawer" role="dialog" aria-modal="true" aria-labelledby="chapters-heading" hidden>
+      <div class="chapters-panel">
+        <div class="chapters-header">
+          <h2 id="chapters-heading">Story Chapters</h2>
+          <button class="hud-btn hud-icon-btn" id="close-chapters" type="button" aria-label="Close chapters">✕</button>
+        </div>
+        <div class="chapters-list" id="chapters-list"></div>
+      </div>
+    </div>
+
+    <!-- Frame Close-Up Lightbox -->
+    <div class="frame-lightbox" id="frame-lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption" hidden>
+      <div class="lightbox-card">
+        <button class="hud-btn hud-icon-btn lightbox-close" id="close-lightbox" type="button" aria-label="Close frame preview">✕</button>
+        <div class="lightbox-media" id="lightbox-media"></div>
+        <p class="lightbox-caption" id="lightbox-caption"></p>
+      </div>
+    </div>
+
+    <!-- Calm Zero-Guilt Resting Screen when Leaving/Closing -->
+    <section class="quiet-screen" id="quiet-screen" hidden aria-labelledby="quiet-heading">
+      <div class="quiet-inner">
+        <svg class="quiet-emblem" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="24" fill="none" stroke="#edc88b" stroke-width="1.4" opacity="0.45"/>
+          <path d="M32 46 V26 M32 34 C25 32 22 26 26 22 C30 24 32 28 32 34 Z M32 31 C39 29 42 23 38 19 C34 21 32 25 32 31 Z" fill="none" stroke="#f3c6a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="32" cy="21" r="4.5" fill="#f2a799"/>
+        </svg>
+        <h1 id="quiet-heading">Take all the time you need.</h1>
+        <p>You don't owe an answer or a decision. Whenever you'd like, you can close this tab or start from the beginning.</p>
+        <button class="cinema-action-btn cinema-action-secondary" id="restart-from-quiet" type="button">Return to beginning</button>
+      </div>
+    </section>
+
+    <!-- Screen-Reader Polite Narration Status -->
+    <div class="sr-only" id="sr-status" role="status" aria-live="polite"></div>
+  </main>
+
+  <!-- Articulated Hybrid Character Puppet Rig (Real Face Cutout + Sharp Dark Navy Open Jacket Outfit) -->
+  <div class="actor" id="actor" data-bonk="false">
+    <svg class="actor-svg" viewBox="0 0 360 580" role="img" aria-labelledby="actor-title actor-desc">
+      <title id="actor-title">Animated character of the narrator</title>
+      <desc id="actor-desc">The narrator with his swept black hair, warm-brown skin, light moustache and chin beard, dressed in a sharp dark navy open jacket over a crisp white crew-neck tee, dark slim trousers, and clean sneakers.</desc>
+      <defs>
+        <linearGradient id="jacket-navy" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#222e46"/>
+          <stop offset="52%" stop-color="#141c2c"/>
+          <stop offset="100%" stop-color="#0c111b"/>
+        </linearGradient>
+        <linearGradient id="jacket-sleeve" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#25324c"/>
+          <stop offset="65%" stop-color="#141b2a"/>
+          <stop offset="100%" stop-color="#0d121d"/>
+        </linearGradient>
+        <linearGradient id="white-tee" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#fbf9f4"/>
+          <stop offset="70%" stop-color="#eee9df"/>
+          <stop offset="100%" stop-color="#ded7ca"/>
+        </linearGradient>
+        <linearGradient id="slim-pants" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#272b38"/>
+          <stop offset="55%" stop-color="#191c25"/>
+          <stop offset="100%" stop-color="#101219"/>
+        </linearGradient>
+        <linearGradient id="skin-warm" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f2a472"/>
+          <stop offset="65%" stop-color="#dc8c59"/>
+          <stop offset="100%" stop-color="#b86c43"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Dynamic Ground Shadow -->
+      <g transform="translate(180, 548)">
+        <g id="rig-shadow">
+          <ellipse cx="0" cy="0" rx="64" ry="12" fill="rgba(5, 6, 14, 0.42)"/>
+        </g>
+      </g>
+
+      <!-- Root Character Pivot at Feet (180, 545) -->
+      <g transform="translate(180, 545)">
+        <g id="rig-root">
+          <g transform="translate(-180, -545)">
+
+            <!-- Pelvis Pivot (180, 312) -->
+            <g transform="translate(180, 312)">
+              <g id="rig-pelvis">
+                <g transform="translate(-180, -312)">
+
+                  <!-- LEFT LEG: Hip (158, 314) -> Knee (155, 424) -> Foot -->
+                  <g transform="translate(158, 314)">
+                    <g id="rig-leg-l">
+                      <g transform="translate(-158, -314)">
+                        <path d="M139 306 H176 L172 426 H141 Z" fill="url(#slim-pants)" stroke="#0d0f15" stroke-width="2.4" stroke-linejoin="round"/>
+                        <path d="M147 320 L145 415" stroke="#343a4d" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+                        <g transform="translate(156, 424)">
+                          <g id="rig-shin-l">
+                            <g transform="translate(-156, -424)">
+                              <path d="M142 420 H171 L167 522 H144 Z" fill="url(#slim-pants)" stroke="#0d0f15" stroke-width="2.4" stroke-linejoin="round"/>
+                              <!-- Clean dark sneaker with crisp cream sole -->
+                              <g transform="translate(155, 524)">
+                                <g id="rig-foot-l">
+                                  <g transform="translate(-155, -524)">
+                                    <path d="M126 534 C126 523 139 517 154 517 H169 C173 517 175 521 175 529 V539 C175 543 172 545 167 545 H132 C128 545 126 541 126 534 Z" fill="#1b202c" stroke="#0b0d13" stroke-width="2.4"/>
+                                    <path d="M142 522 L149 525 M150 520 L156 523" stroke="#f4ede2" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M126 538 H175 V543 C175 545 172 545 168 545 H132 C128 545 126 544 126 541 Z" fill="#f2e8d9" stroke="#221c18" stroke-width="1.8"/>
+                                  </g>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+
+                  <!-- RIGHT LEG: Hip (202, 314) -> Knee (205, 424) -> Foot -->
+                  <g transform="translate(202, 314)">
+                    <g id="rig-leg-r">
+                      <g transform="translate(-202, -314)">
+                        <path d="M184 306 H221 L219 426 H188 Z" fill="url(#slim-pants)" stroke="#0d0f15" stroke-width="2.4" stroke-linejoin="round"/>
+                        <path d="M212 320 L214 415" stroke="#343a4d" stroke-width="2" stroke-linecap="round" opacity="0.45"/>
+                        <g transform="translate(204, 424)">
+                          <g id="rig-shin-r">
+                            <g transform="translate(-204, -424)">
+                              <path d="M189 420 H218 L216 522 H193 Z" fill="url(#slim-pants)" stroke="#0d0f15" stroke-width="2.4" stroke-linejoin="round"/>
+                              <g transform="translate(205, 524)">
+                                <g id="rig-foot-r">
+                                  <g transform="translate(-205, -524)">
+                                    <path d="M185 529 C185 521 187 517 191 517 H206 C221 517 234 523 234 534 C234 541 232 545 228 545 H193 C188 545 185 543 185 539 Z" fill="#1b202c" stroke="#0b0d13" stroke-width="2.4"/>
+                                    <path d="M204 523 L210 520 M211 525 L218 522" stroke="#f4ede2" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M185 538 H234 V541 C234 544 232 545 228 545 H192 C188 545 185 545 185 543 Z" fill="#f2e8d9" stroke="#221c18" stroke-width="1.8"/>
+                                  </g>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+
+                  <!-- Pelvis / Belt Bridge -->
+                  <path d="M137 302 H223 L221 322 H139 Z" fill="#171a23" stroke="#0d0f15" stroke-width="2"/>
+
+                  <!-- SPINE / TORSO PIVOT (180, 306) -->
+                  <g transform="translate(180, 306)">
+                    <g id="rig-spine">
+                      <g transform="translate(-180, -306)">
+
+                        <!-- LEFT ARM (Viewer's Left): Shoulder (125, 172) -> Elbow (114, 240) -->
+                        <g transform="translate(125, 172)">
+                          <g id="rig-arm-l">
+                            <g transform="translate(-125, -172)">
+                              <path d="M113 164 C113 155 123 152 134 157 L129 242 H105 Z" fill="url(#jacket-sleeve)" stroke="#0b0f18" stroke-width="2.5" stroke-linejoin="round"/>
+                              <path d="M113 180 L109 234" stroke="#314263" stroke-width="2" stroke-linecap="round" opacity="0.58"/>
+                              <g transform="translate(116, 240)">
+                                <g id="rig-forearm-l">
+                                  <g transform="translate(-116, -240)">
+                                    <path d="M105 236 H128 L124 294 H104 Z" fill="url(#jacket-sleeve)" stroke="#0b0f18" stroke-width="2.4" stroke-linejoin="round"/>
+                                    <path d="M103 291 H125 V297 H103 Z" fill="#f5f1e8" stroke="#1b181d" stroke-width="1.6"/>
+                                    <!-- Warm painterly hand -->
+                                    <path d="M104 297 H123 L125 316 C125 324 118 329 112 329 C105 329 100 323 101 315 Z" fill="url(#skin-warm)" stroke="#2b1b16" stroke-width="2.2"/>
+                                    <path d="M122 303 C128 306 129 313 123 316" fill="none" stroke="#2b1b16" stroke-width="2" stroke-linecap="round"/>
+
+                                    <!-- Prop: Framed Chocolate Wrapper (Chapter 8) -->
+                                    <g id="prop-wrapper-frame" hidden>
+                                      <rect x="86" y="286" width="44" height="52" rx="4" fill="#6d452b" stroke="#2a190f" stroke-width="2.4"/>
+                                      <rect x="92" y="292" width="32" height="40" rx="2" fill="#fbf3e4"/>
+                                      <path d="M97 304 L119 300 L116 322 L99 324 Z" fill="#8b2f4b" stroke="#d9a84e" stroke-width="1.8"/>
+                                      <path d="M101 308 L114 306" stroke="#f7d88b" stroke-width="2" stroke-linecap="round"/>
+                                    </g>
+                                  </g>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+
+                        <!-- TORSO: Neck Base + Crisp White Crew Tee + Sharp Dark Navy Open Jacket -->
+                        <g class="torso-core">
+                          <!-- Tapered warm brown neck cushion tucked cleanly inside head cutout -->
+                          <path d="M169 138 H191 L195 162 H165 Z" fill="#dc8d59"/>
+
+                          <!-- Crisp White Crew-Neck Tee underneath -->
+                          <path d="M132 158 C148 150 164 148 180 148 C196 148 212 150 228 158 L222 308 H138 Z" fill="url(#white-tee)" stroke="#231f26" stroke-width="2.2"/>
+                          <!-- White tee collar rib -->
+                          <path d="M159 150 Q180 165 201 150" fill="none" stroke="#d5cec0" stroke-width="4" stroke-linecap="round"/>
+                          <path d="M164 278 Q180 284 196 278" fill="none" stroke="#d9d2c5" stroke-width="1.8" stroke-linecap="round"/>
+
+                          <!-- Left Open Jacket Panel (Midnight Navy / Black) -->
+                          <path d="M120 163 C133 152 148 148 162 149 L165 310 H134 C129 310 126 305 126 298 L119 182 C118 172 118 166 120 163 Z" fill="url(#jacket-navy)" stroke="#0a0e17" stroke-width="2.6" stroke-linejoin="round"/>
+                          <!-- Right Open Jacket Panel -->
+                          <path d="M240 163 C227 152 212 148 198 149 L195 310 H226 C231 310 234 305 234 298 L241 182 C242 172 242 166 240 163 Z" fill="url(#jacket-navy)" stroke="#0a0e17" stroke-width="2.6" stroke-linejoin="round"/>
+
+                          <!-- Sharp Tailored Jacket Collar & Lapels -->
+                          <path d="M161 146 L144 159 L154 196 L165 184 Z" fill="#1e2a42" stroke="#0a0e17" stroke-width="2.2" stroke-linejoin="round"/>
+                          <path d="M199 146 L216 159 L206 196 L195 184 Z" fill="#1e2a42" stroke="#0a0e17" stroke-width="2.2" stroke-linejoin="round"/>
+
+                          <!-- Subtle Silver Zipper Edge & Pocket Welts -->
+                          <line x1="164.5" y1="184" x2="164.5" y2="306" stroke="#7d8ca8" stroke-width="1.4" stroke-dasharray="3 2" opacity="0.7"/>
+                          <line x1="195.5" y1="184" x2="195.5" y2="306" stroke="#7d8ca8" stroke-width="1.4" stroke-dasharray="3 2" opacity="0.7"/>
+                          <path d="M136 258 L153 264 M224 258 L207 264" stroke="#314263" stroke-width="2.6" stroke-linecap="round"/>
+                          <path d="M128 196 Q142 222 138 286 M232 196 Q218 222 222 286" fill="none" stroke="#2c3b59" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+                        </g>
+
+                        <!-- Prop: Acoustic Guitar slung across chest (Chapter 3 Rooftop) -->
+                        <g id="prop-guitar" hidden>
+                          <path d="M132 246 C116 234 114 274 134 282 C148 287 156 280 166 282 C179 285 196 298 212 284 C228 270 222 232 202 228 C188 225 176 236 164 236 C152 236 144 252 132 246 Z" fill="#c97d3d" stroke="#3b210e" stroke-width="2.8"/>
+                          <circle cx="174" cy="259" r="13" fill="#2c170b" stroke="#f0c88b" stroke-width="2"/>
+                          <path d="M186 254 L268 216 L273 226 L190 264 Z" fill="#4a2a14" stroke="#241307" stroke-width="2"/>
+                          <line x1="154" y1="264" x2="268" y2="220" stroke="#f6e7c8" stroke-width="1.1" opacity="0.85"/>
+                        </g>
+
+                        <!-- HEAD & NECK PIVOT (180, 146) — Real Owner Cutout + Fallback + Blink/Helmet -->
+                        <g transform="translate(180, 146)">
+                          <g id="rig-head">
+                            <g transform="translate(-180, -146)">
+                              <!-- Compact inner fallback tone completely inside cutout jawline -->
+                              <ellipse cx="182" cy="94" rx="18" ry="22" fill="#df915e"/>
+
+                              <!-- EXACT High-Res Head Cutout from owner-avatar-chatgpt-base.png -->
+                              <image
+                                id="actor-head-img"
+                                href="./assets/avatar/owner-head-cutout.png"
+                                x="132"
+                                y="44"
+                                width="96"
+                                height="109.5"
+                                preserveAspectRatio="xMidYMid meet"
+                              />
+
+                              <!-- Natural Painterly Eyelid Blink Overlays aligned to exact cutout pupil coordinates -->
+                              <g id="actor-blink-lids" opacity="0">
+                                <ellipse cx="174.3" cy="89.1" rx="6.4" ry="3.8" fill="#d1875a"/>
+                                <path d="M168.0 89.6 Q174.3 92.6 180.6 89.6" fill="none" stroke="#2a1914" stroke-width="1.8" stroke-linecap="round"/>
+                                <ellipse cx="193.9" cy="90.9" rx="6.4" ry="3.8" fill="#d58b5d"/>
+                                <path d="M187.6 91.4 Q193.9 94.4 200.2 91.4" fill="none" stroke="#2a1914" stroke-width="1.8" stroke-linecap="round"/>
+                              </g>
+
+                              <!-- Subtle Natural Speaking Lip Part Overlay aligned to exact mouth coordinates -->
+                              <ellipse id="actor-talk-mouth" cx="183.9" cy="110.8" rx="4.8" ry="2.4" fill="#591f1b" opacity="0"/>
+
+                              <!-- Optional Playful Oversized Cushioned Foam Helmet (Accountability Bonk only) -->
+                              <g id="foam-helmet" class="foam-helmet-group" transform="translate(0, -11)" hidden>
+                                <path d="M132 82 C132 46 153 30 181 30 C209 30 230 46 230 82 C230 88 225 92 218 92 H144 C137 92 132 88 132 82 Z" fill="#cbb2e6" stroke="#4c3b61" stroke-width="2.8" stroke-linejoin="round"/>
+                                <path d="M181 32 V81 M158 38 Q154 58 153 81 M204 38 Q208 58 209 81" fill="none" stroke="rgba(76, 59, 97, 0.34)" stroke-width="2.2" stroke-linecap="round"/>
+                                <path d="M137 83 Q181 91 225 83" fill="none" stroke="#fff3db" stroke-width="6.5" stroke-linecap="round"/>
+                                <path d="M152 48 Q175 37 201 44" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="3.2" stroke-linecap="round"/>
+                              </g>
+
+                              <!-- Playful Plush Squeaky Foam Bopper + BONK! burst -->
+                              <g id="plush-bopper" transform="translate(0, -10)" hidden>
+                                <g transform="translate(248, 22)">
+                                  <line x1="0" y1="0" x2="-38" y2="12" stroke="#f4d599" stroke-width="5" stroke-linecap="round"/>
+                                  <rect x="-68" y="-8" width="40" height="26" rx="13" fill="#f29aa8" stroke="#59313d" stroke-width="2.5" transform="rotate(-14 -48 5)"/>
+                                </g>
+                                <g transform="translate(180, 16)">
+                                  <rect x="-42" y="-16" width="84" height="28" rx="14" fill="#fff3d6" stroke="#59313d" stroke-width="2.4"/>
+                                  <text x="0" y="3" text-anchor="middle" fill="#6b2d39" font-size="14" font-weight="800" letter-spacing="1.5">BONK!</text>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+
+                        <!-- RIGHT ARM (Viewer's Right): Shoulder (235, 172) -> Elbow (244, 240) -->
+                        <g transform="translate(235, 172)">
+                          <g id="rig-arm-r">
+                            <g transform="translate(-235, -172)">
+                              <path d="M226 157 C237 152 247 155 247 164 L255 242 H231 Z" fill="url(#jacket-sleeve)" stroke="#0b0f18" stroke-width="2.5" stroke-linejoin="round"/>
+                              <path d="M247 180 L251 234" stroke="#314263" stroke-width="2" stroke-linecap="round" opacity="0.52"/>
+                              <g transform="translate(244, 240)">
+                                <g id="rig-forearm-r">
+                                  <g transform="translate(-244, -240)">
+                                    <path d="M232 236 H255 L256 294 H236 Z" fill="url(#jacket-sleeve)" stroke="#0b0f18" stroke-width="2.4" stroke-linejoin="round"/>
+                                    <path d="M235 291 H257 V297 H235 Z" fill="#f5f1e8" stroke="#1b181d" stroke-width="1.6"/>
+                                    <path d="M237 297 H256 L259 315 C260 323 255 329 248 329 C242 329 235 324 235 316 Z" fill="url(#skin-warm)" stroke="#2b1b16" stroke-width="2.2"/>
+                                    <path d="M238 303 C232 306 231 313 237 316" fill="none" stroke="#2b1b16" stroke-width="2" stroke-linecap="round"/>
+
+                                    <!-- Prop: Smartphone (Rooftop snap / Chocolate snap / November night call) -->
+                                    <g id="prop-phone" hidden>
+                                      <rect x="234" y="302" width="18" height="31" rx="3.5" fill="#171c29" stroke="#9fb4d9" stroke-width="1.6"/>
+                                      <rect x="236.5" y="305" width="13" height="24" rx="1.8" fill="#ffe4a8" opacity="0.85"/>
+                                    </g>
+
+                                    <!-- Prop: Blooming No-Obligation Gift Flower (Closing scene) -->
+                                    <g id="prop-flower" hidden>
+                                      <path d="M247 322 Q256 290 268 268" fill="none" stroke="#3d7a4f" stroke-width="3.2" stroke-linecap="round"/>
+                                      <path d="M256 296 C246 292 245 282 254 282 C259 285 259 291 256 296 Z" fill="#4f9662"/>
+                                      <g transform="translate(269, 266)">
+                                        <circle cx="0" cy="-9" r="8" fill="#f5989d"/>
+                                        <circle cx="9" cy="-2" r="8" fill="#f7adb0"/>
+                                        <circle cx="6" cy="8" r="8" fill="#f28b92"/>
+                                        <circle cx="-6" cy="8" r="8" fill="#f7adb0"/>
+                                        <circle cx="-9" cy="-2" r="8" fill="#f5989d"/>
+                                        <circle cx="0" cy="0" r="5.5" fill="#ffd97d"/>
+                                      </g>
+                                    </g>
+                                  </g>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+
+                      </g>
+                    </g>
+                  </g>
+
+                </g>
+              </g>
+            </g>
+
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Embedded Fallback Copy of Story Data so file:// Opening Never Fails -->
+  <script id="story-fallback" type="application/json">
+  {
+    "title": "Until You Hold My Hand",
+    "recipient": "Nidhi",
+    "autoDetectLocalAssets": false,
+    "specialVoices": {
+      "bookOpen": { "src": "assets/voice/book-open.mp3", "enabled": false, "subtitle": "Come walk with me—let's open our story from the very beginning." },
+      "holdReturn": { "src": "assets/voice/hold-return.mp3", "enabled": false, "subtitle": "Why did you let go of my hand? Hold it when you're ready." }
+    },
+    "scenes": [
+      { "id": "opening", "type": "intro", "title": "A quiet beginning", "durationMs": 6200, "subtitle": "Hi, Nidhi… hold my hand whenever you're ready, and we'll walk through our story.", "alt": "Dark spotlight opening" },
+      { "id": "classmates", "type": "memory", "title": "Before we really noticed each other", "dateLabel": "Online-school years; approximate", "durationMs": 12500, "subtitle": "From sleepy online classes to joking on the Class Seven and Eight back benches, I was lost in my own world.", "frames": [{ "id": "frame-classmates", "src": "assets/photos/school-days.jpg", "enabled": false, "caption": "School days", "slotStyle": "polaroid-top-left", "illustration": "classroom" }] },
+      { "id": "science-project", "type": "memory", "title": "The paper house", "dateLabel": "First direct messages; approximate", "durationMs": 13500, "subtitle": "I wired the series and parallel circuit houses—and you sent me a picture of the tiny paper sofa and bed you painted.", "frames": [{ "id": "frame-science-project", "src": "assets/photos/science-project.jpg", "enabled": false, "caption": "Series & parallel houses + tiny paper sofa", "slotStyle": "polaroid-top-right", "illustration": "circuit" }] },
+      { "id": "rooftop-snap", "type": "memory", "title": "Across the rooftops", "dateLabel": "After Nidhi moved nearby; approximate", "durationMs": 13000, "subtitle": "Playing guitar on my rooftop within sight of your balcony—you sent a snap of the song, and I sent one back.", "frames": [{ "id": "frame-rooftop", "src": "assets/photos/rooftop-song.jpg", "enabled": false, "caption": "Rooftop guitar & first snap", "slotStyle": "polaroid-top-left", "illustration": "guitar" }] },
+      { "id": "best-friend-routines", "type": "memory", "title": "Our own little language", "dateLabel": "Best-friend years; approximate", "durationMs": 14000, "subtitle": "Power-cut evenings matching steps across our rooftops, daily messages, coaching walks, silly jokes, and skipping class for food.", "frames": [{ "id": "frame-coaching", "src": "assets/photos/coaching-days.jpg", "enabled": false, "caption": "Coaching walks & snack breaks", "slotStyle": "polaroid-top-right", "illustration": "snacks" }] },
+      { "id": "river-sunset", "type": "memory", "title": "The river and our very detailed plan", "dateLabel": "A coaching break; date unknown", "durationMs": 15000, "subtitle": "Our minute-by-minute river boat outing at sunset, paying that surprise overcharge quietly, and the silent rickshaw ride back.", "frames": [{ "id": "frame-river", "src": "assets/photos/river-sunset.jpg", "enabled": false, "caption": "River sunset outing", "slotStyle": "polaroid-top-left", "illustration": "boat" }] },
+      { "id": "love-teacher", "type": "memory", "title": "Best friends, before we had the words", "dateLabel": "Before the November 2023 call", "durationMs": 12500, "subtitle": "Acting like a 'love teacher' though I'd never been in love—secretly wishing that when you said someone would love me, you meant yourself.", "frames": [{ "id": "frame-love-teacher", "src": "assets/photos/best-friends.jpg", "enabled": false, "caption": "Good mornings & endless talks", "slotStyle": "polaroid-top-right", "illustration": "notes" }] },
+      { "id": "distance", "type": "memory", "title": "The silence, and finding our way back", "dateLabel": "Two quiet days; exact date unknown", "durationMs": 11500, "subtitle": "I thought people misunderstood our closeness and created distance—leaving two quiet days when I should have spoken honestly.", "frames": [] },
+      { "id": "chocolate-snap", "type": "memory", "title": "The chocolate wrapper", "dateLabel": "Reconnecting; date unknown", "durationMs": 12500, "subtitle": "I sent you a snap of the chocolate wrapper I had kept and framed—and we came back to how we were, as best friends.", "frames": [{ "id": "frame-chocolate", "src": "assets/photos/chocolate-wrapper.jpg", "enabled": false, "caption": "The framed chocolate wrapper", "slotStyle": "polaroid-top-left", "illustration": "wrapper" }] },
+      { "id": "first-i-love-you", "type": "memory", "title": "The night our feelings had words", "dateLabel": "November 2023; after November 10; exact day unknown", "durationMs": 13500, "subtitle": "Sometime in November 2023, after my birthday on November 10, on an ordinary night call, the words finally came: 'I love you.'", "frames": [{ "id": "frame-november", "src": "assets/photos/november-night.jpg", "enabled": false, "caption": "November 2023 · exact day unknown", "slotStyle": "polaroid-top-right", "illustration": "nightcall" }] },
+      { "id": "letters-and-years", "type": "gallery", "title": "All the little chapters after that", "dateLabel": "Shared years; approximate", "durationMs": 16000, "subtitle": "All the little chapters since—messages, letters, calls, jokes, and these frames waiting for our real pictures.", "frames": [
+        { "id": "book-frame-1", "src": "assets/photos/memory-01.jpg", "enabled": false, "caption": "Memory I", "slotStyle": "book-grid", "illustration": "camera" },
+        { "id": "book-frame-2", "src": "assets/photos/memory-02.jpg", "enabled": false, "caption": "Memory II", "slotStyle": "book-grid", "illustration": "laugh" },
+        { "id": "book-frame-3", "src": "assets/photos/letter-01.jpg", "enabled": false, "caption": "A kept letter", "slotStyle": "book-grid", "illustration": "letter" },
+        { "id": "book-frame-4", "src": "assets/photos/memory-03.jpg", "enabled": false, "caption": "Memory III", "slotStyle": "book-grid", "illustration": "walk" },
+        { "id": "book-frame-5", "src": "assets/photos/memory-04.jpg", "enabled": false, "caption": "Memory IV", "slotStyle": "book-grid", "illustration": "stars" },
+        { "id": "book-frame-6", "src": "assets/photos/letter-02.jpg", "enabled": false, "caption": "Little notes", "slotStyle": "book-grid", "illustration": "notes" }
+      ] },
+      { "id": "accountability", "type": "apology", "title": "What I am sorry for now", "dateLabel": "Today", "durationMs": 14500, "subtitle": "Recently I said we should break up and said 'I don't love you anymore'—those were my words, nothing excuses that hurt, and I am sorry.", "optionalInteraction": { "actionLabel": "Bonk!", "skipLabel": "Skip", "reaction": "BONK! A silly foam-helmet wobble—the real hurt still matters, and I'm listening." }, "frames": [] },
+      { "id": "change", "type": "commitment", "title": "What changes after this", "durationMs": 13500, "subtitle": "Pause when upset, speak without threatening us, listen when I hurt you, and respect the space or time you ask for.", "commitments": ["Pause before speaking when upset", "Speak without threatening us", "Listen when I have hurt you", "Respect the space or time you ask for"], "frames": [] },
+      { "id": "closing", "type": "closing", "title": "An open ending", "durationMs": 12000, "subtitle": "I'm sorry, Nidhi. Thank you for every chapter—you owe me no forgiveness, answer, or decision, and I will respect whatever you need.", "frames": [] }
+    ]
+  }
+  </script>
+</body>
+</html>

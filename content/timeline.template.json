@@ -1,0 +1,33 @@
+{
+  "project": "Until You Hold My Hand",
+  "ownerNotes": "Use only confirmed memories and media both people would be comfortable seeing. Approximate dates are welcome. Do not invent an anniversary.",
+  "assets": {
+    "photos": [
+      { "sceneId": "science-project", "file": "assets/photos/science-project.jpg", "status": "needed", "caption": "Our science-project model", "alt": "Describe the project and what is visible." },
+      { "sceneId": "rooftop-snap", "file": "assets/photos/rooftop-song.jpg", "status": "optional", "caption": "The rooftop guitar snap", "alt": "Describe the photo without identifying people by appearance alone." },
+      { "sceneId": "river-sunset", "file": "assets/photos/river-sunset.jpg", "status": "optional", "caption": "The river at sunset", "alt": "Describe the river outing photo." },
+      { "sceneId": "letters-and-years", "file": "assets/photos/memory-01.jpg", "status": "optional", "caption": "Add a short memory caption", "alt": "Describe the image." }
+    ],
+    "voice": [
+      { "sceneId": "opening", "file": "assets/voice/opening.mp3", "status": "optional", "transcript": "Hey, Nidhi. I made this to say I'm sorry and to remember our story." },
+      { "sceneId": "first-i-love-you", "file": "assets/voice/november-call-memory.mp3", "status": "optional", "transcript": "Sometime in November 2023, after my birthday, we were on a regular night call. Then the words finally came: I love you." },
+      { "sceneId": "accountability", "file": "assets/voice/apology.mp3", "status": "optional", "transcript": "Recently, I said we should break up, and I said, I don't love you anymore. Those were my words. I am sorry I spoke to you that way." },
+      { "sceneId": "closing", "file": "assets/voice/closing.mp3", "status": "optional", "transcript": "I'm sorry, Nidhi. You don't owe me an answer. Whatever you need next, I will respect it." }
+    ],
+    "music": [
+      { "sceneId": "all", "file": "assets/audio/ambient-instrumental.mp3", "status": "optional", "licenseOrSource": "Record the license or confirm this is your own recording." }
+    ]
+  },
+  "memories": [
+    { "sceneId": "classmates", "dateApprox": "online-school / school resumption years", "caption": "Confirm the year range if you want a year shown.", "media": [] },
+    { "sceneId": "science-project", "dateApprox": "unknown", "caption": "Series and parallel circuit house project; Nidhi made paper furniture.", "media": ["assets/photos/science-project.jpg"] },
+    { "sceneId": "rooftop-snap", "dateApprox": "after Nidhi moved nearby; unknown year", "caption": "Guitar with cousins; first rooftop/balcony snap exchange.", "media": ["assets/photos/rooftop-song.jpg"] },
+    { "sceneId": "best-friend-routines", "dateApprox": "best-friend years; approximate", "caption": "Daily messages, power cuts, eye contact, matched steps, and coaching.", "media": [] },
+    { "sceneId": "river-sunset", "dateApprox": "unknown", "caption": "Planned river boat trip and sunset; unexpected overcharge; rickshaw ride back.", "media": ["assets/photos/river-sunset.jpg"] },
+    { "sceneId": "distance", "dateApprox": "unknown", "caption": "Two quiet days before the friendship reconnected.", "media": [] },
+    { "sceneId": "chocolate-snap", "dateApprox": "unknown", "caption": "A saved chocolate wrapper and a Snapchat message asking to return to the friendship.", "media": [] },
+    { "sceneId": "first-i-love-you", "dateApprox": "mid-November 2023, after November 10; exact day unknown", "caption": "Night call; first spoken I love you. Do not present an exact day or anniversary.", "media": [] },
+    { "sceneId": "letters-and-years", "dateApprox": "varies; add only confirmed years", "caption": "Add one brief caption for each chosen letter/photo.", "media": ["assets/photos/memory-01.jpg"] }
+  ]
+}
+

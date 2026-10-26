@@ -1,0 +1,36 @@
+{
+  "characterName": "Narrator",
+  "style": "hand-drawn storybook avatar",
+  "referenceImage": null,
+  "bundleReferenceImageInGame": false,
+  "appearance": {
+    "faceShape": null,
+    "skinTone": null,
+    "hairStyle": null,
+    "hairTexture": null,
+    "hairColor": null,
+    "eyeShape": null,
+    "eyebrowShape": null,
+    "facialHair": null,
+    "glasses": null,
+    "accessories": [],
+    "preferredOutfit": null
+  },
+  "expressions": [
+    "hello",
+    "sheepish apology",
+    "listening",
+    "calm idle",
+    "sincere closing"
+  ],
+  "animationStates": [
+    "fall-and-land",
+    "wake-and-blink",
+    "idle-breathing",
+    "apology-bow",
+    "offer-hand",
+    "paused",
+    "foam-helmet-bonk"
+  ],
+  "notes": "Appearance is intentionally unfilled until the owner provides a reference photo or describes the traits. Never invent identifying details."
+}

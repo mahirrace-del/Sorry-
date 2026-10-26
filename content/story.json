@@ -1,0 +1,424 @@
+{
+  "title": "Until You Hold My Hand",
+  "recipient": "Nidhi",
+  "language": "en",
+  "autoDetectLocalAssets": true,
+  "ambientMusic": {
+    "src": "assets/audio/ambient-instrumental.mp3",
+    "enabled": false
+  },
+  "specialVoices": {
+    "bookOpen": {
+      "src": "assets/voice/book-open.mp3",
+      "enabled": false,
+      "subtitle": "Come walk with me—let's open our story from the very beginning."
+    },
+    "holdReturn": {
+      "src": "assets/voice/hold-return.mp3",
+      "enabled": false,
+      "subtitle": "Why did you let go of my hand? Hold it when you're ready."
+    }
+  },
+  "notes": {
+    "tone": "first-person, accountable, warm, and non-coercive",
+    "datePolicy": "Keep unknown dates approximate. Do not invent an anniversary.",
+    "privacy": "Strict personal boundary protection; zero analytics or response collection."
+  },
+  "scenes": [
+    {
+      "id": "opening",
+      "type": "intro",
+      "title": "A quiet beginning",
+      "dateLabel": null,
+      "durationMs": 6200,
+      "subtitle": "Hi, Nidhi… hold my hand whenever you're ready, and we'll walk through our story.",
+      "text": "Hey, Nidhi. I made this to say I'm sorry and to remember our story. You can pause, skip, or leave whenever you want. You don't have to answer anything.",
+      "voice": {
+        "src": "assets/voice/opening.mp3",
+        "enabled": false
+      },
+      "actions": [
+        "Begin"
+      ],
+      "media": [],
+      "frames": [],
+      "alt": "A dark theater stage where a warm spotlight clicks on, the narrator drops in from above, slowly stands up looking at Nidhi, waves hi, and reaches his hand toward the bottom-right corner."
+    },
+    {
+      "id": "classmates",
+      "type": "memory",
+      "title": "Before we really noticed each other",
+      "dateLabel": "Online-school years; approximate",
+      "durationMs": 12500,
+      "subtitle": "From sleepy online classes to joking on the Class Seven and Eight back benches, I was lost in my own world.",
+      "text": "We were classmates before we became close. During online school, I barely paid attention. When school resumed and we were moving through Class Seven and Class Eight, I was usually joking with my friends at the back.",
+      "voice": {
+        "src": "assets/voice/classmates.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [
+        {
+          "id": "frame-classmates",
+          "src": "assets/photos/school-days.jpg",
+          "enabled": false,
+          "caption": "School days",
+          "alt": "Optional school-era memory photo frame.",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "classroom"
+        }
+      ],
+      "alt": "First a sleepy morning online class on a laptop, then a sunlit Class Seven and Eight classroom with back benches and a drifting paper airplane."
+    },
+    {
+      "id": "science-project",
+      "type": "memory",
+      "title": "The paper house",
+      "dateLabel": "First direct messages; approximate",
+      "durationMs": 13500,
+      "subtitle": "I wired the series and parallel circuit houses—and you sent me a picture of the tiny paper sofa and bed you painted.",
+      "text": "Our science group had to build little houses to show series and parallel circuits. I worked on the electrical part. You made tiny paper furniture, including a sofa and bed, painted it, and sent me a picture on Messenger. That was your first direct message to me.",
+      "voice": {
+        "src": "assets/voice/science-project.mp3",
+        "enabled": false
+      },
+      "media": [
+        {
+          "kind": "photo",
+          "src": "assets/photos/science-project.jpg",
+          "caption": "Our science-project model",
+          "alt": "Add a photo of the series and parallel circuit houses, if available."
+        }
+      ],
+      "frames": [
+        {
+          "id": "frame-science-project",
+          "src": "assets/photos/science-project.jpg",
+          "enabled": false,
+          "caption": "Series & parallel houses + tiny paper sofa",
+          "alt": "Frame for the science-project miniature houses and painted paper furniture.",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "circuit"
+        }
+      ],
+      "alt": "Two handmade miniature circuit houses lighting up on a craft table beside a tiny painted paper sofa, paper bed, and a glowing first message card."
+    },
+    {
+      "id": "rooftop-snap",
+      "type": "memory",
+      "title": "Across the rooftops",
+      "dateLabel": "After Nidhi moved nearby; approximate",
+      "durationMs": 13000,
+      "subtitle": "Playing guitar on my rooftop within sight of your balcony—you sent a snap of the song, and I sent one back.",
+      "text": "Your balcony could be seen from my rooftop. One day I was there with my cousins, playing guitar and singing. You asked someone we knew if that was my home, then sent me a snap of the song. I sent one back. It was a small, shy beginning.",
+      "voice": {
+        "src": "assets/voice/rooftop-snap.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [
+        {
+          "id": "frame-rooftop",
+          "src": "assets/photos/rooftop-song.jpg",
+          "enabled": false,
+          "caption": "Rooftop guitar & first snap",
+          "alt": "Frame for the rooftop guitar or balcony view memory.",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "guitar"
+        }
+      ],
+      "alt": "Twilight rooftops facing a warm-lit balcony across the lane as guitar notes and shy snaps travel across the evening sky."
+    },
+    {
+      "id": "best-friend-routines",
+      "type": "memory",
+      "title": "Our own little language",
+      "dateLabel": "Best-friend years; approximate",
+      "durationMs": 14000,
+      "subtitle": "Power-cut evenings matching steps across our rooftops, daily messages, coaching walks, silly jokes, and skipping class for food.",
+      "text": "The messages grew into good mornings, good nights, and long talks. When the electricity went out, we sometimes met each other's eyes from the rooftop and balcony and matched steps. We went to coaching together, teased each other, and shared ordinary details all day.",
+      "voice": {
+        "src": "assets/voice/best-friend-routines.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [
+        {
+          "id": "frame-coaching",
+          "src": "assets/photos/coaching-days.jpg",
+          "enabled": false,
+          "caption": "Coaching walks & snack breaks",
+          "alt": "Frame for a coaching-era or best-friend memory photo.",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "snacks"
+        }
+      ],
+      "alt": "City lights clicking off in a power cut as steps match across moonlit rooftops, transitioning into sunny coaching walks and street snacks."
+    },
+    {
+      "id": "river-sunset",
+      "type": "memory",
+      "title": "The river and our very detailed plan",
+      "dateLabel": "A coaching break; date unknown",
+      "durationMs": 15000,
+      "subtitle": "Our minute-by-minute river boat outing at sunset, paying that surprise overcharge quietly, and the silent rickshaw ride back.",
+      "text": "I planned our outing almost minute by minute: a boat on the nearby river and time to watch the sunset before coaching. We were still friends, not calling it a date. When we got off the boat, the renter demanded much more money than we expected. We paid and left. In the rickshaw back, we mostly looked at each other and let the silence do the talking.",
+      "voice": {
+        "src": "assets/voice/river-sunset.mp3",
+        "enabled": false
+      },
+      "media": [
+        {
+          "kind": "photo",
+          "src": "assets/photos/river-sunset.jpg",
+          "caption": "The river at sunset",
+          "alt": "Add an approved photo from the river outing, if available."
+        }
+      ],
+      "frames": [
+        {
+          "id": "frame-river",
+          "src": "assets/photos/river-sunset.jpg",
+          "enabled": false,
+          "caption": "River sunset outing",
+          "alt": "Frame for the river boat sunset outing photo.",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "boat"
+        }
+      ],
+      "alt": "A wooden boat gliding across a golden sunset river, a brief humorous fare overcharge at the jetty, and a quiet twilight rickshaw ride."
+    },
+    {
+      "id": "love-teacher",
+      "type": "memory",
+      "title": "Best friends, before we had the words",
+      "dateLabel": "Before the November 2023 call",
+      "durationMs": 12500,
+      "subtitle": "Acting like a 'love teacher' though I'd never been in love—secretly wishing that when you said someone would love me, you meant yourself.",
+      "text": "For months, your good-morning message was often the first thing I looked for. I used to explain love like I was some kind of love teacher, even though I had never been in love. Whenever you said someone would love me, a quiet part of me wished you meant yourself.",
+      "voice": {
+        "src": "assets/voice/love-teacher.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [
+        {
+          "id": "frame-love-teacher",
+          "src": "assets/photos/best-friends.jpg",
+          "enabled": false,
+          "caption": "Good mornings & endless talks",
+          "alt": "Frame for a best-friend era memory.",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "notes"
+        }
+      ],
+      "alt": "Warm morning light with drifting message notes and a playful chalkboard diagram as the narrator gestures like a self-styled love teacher."
+    },
+    {
+      "id": "distance",
+      "type": "memory",
+      "title": "The silence, and finding our way back",
+      "dateLabel": "Two quiet days; exact date unknown",
+      "durationMs": 11500,
+      "subtitle": "I thought people misunderstood our closeness and created distance—leaving two quiet days when I should have spoken honestly.",
+      "text": "I believed people were misunderstanding our friendship, so I decided we should make distance. I stopped talking properly, then told you we should end that closeness. We barely messaged for two days. I should have explained myself with more care.",
+      "voice": {
+        "src": "assets/voice/distance.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [],
+      "alt": "Two still windows across a quiet dusk street as two silent days pass."
+    },
+    {
+      "id": "chocolate-snap",
+      "type": "memory",
+      "title": "The chocolate wrapper",
+      "dateLabel": "Reconnecting; date unknown",
+      "durationMs": 12500,
+      "subtitle": "I sent you a snap of the chocolate wrapper I had kept and framed—and we came back to how we were, as best friends.",
+      "text": "I had kept the wrapper from a chocolate you gave me, framed it, and sent you a snap. You asked if we could get back to how we were. We started messaging again and found our friendship.",
+      "voice": {
+        "src": "assets/voice/chocolate-snap.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [
+        {
+          "id": "frame-chocolate",
+          "src": "assets/photos/chocolate-wrapper.jpg",
+          "enabled": false,
+          "caption": "The framed chocolate wrapper",
+          "alt": "Frame for the real photo of the framed chocolate wrapper.",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "wrapper"
+        }
+      ],
+      "alt": "Warm honey light returning as the narrator snaps a photo of a preserved chocolate wrapper in a small wooden frame, reconnecting their friendship."
+    },
+    {
+      "id": "first-i-love-you",
+      "type": "memory",
+      "title": "The night our feelings had words",
+      "dateLabel": "November 2023; after November 10; exact day unknown",
+      "durationMs": 13500,
+      "subtitle": "Sometime in November 2023, after my birthday on November 10, on an ordinary night call, the words finally came: 'I love you.'",
+      "text": "Sometime in November 2023, after my birthday, we were on a regular night call. We both seemed to know what the other wanted to say. Then the words finally came: “I love you.” We never chose one exact anniversary.",
+      "voice": {
+        "src": "assets/voice/november-call-memory.mp3",
+        "altSrc": "assets/voice/first-i-love-you.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [
+        {
+          "id": "frame-november",
+          "src": "assets/photos/november-night.jpg",
+          "enabled": false,
+          "caption": "November 2023 · exact day unknown",
+          "alt": "Optional frame for a November 2023 memory.",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "nightcall"
+        }
+      ],
+      "alt": "A starlit November night window with an unmarked November 2023 calendar leaf as warm golden call ripples float into the night sky."
+    },
+    {
+      "id": "letters-and-years",
+      "type": "gallery",
+      "title": "All the little chapters after that",
+      "dateLabel": "Shared years; approximate",
+      "durationMs": 16000,
+      "subtitle": "All the little chapters since—messages, letters, calls, jokes, and these frames waiting for our real pictures.",
+      "text": "Our years together are not only the big scenes. They are the messages, photos, letters, calls, jokes, and small things we remembered for each other. I want to add only the memories that feel good and true for both of us.",
+      "voice": {
+        "src": "assets/voice/letters-and-years.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [
+        {
+          "id": "book-frame-1",
+          "src": "assets/photos/memory-01.jpg",
+          "enabled": false,
+          "caption": "Memory I",
+          "alt": "Memory book photo slot 1.",
+          "slotStyle": "book-grid",
+          "illustration": "camera"
+        },
+        {
+          "id": "book-frame-2",
+          "src": "assets/photos/memory-02.jpg",
+          "enabled": false,
+          "caption": "Memory II",
+          "alt": "Memory book photo slot 2.",
+          "slotStyle": "book-grid",
+          "illustration": "laugh"
+        },
+        {
+          "id": "book-frame-3",
+          "src": "assets/photos/letter-01.jpg",
+          "enabled": false,
+          "caption": "A kept letter",
+          "alt": "Memory book letter slot 1.",
+          "slotStyle": "book-grid",
+          "illustration": "letter"
+        },
+        {
+          "id": "book-frame-4",
+          "src": "assets/photos/memory-03.jpg",
+          "enabled": false,
+          "caption": "Memory III",
+          "alt": "Memory book photo slot 3.",
+          "slotStyle": "book-grid",
+          "illustration": "walk"
+        },
+        {
+          "id": "book-frame-5",
+          "src": "assets/photos/memory-04.jpg",
+          "enabled": false,
+          "caption": "Memory IV",
+          "alt": "Memory book photo slot 4.",
+          "slotStyle": "book-grid",
+          "illustration": "stars"
+        },
+        {
+          "id": "book-frame-6",
+          "src": "assets/photos/letter-02.jpg",
+          "enabled": false,
+          "caption": "Little notes",
+          "alt": "Memory book letter slot 2.",
+          "slotStyle": "book-grid",
+          "illustration": "notes"
+        }
+      ],
+      "alt": "An open two-page handmade memory book spread displaying six photo and letter frames ready for real personal pictures."
+    },
+    {
+      "id": "accountability",
+      "type": "apology",
+      "title": "What I am sorry for now",
+      "dateLabel": "Today",
+      "durationMs": 14500,
+      "subtitle": "Recently I said we should break up and said 'I don't love you anymore'—those were my words, nothing excuses that hurt, and I am sorry.",
+      "text": "Recently, I said we should break up, and I said, “I don't love you anymore.” Those were my words. Whatever was happening inside me does not excuse the hurt or uncertainty they caused. I am sorry I spoke to you that way.",
+      "voice": {
+        "src": "assets/voice/apology.mp3",
+        "altSrc": "assets/voice/accountability.mp3",
+        "enabled": false
+      },
+      "media": [],
+      "frames": [],
+      "alt": "A quiet pool of warm light where the narrator stands with honest accountability, plus an optional playful foam-helmet cartoon bonk.",
+      "optionalInteraction": {
+        "title": "A tiny cartoon bonk?",
+        "copy": "Optional playful cartoon bonk—never replaces the apology.",
+        "actionLabel": "Bonk!",
+        "skipLabel": "Skip",
+        "reaction": "BONK! A silly foam-helmet wobble—the real hurt still matters, and I'm listening."
+      }
+    },
+    {
+      "id": "change",
+      "type": "commitment",
+      "title": "What changes after this",
+      "dateLabel": null,
+      "durationMs": 13500,
+      "subtitle": "Pause when upset, speak without threatening us, listen when I hurt you, and respect the space or time you ask for.",
+      "text": "I want to pause before speaking when I'm upset, explain my feelings without threatening the relationship, listen when you say I have hurt you, and respect the time or space you ask for. A promise in a game is only a sentence. The change has to happen after the game is closed.",
+      "voice": {
+        "src": "assets/voice/change.mp3",
+        "enabled": false
+      },
+      "commitments": [
+        "Pause before speaking when upset",
+        "Speak without threatening us",
+        "Listen when I have hurt you",
+        "Respect the space or time you ask for"
+      ],
+      "media": [],
+      "frames": [],
+      "alt": "Soft dawn light warming the room with four calm commitment lanterns and a budding flower."
+    },
+    {
+      "id": "closing",
+      "type": "closing",
+      "title": "An open ending",
+      "dateLabel": null,
+      "durationMs": 12000,
+      "subtitle": "I'm sorry, Nidhi. Thank you for every chapter—you owe me no forgiveness, answer, or decision, and I will respect whatever you need.",
+      "text": "I'm sorry, Nidhi. Thank you for being part of so many chapters of my life. You do not owe me forgiveness, an answer, or a decision because I made this. You can leave here whenever you want. Whatever you need next, I will respect it.",
+      "voice": {
+        "src": "assets/voice/closing.mp3",
+        "enabled": false
+      },
+      "actions": [
+        "Close quietly",
+        "Watch again"
+      ],
+      "media": [],
+      "frames": [],
+      "alt": "Warm golden morning light where the narrator gently offers a blooming flower with no obligation or expectation of a reply."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "characterName": "Narrator",
+  "style": "warm hand-painted 2D storybook game illustration",
+  "referencePhotoBundled": false,
+  "preferredPrimaryAsset": "owner-avatar-chatgpt-base.png",
+  "primaryAssetHasCreamBackground": true,
+  "additionalGeneratedAssets": [
+    "owner-avatar-portrait-v2.png",
+    "owner-avatar-v2.png",
+    "owner-avatar-apology-pose.png",
+    "owner-avatar-reach-pose.png"
+  ],
+  "visibleTraitsFromReference": [
+    "medium warm-brown skin",
+    "youthful oval face with softly defined jaw",
+    "short thick black hair brushed up and swept to one side",
+    "dark eyes and strong natural brows",
+    "straight medium nose and relaxed lips",
+    "faint moustache and small neat chin beard",
+    "green collared sports jersey with red and white trim",
+    "gentle closed-mouth smile"
+  ],
+  "poseAssets": {
+    "idle": "owner-avatar-chatgpt-base.png",
+    "apology": "owner-avatar-apology-pose.png",
+    "offerHand": "owner-avatar-reach-pose.png",
+    "closeUp": "owner-avatar-portrait-v2.png"
+  },
+  "animationStates": [
+    "fall-and-land",
+    "wake-and-blink",
+    "idle-breathing",
+    "apology-bow",
+    "listen",
+    "offer-hand",
+    "paused",
+    "foam-helmet-bonk"
+  ],
+  "implementationNote": "PNG images are static poses. Use CSS transforms and crossfades for simple motion and pose changes; use a layered rig or aligned sprite frames for continuous body movement. Remove the cream background from the selected base before compositing over game scenes. Keep supplied source photos out of the game bundle."
+}

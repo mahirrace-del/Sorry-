@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 560" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrated avatar of the narrator</title>
+  <desc id="desc">A warm storybook-style character with short swept dark hair, a light moustache and chin beard, wearing a green jersey with red and white trim.</desc>
+  <style>
+    :root { --skin:#bd8569; --skin-light:#d39b7c; --skin-shadow:#9f6856; --hair:#211d25; --hair-light:#38313b; --jersey:#26874f; --jersey-light:#38a765; --jersey-dark:#176840; --trim:#ed334d; --trim-light:#f3e8d7; --line:#30252d; --eye:#2f2022; --trouser:#343448; --shoe:#e5d7c6; }
+    .shadow { fill:#080912; opacity:.35; }
+    .leg { fill:var(--trouser); stroke:#242433; stroke-width:4; }
+    .shoe { fill:var(--shoe); stroke:var(--line); stroke-width:4; }
+    .jersey { fill:var(--jersey); stroke:var(--line); stroke-width:5; stroke-linejoin:round; }
+    .jersey-shade { fill:var(--jersey-dark); opacity:.36; }
+    .jersey-light { fill:none; stroke:var(--jersey-light); stroke-width:4; stroke-linecap:round; opacity:.8; }
+    .trim { fill:var(--trim); stroke:var(--line); stroke-width:3; stroke-linejoin:round; }
+    .trim-light { fill:none; stroke:var(--trim-light); stroke-width:4; stroke-linecap:round; }
+    .skin { fill:var(--skin); stroke:var(--line); stroke-width:4; stroke-linejoin:round; }
+    .face { fill:var(--skin-light); stroke:var(--line); stroke-width:4; stroke-linejoin:round; }
+    .hair-back,.hair-front { fill:var(--hair); stroke:var(--line); stroke-width:4; stroke-linejoin:round; }
+    .hair-shine { fill:none; stroke:var(--hair-light); stroke-width:5; stroke-linecap:round; opacity:.75; }
+    .brows,.nose,.smile { fill:none; stroke:#49302e; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+    .eyes-open { fill:var(--eye); transform-box:fill-box; transform-origin:center; animation:blink 5.4s infinite; }
+    .eyes-closed { fill:none; stroke:var(--eye); stroke-width:4; stroke-linecap:round; opacity:0; }
+    .moustache { fill:#30242a; }
+    .goatee { fill:#30242a; }
+    .cheek { fill:#bc6e67; opacity:.28; }
+    .arm { fill:var(--skin); stroke:var(--line); stroke-width:4; stroke-linecap:round; }
+    .character { transform-origin:180px 520px; animation:breathe 4s ease-in-out infinite; }
+    .head-group { transform-origin:180px 210px; animation:listen 6s ease-in-out infinite; }
+    .foam-helmet { fill:#cbb4dc; stroke:#4c405a; stroke-width:4; opacity:0; }
+    .bonk-mark { font:700 22px 'Trebuchet MS',sans-serif; fill:#ffe09d; opacity:0; }
+    .avatar-bow .head-group { animation:bow .8s ease-in-out both; }
+    .avatar-reach .arm-reach { animation:reach .6s ease-out both; transform-origin:247px 267px; }
+    .avatar-paused .character,.avatar-paused .head-group { animation-play-state:paused!important; }
+    .avatar-bonk .character { animation:bonk .55s ease-out; transform-origin:180px 500px; }
+    .avatar-bonk .foam-helmet { opacity:1; animation:helmet .6s ease-out; }
+    .avatar-bonk .bonk-mark { opacity:1; animation:bonk-text .75s ease-out both; }
+    @keyframes breathe { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+    @keyframes blink { 0%,42%,46%,100%{transform:scaleY(1)} 44%{transform:scaleY(.08)} }
+    @keyframes listen { 0%,100%{transform:rotate(0)} 48%,57%{transform:rotate(-1.3deg)} }
+    @keyframes bow { 0%{transform:rotate(0)} 55%{transform:rotate(7deg)} 100%{transform:rotate(0)} }
+    @keyframes reach { 0%{transform:rotate(0)} 100%{transform:rotate(-38deg)} }
+    @keyframes bonk { 0%,100%{transform:rotate(0) scale(1)} 28%{transform:rotate(-5deg) scale(1.03,.94)} 62%{transform:rotate(4deg) scale(.98,1.03)} }
+    @keyframes helmet { 0%{transform:translateY(-30px);opacity:0} 65%{transform:translateY(5px);opacity:1} 100%{transform:translateY(0);opacity:1} }
+    @keyframes bonk-text { 0%{transform:translateY(10px) scale(.5);opacity:0} 35%{transform:translateY(-8px) scale(1.1);opacity:1} 100%{transform:translateY(-16px) scale(1);opacity:0} }
+    @media (prefers-reduced-motion:reduce) {
+      .character,.head-group,.eyes-open,.avatar-bow .head-group,.avatar-reach .arm-reach,.avatar-bonk .character,.avatar-bonk .foam-helmet,.avatar-bonk .bonk-mark { animation:none!important; }
+      .eyes-open { transform:scaleY(1); }
+      .avatar-bonk .foam-helmet { opacity:1; }
+      .avatar-bonk .bonk-mark { opacity:1; }
+    }
+  </style>
+  <ellipse class="shadow" cx="180" cy="535" rx="88" ry="15"/>
+  <g class="character">
+    <path class="leg" d="M137 397 124 493q-2 14 11 16h36q11 0 11-12l3-99z"/>
+    <path class="leg" d="m190 398 9 98q1 13 13 13h34q13-1 10-15l-23-100z"/>
+    <path class="shoe" d="M131 494q-25 5-26 23 0 9 14 10h59q13 0 13-9-1-15-24-23z"/>
+    <path class="shoe" d="M202 494q-23 7-22 23 1 10 14 10h59q14-1 13-11-3-17-28-22z"/>
+    <path class="arm" d="M112 267q-34 20-46 66-5 17 8 23 14 6 22-13l29-46z"/>
+    <path class="arm arm-reach" d="M247 267q34 20 46 66 5 17-8 23-14 6-22-13l-29-46z"/>
+    <path class="jersey" d="M122 250q23-24 58-24t58 24q33 20 39 62l7 74q2 25-21 28H97q-23-3-21-28l7-74q6-42 39-62z"/>
+    <path class="jersey-shade" d="M92 307q20 20 31 7l11 99H91q-15-5-14-24zM268 307q-20 20-31 7l-11 99h43q15-5 14-24z"/>
+    <path class="jersey-light" d="M105 324q8-20 22-29M254 324q-8-20-22-29M139 350h15M206 350h15"/>
+    <path class="skin" d="M158 205h44v59q-18 20-44 0z"/>
+    <path class="trim" d="M148 236q18 26 34 30l-18 25-27-34zM212 236q-18 26-34 30l18 25 27-34z"/>
+    <path class="trim-light" d="m144 242 22 25M216 242l-22 25"/>
+    <g class="head-group">
+      <ellipse class="skin" cx="111" cy="167" rx="15" ry="23"/>
+      <ellipse class="skin" cx="249" cy="167" rx="15" ry="23"/>
+      <path class="face" d="M180 72q-65 0-68 70l4 53q5 62 64 69 59-7 64-69l4-53q-3-70-68-70z"/>
+      <path class="hair-back" d="M112 155q-12-79 43-100 43-17 83 9 33 22 17 91-8-17-17-34-14 8-34 6-39-5-67-25-3 25-25 53z"/>
+      <path class="hair-front" d="M111 147q-3-60 45-83 45-20 82 15-19-6-35 0-30 11-53 6-18 28-39 62z"/>
+      <path class="hair-shine" d="M134 98q31-31 66-24M137 111q27-20 48-20"/>
+      <path class="brows" d="M139 159q17-9 30 1M192 160q15-10 30-1"/>
+      <g class="eyes-open"><ellipse cx="153" cy="178" rx="5" ry="7"/><ellipse cx="207" cy="178" rx="5" ry="7"/></g>
+      <path class="eyes-closed" d="M145 180q8 5 16 0M199 180q8 5 16 0"/>
+      <path class="nose" d="M179 178q-4 18-7 28 5 5 13 1"/>
+      <ellipse class="cheek" cx="139" cy="203" rx="13" ry="7"/><ellipse class="cheek" cx="222" cy="203" rx="13" ry="7"/>
+      <path class="moustache" d="M164 218q-12-9-20-2-5 5 2 9 10 4 19-3 8 7 18 3 7-4 1-9-9-7-20 2z"/>
+      <path class="goatee" d="M171 238q9-5 18 0l-3 10q-6 7-12 0z"/>
+      <path class="smile" d="M160 230q20 10 40 0"/>
+      <path class="foam-helmet" d="M111 151q2-77 69-83 68 6 69 83l-19-4q-8-16-14-31-22 9-40 5-37-5-58-25-4 31-7 49z"/>
+      <text class="bonk-mark" x="244" y="95">BONK!</text>
+    </g>
+    <path class="arm" d="M112 267q-18 19-30 56-5 16 7 23 12 6 21-12l28-44z" opacity=".001"/>
+  </g>
+</svg>
+

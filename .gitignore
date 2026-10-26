@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Temporary / audit files
+.audit-tmp/
+*.log
+
+# OS / Editor metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Private account screenshot
+assets/avatar/chatgpt-images-upload-state.png
