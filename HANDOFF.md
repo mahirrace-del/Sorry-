@@ -1,6 +1,6 @@
 # Antigravity Handoff — Until You Hold My Hand (Interactive Movie-Game)
 
-Last updated: 26 October 2026 (True Mobile Stage Adaptation, 30% White-Sound Ambient Music, iOS Hardware Audio Attenuation, and Single-Row Mobile UI)
+Last updated: 26 October 2026 (All 41 Real Photos & Looping Memory Videos Integrated, Multi-Frame Scene Memory Slots, Autoplaying Mobile Video Frames, 30% White-Sound Ambient Music, and Mobile Stage Adaptation)
 
 ## Project overview
 
@@ -8,7 +8,25 @@ Last updated: 26 October 2026 (True Mobile Stage Adaptation, 30% White-Sound Amb
 
 ## What is included & verified in this build
 
-1. **True Mobile-First Stage Adaptation (All Scenes Match Prologue Display)**:
+1. **All 41 Real Photos & Autoplaying Looping Memory Videos Integrated**:
+   - **11 Living Video Memory Frames**: All 11 user video clips (`.mp4`) are integrated into the story scenes. On web and mobile browsers, they autoplay seamlessly on loop with `muted`, `playsinline`, and `webkit-playsinline` attributes without triggering native fullscreen takeovers.
+   - **Video Memory Badge (`▶`)**: Each moving memory frame displays a subtle translucent video badge in the top-right corner.
+   - **High-Res Video & Photo Lightbox**: Tapping any photo or video opens the memory in a high-resolution darkroom lightbox view with play/pause controls, captions, and tap-outside / escape dismissal.
+   - **All 30 Photos & Random Memories Deployed**: Every single photo provided by the user—including all photos from `11-random-memories`—is strategically placed across the chapters to replace emptiness with shared memories.
+   - **Chapter 10 (Open Memory Book Album Spread)**: Holds 12 memories (2 videos + 10 photos) displayed in a scrollable open-book album view (4 columns on desktop, 2 columns on mobile).
+
+2. **Categorized Media Structure Across Chapters**:
+   - `01-school-and-classmates` (5 files: 1 video, 4 photos) -> Chapters I & II (Classmates & Science Project)
+   - `03-rooftops-and-music` (4 files: 1 video, 3 photos) -> Chapter III (Rooftops & Song)
+   - `04-coaching-and-street-walks` (2 files: 1 video, 1 photo) -> Chapter IV (Coaching & Street Walks)
+   - `05-river-and-sunset-dates` (7 files: 3 videos, 4 photos) -> Chapter V (River Sunset) & Chapter X
+   - `06-dates-and-outings` (6 files: 2 videos, 4 photos) -> Chapters VI & VII (Love Teacher & Distance)
+   - `07-fun-and-silly-moments` (4 files: 2 videos, 2 photos) -> Chapters VIII & X (Chocolates & Letters)
+   - `08-chocolates-and-little-gifts` (2 files: 2 photos) -> Chapter VIII (Chocolate Wrapper & Gifts)
+   - `09-late-night-calls-and-chats` (3 files: 3 photos) -> Chapter IX (Late Night Calls & Nov 2023)
+   - `11-random-memories` (8 files: 1 video, 7 photos) -> Chapters II, IV, X, XI, XII, and XIII (Closing)
+
+3. **True Mobile-First Stage Adaptation (All Scenes Match Prologue Display)**:
    - **Replaced Rigid 16:9 Letterbox Container**: Removed the artificial 16:9 camera constraint (`width: min(100vw, ...); aspect-ratio: 16/9;`) that shrunk all world scenes into a miniature 219px tall strip on mobile portrait screens.
    - **Full-Screen Immersion**: `.world-camera` now occupies `position: absolute; inset: 0; width: 100%; height: 100%;` just like the prologue first scene (`.dark-stage`).
    - **Natural `xMidYMid slice` Coverage**: SVG background and foreground canvases cover 100% of the screen seamlessly on iPhone, Android, iPad, and PC widescreen without horizontal split seams or letterbox letterboxing.

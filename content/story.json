@@ -64,12 +64,30 @@
       "media": [],
       "frames": [
         {
-          "id": "frame-classmates",
-          "src": "assets/photos/school-days.jpg",
-          "enabled": false,
-          "caption": "School days",
-          "alt": "Optional school-era memory photo frame.",
+          "id": "frame-classmates-vid",
+          "src": "assets/photos/01-school-and-classmates/69d6bdea-be85-45e5-b067-4d35fbe9b643.mp4",
+          "enabled": true,
+          "caption": "School days memory",
+          "alt": "Video memory from school days",
           "slotStyle": "polaroid-top-left",
+          "illustration": "classroom"
+        },
+        {
+          "id": "frame-classmates-photo1",
+          "src": "assets/photos/01-school-and-classmates/2750d64d-1278-4065-b430-422607e16187.jpg",
+          "enabled": true,
+          "caption": "Back when we were classmates",
+          "alt": "Photo from school times",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "classroom"
+        },
+        {
+          "id": "frame-classmates-photo2",
+          "src": "assets/photos/01-school-and-classmates/Snapchat-721789650.jpg",
+          "enabled": true,
+          "caption": "Early days",
+          "alt": "Photo from school times",
+          "slotStyle": "polaroid-mid-left",
           "illustration": "classroom"
         }
       ],
@@ -98,12 +116,30 @@
       ],
       "frames": [
         {
-          "id": "frame-science-project",
-          "src": "assets/photos/science-project.jpg",
-          "enabled": false,
-          "caption": "Series & parallel houses + tiny paper sofa",
-          "alt": "Frame for the science-project miniature houses and painted paper furniture.",
+          "id": "frame-science-photo1",
+          "src": "assets/photos/01-school-and-classmates/b29c6c92-c49d-4953-bf69-7ba94dd38688.jpg",
+          "enabled": true,
+          "caption": "Our first little project",
+          "alt": "Photo memory",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "circuit"
+        },
+        {
+          "id": "frame-science-photo2",
+          "src": "assets/photos/01-school-and-classmates/received_687419109007772.jpg",
+          "enabled": true,
+          "caption": "Little beginnings",
+          "alt": "Photo memory",
           "slotStyle": "polaroid-top-right",
+          "illustration": "circuit"
+        },
+        {
+          "id": "frame-science-photo3",
+          "src": "assets/photos/11-random-memories/334870729_6691546297541933_4517230471886843296_n.jpg",
+          "enabled": true,
+          "caption": "Such a cute start",
+          "alt": "Photo memory",
+          "slotStyle": "polaroid-mid-right",
           "illustration": "circuit"
         }
       ],
@@ -125,12 +161,39 @@
       "media": [],
       "frames": [
         {
-          "id": "frame-rooftop",
-          "src": "assets/photos/rooftop-song.jpg",
-          "enabled": false,
-          "caption": "Rooftop guitar & first snap",
-          "alt": "Frame for the rooftop guitar or balcony view memory.",
+          "id": "frame-rooftop-vid",
+          "src": "assets/photos/03-rooftops-and-music/331992540_5783521528412414_6125603570634110577_n.mp4",
+          "enabled": true,
+          "caption": "A song across the roof",
+          "alt": "Video from rooftop days",
           "slotStyle": "polaroid-top-left",
+          "illustration": "guitar"
+        },
+        {
+          "id": "frame-rooftop-photo1",
+          "src": "assets/photos/03-rooftops-and-music/330894188_871561624078197_1811672589917075882_n (1).jpg",
+          "enabled": true,
+          "caption": "Rooftop evening",
+          "alt": "Rooftop memory photo",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "guitar"
+        },
+        {
+          "id": "frame-rooftop-photo2",
+          "src": "assets/photos/03-rooftops-and-music/334331567_1310480799681756_2689861911370914704_n.jpg",
+          "enabled": true,
+          "caption": "Across the balconies",
+          "alt": "Balcony photo",
+          "slotStyle": "polaroid-mid-left",
+          "illustration": "guitar"
+        },
+        {
+          "id": "frame-rooftop-photo3",
+          "src": "assets/photos/03-rooftops-and-music/Snapchat-713720913.jpg",
+          "enabled": true,
+          "caption": "A snap sent back",
+          "alt": "Snapchat photo",
+          "slotStyle": "polaroid-mid-right",
           "illustration": "guitar"
         }
       ],
@@ -152,12 +215,30 @@
       "media": [],
       "frames": [
         {
-          "id": "frame-coaching",
-          "src": "assets/photos/coaching-days.jpg",
-          "enabled": false,
-          "caption": "Coaching walks & snack breaks",
-          "alt": "Frame for a coaching-era or best-friend memory photo.",
+          "id": "frame-bestfriend-vid",
+          "src": "assets/photos/04-coaching-and-street-walks/Snapchat-148158488.mp4",
+          "enabled": true,
+          "caption": "Street walks together",
+          "alt": "Video walking together",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "snacks"
+        },
+        {
+          "id": "frame-bestfriend-photo1",
+          "src": "assets/photos/04-coaching-and-street-walks/330425234_697947788750542_8477931610046072655_n (1).jpg",
+          "enabled": true,
+          "caption": "Coaching era walks",
+          "alt": "Coaching walk photo",
           "slotStyle": "polaroid-top-right",
+          "illustration": "snacks"
+        },
+        {
+          "id": "frame-bestfriend-photo2",
+          "src": "assets/photos/11-random-memories/340254676_1269050130353512_8894131893413726659_n.jpg",
+          "enabled": true,
+          "caption": "Our own little routine",
+          "alt": "Memory photo",
+          "slotStyle": "polaroid-mid-left",
           "illustration": "snacks"
         }
       ],
@@ -186,13 +267,40 @@
       ],
       "frames": [
         {
-          "id": "frame-river",
-          "src": "assets/photos/river-sunset.jpg",
-          "enabled": false,
-          "caption": "River sunset outing",
-          "alt": "Frame for the river boat sunset outing photo.",
+          "id": "frame-river-vid1",
+          "src": "assets/photos/05-river-and-sunset-dates/received_1222938961591753.mp4",
+          "enabled": true,
+          "caption": "Sunset on the water",
+          "alt": "Video of sunset by the river",
           "slotStyle": "polaroid-top-left",
-          "illustration": "boat"
+          "illustration": "river"
+        },
+        {
+          "id": "frame-river-vid2",
+          "src": "assets/photos/05-river-and-sunset-dates/received_2137589349765355.mp4",
+          "enabled": true,
+          "caption": "The boat ride",
+          "alt": "Video of boat ride",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "river"
+        },
+        {
+          "id": "frame-river-vid3",
+          "src": "assets/photos/05-river-and-sunset-dates/received_515863753451138.mp4",
+          "enabled": true,
+          "caption": "Golden hour river",
+          "alt": "Video by the water",
+          "slotStyle": "polaroid-mid-left",
+          "illustration": "river"
+        },
+        {
+          "id": "frame-river-photo1",
+          "src": "assets/photos/05-river-and-sunset-dates/Screenshot_2022-11-01-02-38-46-523_com.facebook.orca.jpg",
+          "enabled": true,
+          "caption": "The plan we made",
+          "alt": "Chat screenshot of outing plan",
+          "slotStyle": "polaroid-mid-right",
+          "illustration": "river"
         }
       ],
       "alt": "A wooden boat gliding across a golden sunset river, a brief humorous fare overcharge at the jetty, and a quiet twilight rickshaw ride."
@@ -213,12 +321,30 @@
       "media": [],
       "frames": [
         {
-          "id": "frame-love-teacher",
-          "src": "assets/photos/best-friends.jpg",
-          "enabled": false,
-          "caption": "Good mornings & endless talks",
-          "alt": "Frame for a best-friend era memory.",
+          "id": "frame-loveteacher-vid",
+          "src": "assets/photos/06-dates-and-outings/340666694_6021176961330512_5214717069193411899_n.mp4",
+          "enabled": true,
+          "caption": "Walking and talking",
+          "alt": "Video walking together",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "notes"
+        },
+        {
+          "id": "frame-loveteacher-photo1",
+          "src": "assets/photos/06-dates-and-outings/49f27d01-9a0a-4ae0-9a66-a4f1a9829080.jpg",
+          "enabled": true,
+          "caption": "Endless conversations",
+          "alt": "Outing photo",
           "slotStyle": "polaroid-top-right",
+          "illustration": "notes"
+        },
+        {
+          "id": "frame-loveteacher-photo2",
+          "src": "assets/photos/06-dates-and-outings/7bb0c4c0-7b96-4100-a951-5f5971ef815d.jpg",
+          "enabled": true,
+          "caption": "Days full of laughter",
+          "alt": "Outing memory",
+          "slotStyle": "polaroid-mid-left",
           "illustration": "notes"
         }
       ],
@@ -238,7 +364,35 @@
         "enabled": true
       },
       "media": [],
-      "frames": [],
+      "frames": [
+        {
+          "id": "frame-distance-vid",
+          "src": "assets/photos/06-dates-and-outings/341238509_6304674799554284_3726445943229091065_n.mp4",
+          "enabled": true,
+          "caption": "Thinking of you",
+          "alt": "Video memory",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "window"
+        },
+        {
+          "id": "frame-distance-photo1",
+          "src": "assets/photos/06-dates-and-outings/f61d242a-f136-4e5e-a884-b99976919b1f.jpg",
+          "enabled": true,
+          "caption": "Quiet moments",
+          "alt": "Memory photo",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "window"
+        },
+        {
+          "id": "frame-distance-photo2",
+          "src": "assets/photos/06-dates-and-outings/received_633747928493582.jpg",
+          "enabled": true,
+          "caption": "Waiting for you",
+          "alt": "Memory photo",
+          "slotStyle": "polaroid-mid-right",
+          "illustration": "window"
+        }
+      ],
       "alt": "Two still windows across a quiet dusk street as two silent days pass."
     },
     {
@@ -257,13 +411,31 @@
       "media": [],
       "frames": [
         {
-          "id": "frame-chocolate",
-          "src": "assets/photos/chocolate-wrapper.jpg",
-          "enabled": false,
-          "caption": "The framed chocolate wrapper",
-          "alt": "Frame for the real photo of the framed chocolate wrapper.",
+          "id": "frame-chocolate-vid",
+          "src": "assets/photos/07-fun-and-silly-moments/337761791_9061590927216052_895793967874174714_n.mp4",
+          "enabled": true,
+          "caption": "Sweetest memories",
+          "alt": "Fun video memory",
           "slotStyle": "polaroid-top-left",
-          "illustration": "wrapper"
+          "illustration": "chocolate"
+        },
+        {
+          "id": "frame-chocolate-photo1",
+          "src": "assets/photos/08-chocolates-and-little-gifts/Snapchat-84158600.jpg",
+          "enabled": true,
+          "caption": "The chocolate wrapper",
+          "alt": "Chocolate wrapper photo",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "chocolate"
+        },
+        {
+          "id": "frame-chocolate-photo2",
+          "src": "assets/photos/08-chocolates-and-little-gifts/330894188_871561624078197_1811672589917075882_n.jpg",
+          "enabled": true,
+          "caption": "Kept with care",
+          "alt": "Keepsake photo",
+          "slotStyle": "polaroid-mid-left",
+          "illustration": "chocolate"
         }
       ],
       "alt": "Warm honey light returning as the narrator snaps a photo of a preserved chocolate wrapper in a small wooden frame, reconnecting their friendship."
@@ -284,13 +456,31 @@
       "media": [],
       "frames": [
         {
-          "id": "frame-november",
-          "src": "assets/photos/november-night.jpg",
-          "enabled": false,
-          "caption": "November 2023 · exact day unknown",
-          "alt": "Optional frame for a November 2023 memory.",
+          "id": "frame-firstily-photo1",
+          "src": "assets/photos/09-late-night-calls-and-chats/329272583_6235025653198338_8190501300253291203_n.jpg",
+          "enabled": true,
+          "caption": "Late night talks",
+          "alt": "Late night call memory",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "phone"
+        },
+        {
+          "id": "frame-firstily-photo2",
+          "src": "assets/photos/09-late-night-calls-and-chats/330596972_969298277569761_4143081259099399234_n.jpg",
+          "enabled": true,
+          "caption": "November 2023",
+          "alt": "Call screen memory",
           "slotStyle": "polaroid-top-right",
-          "illustration": "nightcall"
+          "illustration": "phone"
+        },
+        {
+          "id": "frame-firstily-photo3",
+          "src": "assets/photos/09-late-night-calls-and-chats/336602574_953602069153047_3864061462575991140_n.jpg",
+          "enabled": true,
+          "caption": "When feelings had words",
+          "alt": "Special moment",
+          "slotStyle": "polaroid-mid-left",
+          "illustration": "phone"
         }
       ],
       "alt": "A starlit November night window with an unmarked November 2023 calendar leaf as warm golden call ripples float into the night sky."
@@ -311,58 +501,112 @@
       "media": [],
       "frames": [
         {
-          "id": "book-frame-1",
-          "src": "assets/photos/memory-01.jpg",
-          "enabled": false,
-          "caption": "Memory I",
-          "alt": "Memory book photo slot 1.",
+          "id": "spread-01",
+          "src": "assets/photos/07-fun-and-silly-moments/lv_0_20221026005524.mp4",
+          "enabled": true,
+          "caption": "Our funniest laugh",
+          "alt": "Fun video memory",
           "slotStyle": "book-grid",
-          "illustration": "camera"
+          "illustration": "photo"
         },
         {
-          "id": "book-frame-2",
-          "src": "assets/photos/memory-02.jpg",
-          "enabled": false,
-          "caption": "Memory II",
-          "alt": "Memory book photo slot 2.",
+          "id": "spread-02",
+          "src": "assets/photos/11-random-memories/Snapchat-27114308.mp4",
+          "enabled": true,
+          "caption": "Always in my heart",
+          "alt": "Video memory",
           "slotStyle": "book-grid",
-          "illustration": "laugh"
+          "illustration": "photo"
         },
         {
-          "id": "book-frame-3",
-          "src": "assets/photos/letter-01.jpg",
-          "enabled": false,
-          "caption": "A kept letter",
-          "alt": "Memory book letter slot 1.",
+          "id": "spread-03",
+          "src": "assets/photos/11-random-memories/00d3e2ba-7c4a-4d9a-a823-4e1408b56229.jpg",
+          "enabled": true,
+          "caption": "Everyday magic",
+          "alt": "Photo memory",
+          "slotStyle": "book-grid",
+          "illustration": "photo"
+        },
+        {
+          "id": "spread-04",
+          "src": "assets/photos/11-random-memories/868a3e29-047a-49a9-b701-b9379871a315.jpg",
+          "enabled": true,
+          "caption": "That beautiful day",
+          "alt": "Photo memory",
+          "slotStyle": "book-grid",
+          "illustration": "photo"
+        },
+        {
+          "id": "spread-05",
+          "src": "assets/photos/11-random-memories/db1f0562-777a-4fd4-a8e5-ec37fbc7a731.jpg",
+          "enabled": true,
+          "caption": "Moments we hold close",
+          "alt": "Photo memory",
+          "slotStyle": "book-grid",
+          "illustration": "photo"
+        },
+        {
+          "id": "spread-06",
+          "src": "assets/photos/11-random-memories/Snapchat-591453797.jpg",
+          "enabled": true,
+          "caption": "Sweet smiles",
+          "alt": "Photo memory",
+          "slotStyle": "book-grid",
+          "illustration": "photo"
+        },
+        {
+          "id": "spread-07",
+          "src": "assets/photos/07-fun-and-silly-moments/340601592_951959185935704_3068879359169969613_n.jpg",
+          "enabled": true,
+          "caption": "Silly selfies",
+          "alt": "Playful photo",
+          "slotStyle": "book-grid",
+          "illustration": "photo"
+        },
+        {
+          "id": "spread-08",
+          "src": "assets/photos/07-fun-and-silly-moments/Screenshot_2022-10-26-01-29-29-645_com.facebook.orca.jpg",
+          "enabled": true,
+          "caption": "Messages I re-read",
+          "alt": "Chat screenshot",
           "slotStyle": "book-grid",
           "illustration": "letter"
         },
         {
-          "id": "book-frame-4",
-          "src": "assets/photos/memory-03.jpg",
-          "enabled": false,
-          "caption": "Memory III",
-          "alt": "Memory book photo slot 3.",
+          "id": "spread-09",
+          "src": "assets/photos/05-river-and-sunset-dates/received_1341388116608796.jpeg",
+          "enabled": true,
+          "caption": "Golden river sunset",
+          "alt": "River photo",
           "slotStyle": "book-grid",
-          "illustration": "walk"
+          "illustration": "photo"
         },
         {
-          "id": "book-frame-5",
-          "src": "assets/photos/memory-04.jpg",
-          "enabled": false,
-          "caption": "Memory IV",
-          "alt": "Memory book photo slot 4.",
+          "id": "spread-10",
+          "src": "assets/photos/05-river-and-sunset-dates/received_5503326483084930.jpeg",
+          "enabled": true,
+          "caption": "By the water together",
+          "alt": "River photo",
           "slotStyle": "book-grid",
-          "illustration": "stars"
+          "illustration": "photo"
         },
         {
-          "id": "book-frame-6",
-          "src": "assets/photos/letter-02.jpg",
-          "enabled": false,
-          "caption": "Little notes",
-          "alt": "Memory book letter slot 2.",
+          "id": "spread-11",
+          "src": "assets/photos/05-river-and-sunset-dates/received_876472406844733.jpeg",
+          "enabled": true,
+          "caption": "Just looking at each other",
+          "alt": "Memory photo",
           "slotStyle": "book-grid",
-          "illustration": "notes"
+          "illustration": "photo"
+        },
+        {
+          "id": "spread-12",
+          "src": "assets/photos/11-random-memories/334925299_764946938565040_4047712763919775959_n.jpg",
+          "enabled": true,
+          "caption": "A memory I cherish",
+          "alt": "Photo memory",
+          "slotStyle": "book-grid",
+          "illustration": "photo"
         }
       ],
       "alt": "An open two-page handmade memory book spread displaying six photo and letter frames ready for real personal pictures."
@@ -381,7 +625,26 @@
         "enabled": true
       },
       "media": [],
-      "frames": [],
+      "frames": [
+        {
+          "id": "frame-sorry-photo1",
+          "src": "assets/photos/11-random-memories/334925299_764946938565040_4047712763919775959_n.jpg",
+          "enabled": true,
+          "caption": "The smile I hurt",
+          "alt": "Memory photo",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "photo"
+        },
+        {
+          "id": "frame-sorry-photo2",
+          "src": "assets/photos/11-random-memories/868a3e29-047a-49a9-b701-b9379871a315.jpg",
+          "enabled": true,
+          "caption": "I am so sorry, Nidhi",
+          "alt": "Memory photo",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "photo"
+        }
+      ],
       "alt": "A quiet pool of warm light where the narrator stands with honest accountability, plus an optional playful foam-helmet cartoon bonk.",
       "optionalInteraction": {
         "title": "A tiny cartoon bonk?",
@@ -411,7 +674,26 @@
         "Respect the space or time you ask for"
       ],
       "media": [],
-      "frames": [],
+      "frames": [
+        {
+          "id": "frame-change-photo1",
+          "src": "assets/photos/11-random-memories/00d3e2ba-7c4a-4d9a-a823-4e1408b56229.jpg",
+          "enabled": true,
+          "caption": "Growing quietly",
+          "alt": "Memory photo",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "photo"
+        },
+        {
+          "id": "frame-change-photo2",
+          "src": "assets/photos/11-random-memories/Snapchat-591453797.jpg",
+          "enabled": true,
+          "caption": "My promise to you",
+          "alt": "Memory photo",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "photo"
+        }
+      ],
       "alt": "Soft dawn light warming the room with four calm commitment lanterns and a budding flower."
     },
     {
@@ -432,7 +714,26 @@
         "Watch again"
       ],
       "media": [],
-      "frames": [],
+      "frames": [
+        {
+          "id": "frame-closing-vid",
+          "src": "assets/photos/11-random-memories/Snapchat-27114308.mp4",
+          "enabled": true,
+          "caption": "Until you hold my hand",
+          "alt": "Closing video memory",
+          "slotStyle": "polaroid-top-left",
+          "illustration": "flower"
+        },
+        {
+          "id": "frame-closing-photo1",
+          "src": "assets/photos/11-random-memories/db1f0562-777a-4fd4-a8e5-ec37fbc7a731.jpg",
+          "enabled": true,
+          "caption": "Thank you for everything",
+          "alt": "Closing photo memory",
+          "slotStyle": "polaroid-top-right",
+          "illustration": "flower"
+        }
+      ],
       "alt": "Warm golden morning light where the narrator gently offers a blooming flower with no obligation or expectation of a reply."
     }
   ]

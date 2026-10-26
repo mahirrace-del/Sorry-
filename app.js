@@ -302,7 +302,7 @@
       if (localFiles.voice && localFiles.voice.has(stem)) return localFiles.voice.get(stem);
       if (localFiles.audio && localFiles.audio.has(fileName)) return localFiles.audio.get(fileName);
       if (localFiles.audio && localFiles.audio.has(stem)) return localFiles.audio.get(stem);
-      if (configObj.enabled === true) return `./${clean}`;
+      if (configObj.enabled === true || (configObj.enabled !== false && clean.startsWith("assets/"))) return `./${clean}`;
     }
     return "";
   }
@@ -562,16 +562,41 @@
       const visual = document.createElement("div");
       visual.className = "frame-visual";
 
-      const resolvedImg = resolveAssetPath(frame, localFiles.photos);
-      if (resolvedImg) {
-        const img = document.createElement("img");
-        img.src = resolvedImg;
-        img.alt = frame.alt || frame.caption || "Shared memory photo";
-        img.loading = "lazy";
-        img.addEventListener("error", () => {
-          visual.innerHTML = getFramePlaceholderSVG(frame.illustration);
-        });
-        visual.appendChild(img);
+      const resolvedMedia = resolveAssetPath(frame, localFiles.photos);
+      const isVideo = Boolean(resolvedMedia && /\.(mp4|webm|mov)$/i.test(resolvedMedia));
+      if (resolvedMedia) {
+        if (isVideo) {
+          const video = document.createElement("video");
+          video.src = resolvedMedia;
+          video.autoplay = true;
+          video.loop = true;
+          video.muted = true;
+          video.playsInline = true;
+          video.setAttribute("playsinline", "");
+          video.setAttribute("webkit-playsinline", "");
+          video.setAttribute("muted", "");
+          video.preload = "auto";
+          video.addEventListener("error", () => {
+            visual.innerHTML = getFramePlaceholderSVG(frame.illustration);
+          });
+          visual.appendChild(video);
+
+          const badge = document.createElement("span");
+          badge.className = "frame-badge-video";
+          badge.innerHTML = "▶";
+          visual.appendChild(badge);
+
+          video.play().catch(() => {});
+        } else {
+          const img = document.createElement("img");
+          img.src = resolvedMedia;
+          img.alt = frame.alt || frame.caption || "Shared memory photo";
+          img.loading = "lazy";
+          img.addEventListener("error", () => {
+            visual.innerHTML = getFramePlaceholderSVG(frame.illustration);
+          });
+          visual.appendChild(img);
+        }
       } else {
         visual.innerHTML = getFramePlaceholderSVG(frame.illustration);
       }
@@ -585,32 +610,56 @@
 
       btn.addEventListener("click", (ev) => {
         ev.stopPropagation();
-        openLightbox(frame, resolvedImg);
+        openLightbox(frame, resolvedMedia);
       });
 
       host.appendChild(btn);
     });
   }
 
-  function openLightbox(frame, resolvedImg) {
+  function openLightbox(frame, resolvedMedia) {
     lightboxMedia.innerHTML = "";
-    if (resolvedImg) {
-      const img = document.createElement("img");
-      img.src = resolvedImg;
-      img.alt = frame.alt || frame.caption || "Memory photo";
-      img.addEventListener("error", () => {
-        lightboxMedia.innerHTML = getFramePlaceholderSVG(frame.illustration);
-      });
-      lightboxMedia.appendChild(img);
+    const isVideo = Boolean(resolvedMedia && /\.(mp4|webm|mov)$/i.test(resolvedMedia));
+    if (resolvedMedia) {
+      if (isVideo) {
+        const video = document.createElement("video");
+        video.src = resolvedMedia;
+        video.autoplay = true;
+        video.loop = true;
+        video.controls = true;
+        video.playsInline = true;
+        video.setAttribute("playsinline", "");
+        video.style.maxWidth = "min(90vw, 760px)";
+        video.style.maxHeight = "min(75vh, 600px)";
+        video.style.borderRadius = "8px";
+        video.style.boxShadow = "0 16px 40px rgba(0,0,0,0.6)";
+        lightboxMedia.appendChild(video);
+        video.play().catch(() => {});
+      } else {
+        const img = document.createElement("img");
+        img.src = resolvedMedia;
+        img.alt = frame.alt || frame.caption || "Memory photo";
+        img.addEventListener("error", () => {
+          lightboxMedia.innerHTML = getFramePlaceholderSVG(frame.illustration);
+        });
+        lightboxMedia.appendChild(img);
+      }
     } else {
       lightboxMedia.innerHTML = getFramePlaceholderSVG(frame.illustration);
     }
-    lightboxCaption.textContent = frame.caption || "Memory frame (drop your photo into assets/photos/ when ready)";
+    lightboxCaption.textContent = frame.caption || "Memory frame";
     frameLightbox.hidden = false;
     closeLightboxBtn.focus();
   }
 
   function closeLightbox() {
+    const v = lightboxMedia.querySelector("video");
+    if (v) {
+      try {
+        v.pause();
+        v.src = "";
+      } catch (_) {}
+    }
     frameLightbox.hidden = true;
   }
 
