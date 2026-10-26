@@ -22,6 +22,9 @@
   const exitBtn = $("#exit-movie");
 
   const worldCamera = $("#world-camera");
+  const sceneCanvas = $("#scene-canvas");
+  const sceneMidCanvas = $("#scene-mid-canvas");
+  const sceneFgCanvas = $("#scene-fg-canvas");
   const sceneBgArt = $("#scene-bg-art");
   const sceneMidArt = $("#scene-mid-art");
   const sceneFgArt = $("#scene-fg-art");
@@ -159,8 +162,8 @@
   holdPromptAudio.addEventListener("error", () => {});
   const ambientAudio = new Audio();
   ambientAudio.loop = true;
-  const AMBIENT_BASE_VOLUME = 0.30; // 30% gentle ambient white-sound bed
-  const AMBIENT_DUCK_VOLUME = 0.12; // Ducked during spoken narration
+  const AMBIENT_BASE_VOLUME = 0.16; // 30% gentle ambient white-sound bed
+  const AMBIENT_DUCK_VOLUME = 0.05; // Ducked during spoken narration
   ambientAudio.volume = AMBIENT_BASE_VOLUME;
   ambientAudio.addEventListener("error", () => {});
 
@@ -411,7 +414,7 @@
           // Mobile/browser autoplay policy requires user activation touch/tap
           pendingVoicePlay = true;
           if (hiWhisper && (phase === "prologue-drop" || phase === "prologue-ready")) {
-            hiWhisper.textContent = "Hi, Nidhi… (Tap to listen ♪)";
+            hiWhisper.textContent = "Hi, Nidhi…";
           }
         });
       }
@@ -666,6 +669,48 @@
   }
 
   // Bespoke 1600x900 SVG Stage Builder for Every Scene
+  
+  // Responsive Scenery Scaling: Adapts SVG viewBox to viewport aspect ratio
+  // Ensures background art (desks, windows, classrooms, skyline, river) never gets cut off on mobile or tablets!
+  function updateResponsiveSvgViewBoxes() {
+    const w = window.innerWidth || 1280;
+    const h = window.innerHeight || 720;
+    const ar = w / h;
+
+    let minX, minY, vbW, vbH;
+
+    if (ar >= 16 / 9) {
+      // 16:9 or wider (Desktop PC, widescreen monitors)
+      vbH = 900;
+      vbW = 900 * ar;
+      minX = 800 - vbW / 2;
+      minY = 0;
+    } else if (ar >= 1.25) {
+      // 4:3 to 16:10 (iPad landscape, Samsung Tab landscape)
+      vbW = 1600;
+      vbH = vbW / ar;
+      minX = 0;
+      minY = 650 - vbH * 0.72;
+    } else {
+      // Portrait phones, iPads & Tablets held vertically (e.g. 9:16, 9:19.5, 3:4)
+      // Keeps generous 1120-1360px scene width visible so all scenery is framed beautifully
+      const targetSceneW = Math.max(980, Math.min(1360, w * 2.8));
+      vbW = targetSceneW;
+      vbH = vbW / ar;
+      minX = 800 - vbW / 2;
+      minY = 650 - vbH * 0.72;
+    }
+
+    const vbStr = `${minX.toFixed(1)} ${minY.toFixed(1)} ${vbW.toFixed(1)} ${vbH.toFixed(1)}`;
+    const svgs = [sceneCanvas, sceneMidCanvas, sceneFgCanvas];
+    svgs.forEach((svg) => {
+      if (svg) {
+        svg.setAttribute("viewBox", vbStr);
+        svg.setAttribute("preserveAspectRatio", "none");
+      }
+    });
+  }
+
   function buildStageArt(sceneId) {
     if (renderedSceneKey === sceneId) return;
     renderedSceneKey = sceneId;
@@ -676,8 +721,8 @@
     switch (sceneId) {
       case "book-portal":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="640" width="1600" height="260" fill="#1e1310"/>
-          <path d="M0 640 H1600" stroke="#4d3224" stroke-width="4"/>
+          <rect x="-1200" y="640" width="4000" height="2200" fill="#1e1310"/>
+          <path d="M-1200 640 H2800" stroke="#4d3224" stroke-width="4"/>
           <circle cx="800" cy="430" r="360" fill="url(#warm-lamp-glow)" id="portal-lamp-aura"/>
           <rect x="180" y="140" width="220" height="360" rx="8" fill="#171019" stroke="#3c2824" stroke-width="4"/>
           <line x1="180" y1="250" x2="400" y2="250" stroke="#3c2824" stroke-width="5"/>
@@ -711,7 +756,7 @@
       case "classmates":
         sceneBgArt.innerHTML = `
           <!-- Sunlit Classroom Back Wall & Tall Windows -->
-          <rect x="0" y="650" width="1600" height="250" fill="#d8b384"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#d8b384"/>
           <g id="school-classroom-layer">
             <rect x="520" y="130" width="580" height="270" rx="10" fill="#2c5945" stroke="#7d5233" stroke-width="12"/>
             <path d="M560 200 H820 M560 245 H740" stroke="rgba(255,255,255,0.45)" stroke-width="4" stroke-linecap="round"/>
@@ -762,7 +807,7 @@
 
       case "science-project":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="650" width="1600" height="250" fill="#3a2620"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#3a2620"/>
           <circle cx="800" cy="480" r="420" fill="url(#warm-lamp-glow)"/>
         `;
         sceneMidArt.innerHTML = `
@@ -897,8 +942,8 @@
           <g id="coaching-day-layer" opacity="0">
             <rect x="0" y="0" width="1600" height="640" fill="#fce4bc"/>
             <circle cx="260" cy="150" r="56" fill="#fff3c4"/>
-            <rect x="0" y="640" width="1600" height="260" fill="#c7a987"/>
-            <path d="M0 640 H1600" stroke="#8a6c4f" stroke-width="4"/>
+            <rect x="-1200" y="640" width="4000" height="2200" fill="#c7a987"/>
+            <path d="M-1200 640 H2800" stroke="#8a6c4f" stroke-width="4"/>
             <!-- Coaching Building Gate -->
             <rect x="180" y="250" width="420" height="390" rx="8" fill="#f3d2ac" stroke="#8a6240" stroke-width="4"/>
             <rect x="280" y="290" width="220" height="48" rx="8" fill="#355c6e"/>
@@ -926,7 +971,7 @@
           <!-- Sunset Sun & River Water -->
           <g id="river-sunset-layer">
             <circle cx="800" cy="430" r="115" fill="#ffdf9a" opacity="0.92"/>
-            <path d="M0 490 Q420 465 820 490 T1600 485 V900 H0 Z" fill="url(#river-water-grad)"/>
+            <path d="M-1200 490 Q420 465 820 490 T2800 485 V2200 H-1200 Z" fill="url(#river-water-grad)"/>
             <!-- Shimmering Sunset Reflections -->
             <g id="water-shimmers" opacity="0.75">
               <rect x="690" y="515" width="220" height="8" rx="4" fill="#ffe6a8"/>
@@ -954,7 +999,7 @@
           <!-- Beat 3 Layer: Dusk Lantern-Lit Rickshaw Road -->
           <g id="rickshaw-dusk-layer" opacity="0">
             <rect x="0" y="0" width="1600" height="650" fill="#231c3d"/>
-            <rect x="0" y="650" width="1600" height="250" fill="#181526"/>
+            <rect x="-1200" y="650" width="4000" height="2200" fill="#181526"/>
             <circle cx="480" cy="340" r="110" fill="url(#warm-lamp-glow)" opacity="0.65"/>
             <circle cx="1120" cy="340" r="110" fill="url(#warm-lamp-glow)" opacity="0.65"/>
             <rect x="475" y="340" width="10" height="310" fill="#3b334f"/>
@@ -1003,7 +1048,7 @@
 
       case "love-teacher":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="650" width="1600" height="250" fill="#c9966b"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#c9966b"/>
           <circle cx="1050" cy="340" r="340" fill="url(#warm-lamp-glow)"/>
         `;
         sceneMidArt.innerHTML = `
@@ -1031,7 +1076,7 @@
 
       case "distance":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="650" width="1600" height="250" fill="#1e2436"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#1e2436"/>
           <!-- Two Quiet Buildings Separated by Still Dusk Lane -->
           <rect x="80" y="210" width="440" height="440" fill="#273047"/>
           <rect x="1080" y="210" width="440" height="440" fill="#273047"/>
@@ -1044,7 +1089,7 @@
 
       case "chocolate-snap":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="650" width="1600" height="250" fill="#4f332d"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#4f332d"/>
           <circle cx="800" cy="430" r="410" fill="url(#warm-lamp-glow)"/>
           <!-- Two Windows Reconnected by Warm String Glow -->
           <rect x="1100" y="270" width="220" height="260" rx="8" fill="#3b2638" stroke="#6e4a5c" stroke-width="4"/>
@@ -1055,7 +1100,7 @@
 
       case "first-i-love-you":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="660" width="1600" height="240" fill="#10152b"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#10152b"/>
           <!-- Starlit November Sky Outside Tall Window -->
           <g id="nov-stars">
             <circle cx="620" cy="140" r="2.4" fill="#fff8e3"/>
@@ -1096,7 +1141,7 @@
 
       case "accountability":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="655" width="1600" height="245" fill="#141320"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#141320"/>
           <polygon points="690,0 910,0 1120,760 480,760" fill="rgba(255, 234, 192, 0.16)"/>
           <ellipse cx="800" cy="705" rx="260" ry="44" fill="rgba(255, 228, 176, 0.28)"/>
         `;
@@ -1104,7 +1149,7 @@
 
       case "change":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="655" width="1600" height="245" fill="#3d2c33"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#3d2c33"/>
           <circle cx="800" cy="590" r="320" fill="url(#warm-lamp-glow)"/>
         `;
         sceneMidArt.innerHTML = `
@@ -1138,7 +1183,7 @@
 
       case "closing":
         sceneBgArt.innerHTML = `
-          <rect x="0" y="660" width="1600" height="240" fill="#dfb795"/>
+          <rect x="-1200" y="650" width="4000" height="2200" fill="#dfb795"/>
           <circle cx="800" cy="360" r="420" fill="url(#warm-lamp-glow)"/>
           <circle cx="480" cy="260" r="5" fill="#fff5df" opacity="0.65"/>
           <circle cx="1120" cy="290" r="6" fill="#fff5df" opacity="0.65"/>
@@ -2023,7 +2068,7 @@
     mountActorTo(actorDarkMount);
 
     const holdCfg = storyData && storyData.specialVoices && storyData.specialVoices.holdReturn;
-    darkPauseLine.textContent = (holdCfg && holdCfg.subtitle) || "We've paused here. Take your time. Resume, watch hands-free, or leave whenever you want—no explanation needed.";
+    darkPauseLine.textContent = (holdCfg && holdCfg.subtitle) || "Why did you let go of my hand? Take your time, hold it when you're ready...";
     darkPausePanel.hidden = false;
     handCornerWrap.dataset.visible = "true";
     handWhisper.textContent = "Hold my hand";
@@ -2035,7 +2080,7 @@
       const promptAudio = new Audio(holdVoiceSrc);
       promptAudio.play().catch(() => {});
     }
-    announce("Paused gently in the spotlight. Hold his hand when you are ready, or choose Watch hands-free.");
+    announce("Why did you let go of my hand? Take your time, hold it when you're ready.");
   }
 
   // Resume From Dark Spotlight Return When Holding Again
@@ -2200,6 +2245,14 @@
   }
 
   function restartFromBeginning() {
+    isHolding = false;
+    handsFree = false;
+    activePointerId = null;
+    autoToggleBtn.setAttribute("aria-pressed", "false");
+    autoLabel.textContent = "Auto";
+    handPortal.classList.remove("is-holding");
+    handPortal.setAttribute("aria-pressed", "false");
+    handWhisper.textContent = "Hold my hand";
     quietScreen.hidden = true;
     closingUi.hidden = true;
     bonkUi.hidden = true;
@@ -2322,7 +2375,7 @@
         playVoiceForConfig(scenes[0] && scenes[0].voice);
         updateSubtitleDisplay();
       }
-      if (prologueElapsed >= 4700 && handCornerWrap.dataset.visible !== "true") {
+      if (prologueElapsed >= 4200 && handCornerWrap.dataset.visible !== "true") {
         handCornerWrap.dataset.visible = "true";
         body.dataset.hud = "ready";
       }
@@ -2448,37 +2501,24 @@
     });
 
     const releasePointer = (ev) => {
-      if (activePointerId === null) return;
-      if (activePointerId !== -1 && ev.pointerId !== undefined && ev.pointerId !== activePointerId) return;
-      const pressDur = performance.now() - pointerDownTime;
-      activePointerId = null;
-
-      if (pressDur < 480 || isTouchDevice()) {
-        // Quick tap or mobile touch on 3D hand -> keeps playing!
-        setHandsFreeMode(true);
-        if (phase === "playing") {
-          // If already playing, pressing the hand moves directly to next chapter!
-          if (sceneIndex < scenes.length - 1) {
-            enterChapter(sceneIndex + 1, "playing");
-          }
-        } else if (phase === "prologue-ready" || phase === "prologue-drop" || phase === "blackout") {
-          startBookPortal();
-        } else if (phase === "paused-dark") {
-          resumeFromDarkPause();
-        } else if (phase === "scene-waiting") {
-          setBodyPhase("playing");
-          resumeAudioPlayback();
-          updateSubtitleDisplay();
-        } else if (phase === "book-portal") {
-          portalElapsed = PORTAL_DURATION;
-        }
-      } else {
-        // Continuous hold released -> gentle dark spotlight pause
-        endHandHold();
+      if (activePointerId === null && !isHolding) return;
+      if (activePointerId !== null && activePointerId !== -1 && ev.pointerId !== undefined && ev.pointerId !== activePointerId) {
+        return;
       }
+      activePointerId = null;
+      try {
+        if (ev.pointerId !== undefined && handPortal.hasPointerCapture && handPortal.hasPointerCapture(ev.pointerId)) {
+          handPortal.releasePointerCapture(ev.pointerId);
+        }
+      } catch (_) {}
+      endHandHold();
     };
     window.addEventListener("pointerup", releasePointer);
     window.addEventListener("pointercancel", releasePointer);
+    window.addEventListener("touchend", releasePointer, { passive: true });
+    window.addEventListener("touchcancel", releasePointer, { passive: true });
+    window.addEventListener("mouseup", releasePointer);
+    window.addEventListener("resize", updateResponsiveSvgViewBoxes);
 
     // Keyboard Hold on 3D Hand (Space / Enter)
     handPortal.addEventListener("keydown", (ev) => {
@@ -2506,8 +2546,7 @@
     // Skip Intro Accessible Link
     skipIntroLink.addEventListener("click", (ev) => {
       ev.preventDefault();
-      setHandsFreeMode(true);
-      enterChapter(1, "playing");
+      enterChapter(1, handsFree ? "playing" : "scene-waiting");
     });
 
     // HUD Controls
@@ -2544,20 +2583,12 @@
       applyMotionSetting(!motionEnabled);
     });
 
-    const prologueEnterBtn = $("#prologue-enter-btn");
-    if (prologueEnterBtn) {
-      prologueEnterBtn.addEventListener("click", () => {
-        unlockAudio();
-        setHandsFreeMode(true);
-        startBookPortal();
-      });
-    }
+
 
     prevBtn.addEventListener("click", () => {
       unlockAudio();
-      setHandsFreeMode(true);
       if (sceneIndex > 1) {
-        enterChapter(sceneIndex - 1, "playing");
+        enterChapter(sceneIndex - 1, isHolding || handsFree ? "playing" : "scene-waiting");
       } else {
         restartFromBeginning();
       }
@@ -2565,11 +2596,10 @@
 
     nextBtn.addEventListener("click", () => {
       unlockAudio();
-      setHandsFreeMode(true);
       if (phase === "prologue-drop" || phase === "prologue-ready" || phase === "blackout" || phase === "book-portal") {
-        enterChapter(1, "playing");
+        enterChapter(1, isHolding || handsFree ? "playing" : "scene-waiting");
       } else if (sceneIndex < scenes.length - 1) {
-        enterChapter(sceneIndex + 1, "playing");
+        enterChapter(sceneIndex + 1, isHolding || handsFree ? "playing" : "scene-waiting");
       }
     });
 

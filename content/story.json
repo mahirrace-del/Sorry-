@@ -19,7 +19,7 @@
       "src": "assets/voice/hold-return.mp3",
       "altSrc": "assets/audio/hold-return.mp3",
       "enabled": true,
-      "subtitle": "We've paused here. Take your time. You can take my hand again, switch to hands-free, or leave—whatever feels right. No need to explain."
+      "subtitle": "Why did you let go of my hand? Take your time, hold it when you're ready..."
     }
   },
   "notes": {
@@ -45,26 +45,7 @@
         "Begin"
       ],
       "media": [],
-      "frames": [
-        {
-          "id": "frame-opening-photo1",
-          "src": "assets/photos/01-school-and-classmates/2750d64d-1278-4065-b430-422607e16187.jpg",
-          "enabled": true,
-          "caption": "Our story begins",
-          "alt": "Photo memory",
-          "slotStyle": "polaroid-top-left",
-          "illustration": "classroom"
-        },
-        {
-          "id": "frame-opening-photo2",
-          "src": "assets/photos/11-random-memories/00d3e2ba-7c4a-4d9a-a823-4e1408b56229.jpg",
-          "enabled": true,
-          "caption": "Moments I keep close",
-          "alt": "Photo memory",
-          "slotStyle": "polaroid-top-right",
-          "illustration": "photo"
-        }
-      ],
+      "frames": [],
       "alt": "A dark theater stage where a warm spotlight clicks on, the narrator drops in from above, slowly stands up looking at Nidhi, waves hi, and reaches his hand toward the bottom-right corner."
     },
     {

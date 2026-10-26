@@ -1,6 +1,6 @@
 # Antigravity Handoff — Until You Hold My Hand (Interactive Movie-Game)
 
-Last updated: 26 October 2026 (Mobile Photo Visibility Fix, Scene 0 Floating Spotlight Memories, Mobile Continuous Playback, Cache Busting, and Safe URI Encoding)
+Last updated: 26 October 2026 (Restored Pure Black Opening, Hold-and-Release Dark Pause Mechanic, Balanced Character Drop Landing, Cross-Screen Background Framing, and Low Ambient Bed)
 
 ## Project overview
 
@@ -8,14 +8,14 @@ Last updated: 26 October 2026 (Mobile Photo Visibility Fix, Scene 0 Floating Spo
 
 ## What is included & verified in this build
 
-1. **Instant Mobile Photo Visibility (Scene 0 + All Chapters)**:
-   - **Scene 0 Floating Memories**: The opening scene now immediately renders 2 floating memory frames in the warm spotlight alongside the character, so real photos appear from the very first second before touching anything.
-   - **Prominent Mobile Action Button**: Added `[ Step inside our memories 🌸 ]` button in Scene 0 so mobile users can step directly into the chapters without having to guess or struggle with continuous hold.
-   - **Mobile Tap Continuous Playback**: On mobile touch devices, tapping the hand icon or the entry button activates playing mode continuously. Lifting a thumb no longer accidentally triggers an instant pause/blackout.
-   - **Persistent Stage Navigation (`‹` and `›`)**: The previous and next chapter buttons in the micro-HUD are always accessible, enabling direct chapter browsing.
-   - **Frame Layer Above Dark Stage**: Moved `.frames-layer` to `z-index: 28` directly under `.cinema-stage`, preventing it from being masked by the dark spotlight stage.
-   - **Mobile Cache Busting**: Added dynamic timestamp query (`story.json?t=...`) and versioned assets (`styles.css?v=20261026c`, `app.js?v=20261026c`) to prevent mobile Safari/Chrome from loading stale JSON with missing image paths.
-   - **Safe File Renaming**: Renamed files with spaces and parentheses (`(1)`) to clean alphanumeric paths (`_n_1.jpg`) with `encodeURI()` protection in `resolveAssetPath`.
+1. **Pure Core Interaction Restored (Until You Hold My Hand)**:
+   - **Pure Spotlight Scene 0**: Restored the intimate, uncluttered opening. Scene 0 has zero floating photo frames, zero extra buttons, and zero auto-play. It is strictly the pure black theatre stage where the spotlight clicks on, the character arrives, waves gently with a warm "Hi, Nidhi…", and reaches out his hand to invite her.
+   - **True Hold-to-Play Core Mechanic**: Pressing and holding a finger on the outstretched 3D hand advances the memory journey with a filling circular golden progress ring.
+   - **Instant Gentle Pause on Finger Release**: Lifting or taking off the finger immediately pauses all narration and animation, smoothly returning to the gentle dark spotlight pause room with zero pressure.
+   - **Preserved Voluntary Hands-Free**: Auto-play is never forced or activated on touch. It is strictly available if the player explicitly taps `[Auto]` in the top HUD or `[Watch hands-free]` in the pause menu.
+   - **Cleaned Chapter Navigation**: Chapter `‹` and `›` navigation advances chapters without forcing auto-play.
+   - **Dark Stage Frame Masking**: `.frames-layer` is strictly hidden (`opacity: 0 !important`) during Scene 0 and dark pauses, ensuring real photos appear only inside their respective memory chapters.
+   - **Mobile Cache Busting**: Updated asset versioning (`styles.css?v=20261026e`, `app.js?v=20261026e`) to ensure immediate update on mobile browsers.
 
 2. **All 41 Real Photos & Autoplaying Looping Memory Videos Integrated**:
    - **11 Living Video Memory Frames**: All 11 user video clips (`.mp4`) are integrated into the story scenes. On web and mobile browsers, they autoplay seamlessly on loop with `muted`, `playsinline`, and `webkit-playsinline` attributes without triggering native fullscreen takeovers.
